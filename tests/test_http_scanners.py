@@ -98,12 +98,17 @@ class HTTPTests(unittest.TestCase):
             self.client._dns_thread.join(timeout=2)
 
     def test_cache_ttl_and_no_store(self):
-        with patch.object(self.client, "_request", return_value=Response("https://example.com/", 200, {}, "ok")) as transport:
+        with patch.object(self.client, "_request", return_value=Response("https://example.com/", 200, {}, "ok")) as transport, patch("xitool.http.time.monotonic", return_value=100) as clock:
             self.client.get("https://example.com/")
             self.client.get("https://example.com/")
             self.assertEqual(transport.call_count, 1)
             self.assertEqual(self.client.stats["cache_hits"], 1)
-            self.client.cache = {k: (0, v[1]) for k, v in self.client.cache.items()}
+            # Il riferimento monotono non coincide necessariamente con il tempo dall'avvio.
+            # Controlla esplicitamente il confine TTL, anche su una VM appena accesa.
+            clock.return_value = 100 + self.client.config["cache"]["ttl_seconds"] - 1
+            self.client.get("https://example.com/")
+            self.assertEqual(transport.call_count, 1)
+            clock.return_value += 1
             self.client.get("https://example.com/")
             self.assertEqual(transport.call_count, 2)
         self.client.cache.clear()

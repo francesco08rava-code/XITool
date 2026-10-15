@@ -4,21 +4,33 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 from pathlib import Path
+import sys
 from urllib.parse import urlsplit
 
 import yaml
 
+from . import __version__
 from .execution import Engine, build_tasks, latest_discovery, review, runs, scan_diff
 from .scanners import MODULES, smart
 from .scope import Scope, matches, normalize_host, normalize_rule
 from .storage import DataError, Projects, confined, load_config, read_json, save_json
 
 
-MAIN_MENU = """========================================
-                 XITOOL
-             SECURITY TOOLKIT
-========================================
+BANNER = """
+██╗  ██╗██╗████████╗ ██████╗  ██████╗ ██╗
+╚██╗██╔╝██║╚══██╔══╝██╔═══██╗██╔═══██╗██║
+ ╚███╔╝ ██║   ██║   ██║   ██║██║   ██║██║
+ ██╔██╗ ██║   ██║   ██║   ██║██║   ██║██║
+██╔╝ ██╗██║   ██║   ╚██████╔╝╚██████╔╝███████╗
+╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝"""
+
+MAIN_MENU = f"""{BANNER}
+
+        XITool | Feel free
+        SECURITY TOOLKIT
+        Versione {__version__}
 
 [1] CREA PROGETTO
 [2] APRI PROGETTI
@@ -302,7 +314,11 @@ def main(base: Path) -> None:
     logging.basicConfig(level=getattr(logging, config["logging"]["level"]), format="%(message)s")
     while True:
         try:
-            print("\n" + MAIN_MENU)
+            # Il bianco brillante si applica al terminale; file e pipe restano privi di escape.
+            menu = MAIN_MENU
+            if sys.stdout.isatty() and os.environ.get("TERM") != "dumb" and "NO_COLOR" not in os.environ:
+                menu = f"\033[97m{menu}\033[0m"
+            print("\n" + menu)
             action = ask("Scelta: ")
             if action == "0":
                 return
