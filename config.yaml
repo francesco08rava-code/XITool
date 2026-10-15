@@ -1,0 +1,24 @@
+http:
+  timeout_seconds: 10
+  max_retries: 2
+  max_concurrency: 1
+  requests_per_second: 2
+  max_body_bytes: 1048576
+  max_redirects: 5
+  allowed_ports: [80, 443]
+checkpoint:
+  enabled: true
+  interval_seconds: 30
+  completed_items_interval: 10
+cache:
+  enabled: true
+  ttl_seconds: 300
+execution:
+  require_confirmation: true
+  resume_enabled: true
+  max_tasks: 1000
+discovery:
+  max_depth: 2
+  max_pages: 50
+logging:
+  level: INFO
