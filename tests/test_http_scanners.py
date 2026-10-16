@@ -172,6 +172,14 @@ class ScannerTests(unittest.TestCase):
         for name, kind in (("redirect_url", "url"), ("file", "file"), ("user_id", "identifier"), ("q", "text"), ("access_token", "authentication")):
             self.assertEqual(classify(name), kind)
 
+    def test_observed_query_is_not_lost_when_same_field_appears_in_form(self):
+        from xitool.execution import build_tasks
+        response = Response("https://example.com/?q=observed", 200, {"content-type": "text/html"}, '<form method="get"><input name="q"></form>')
+        inputs, _ = discover(self.scope, response)
+        self.assertEqual(len(inputs), 1)
+        self.assertEqual(inputs[0]["source"], "query")
+        self.assertEqual(len(build_tasks("xss", self.scope, inputs, [])), 1)
+
     def test_sensitive_and_mutative_urls_rejected(self):
         for url in ("https://example.com/?token=secret", "https://example.com/logout"):
             with self.assertRaises(DataError):
@@ -300,20 +308,21 @@ class LocalLabTests(unittest.TestCase):
                 config = configuration()
                 port = server.server_address[1]
                 config["http"]["allowed_ports"] = [port]
-                discovery = Engine(project, scope, config, "subfinding", tasks=[{"url": f"http://127.0.0.1:{port}/", "depth": 0}])
+                discovery = Engine(project, scope, config, "subfinding", target="127.0.0.1", tasks=[{"url": f"http://127.0.0.1:{port}/", "depth": 0}])
                 self.assertEqual(discovery.execute()["status"], "COMPLETED")
-                inputs, urls = latest_discovery(project, scope)
+                inputs, urls = latest_discovery(project, scope.for_target("127.0.0.1"), "127.0.0.1")
                 self.assertTrue(inputs)
                 for module in ("xss", "idor", "traversal", "misconfiguration", "authentication", "cors", "sensitive"):
                     tasks = build_tasks(module, scope, inputs, urls)
                     self.assertTrue(tasks, module)
-                    engine = Engine(project, scope, config, module, tasks=tasks)
+                    engine = Engine(project, scope, config, module, target="127.0.0.1", tasks=tasks)
                     state = engine.execute()
                     self.assertEqual(state["status"], "COMPLETED")
                     self.assertEqual(state["errors"], [], module)
                     self.assertNotIn("VERIFIED", {r["status"] for r in state["results"]})
                     report = (engine.directory / "report.json").read_text(encoding="utf-8")
                     self.assertNotIn("NEVER_PERSIST_THIS_COOKIE", report)
+                    self.assertEqual(state["domain"], "127.0.0.1")
                     if module == "xss":
                         self.assertIn("POTENTIAL", {r["status"] for r in state["results"]})
         finally:

@@ -263,7 +263,7 @@ class CLITests(unittest.TestCase):
             projects = Projects(Path(temporary) / "targets")
             project = projects.create("Demo", ["example.com"], [])
             # Un progetto, Sub Finding, nessun file passivo, nessun URL aggiunto, rifiuto.
-            with patch("builtins.input", side_effect=["1", "1", "", "", "n"]), patch("sys.stdout", new_callable=io.StringIO), patch.object(Engine, "execute") as start:
+            with patch("builtins.input", side_effect=["1", "1", "1", "", "", "n"]), patch("sys.stdout", new_callable=io.StringIO), patch.object(Engine, "execute") as start:
                 execute(projects, copy.deepcopy(DEFAULTS))
                 start.assert_not_called()
             self.assertFalse((project / "runs").exists())
@@ -273,7 +273,7 @@ class CLITests(unittest.TestCase):
             projects = Projects(Path(temporary) / "targets")
             projects.create("A", ["a.example"], [])
             projects.create("B", ["b.example"], [])
-            with patch("builtins.input", side_effect=["1,2", "1", "", "", "", "", "s"]), patch("sys.stdout", new_callable=io.StringIO), patch.object(Engine, "execute") as start, patch("xitool.cli.post_run"):
+            with patch("builtins.input", side_effect=["1,2", "1", "1", "1", "", "", "", "", "s"]), patch("sys.stdout", new_callable=io.StringIO), patch.object(Engine, "execute") as start, patch("xitool.cli.post_run"):
                 execute(projects, copy.deepcopy(DEFAULTS))
                 self.assertEqual(start.call_count, 2)
 

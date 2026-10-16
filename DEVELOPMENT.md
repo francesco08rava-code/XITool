@@ -1,3 +1,109 @@
+# Refactor multi-dominio — XITool 2.0.0a2 — 16 ottobre 2026
+
+## Risultato e verifica
+
+Implementazione incrementale nel repository esistente: nessuna ricostruzione del progetto e nessuna nuova dipendenza. Il menu principale conserva le quattro voci richieste. Il banner bianco `XITool | Feel free` è mantenuto. Non sono state eseguite scansioni su target pubblici, né push o commit su GitHub.
+
+**Ultima esecuzione: 110 test, 107 superati, zero fallimenti/errori, 3 saltati; durata 73,417 secondi.** Ambiente Windows/Python 3.12, PyYAML disponibile nell'ambiente di test. I test di rete usano mock e laboratori autorizzati su loopback.
+
+I tre test saltati sono: creazione di symlink reali, sintassi dell'installer con Bash, installazione/launcher su filesystem POSIX. Questo ambiente non consente la verifica nativa della VM Kali. I due test POSIX sono inclusi nella suite per l'esecuzione su Kali; nel test dell'installer pip e unittest sono simulati per evitare download e ricorsione. Non sono dichiarati superati qui. Avvio Python reale da una directory differente e laboratorio HTTP reale con cartelle per dominio: superati.
+
+Il primo ciclo del refactor ha rilevato un errore nel nuovo simulatore CORS, che non accettava il secondo argomento posizionale degli header. È stato corretto il simulatore e ripetuta la suite. L'esecuzione finale riportata sopra riguarda l'ultimo codice applicativo.
+
+## Analisi preliminare e correzioni
+
+Sono stati esaminati tutti i moduli Python applicativi, gli entry point, i tre moduli di test preesistenti, `config.yaml`, `requirements.txt` e `install.sh`. Il motore era sequenziale e già centralizzava HTTP/scope/checkpoint, ma salvava a livello progetto. I moduli effettivi sono rimasti quelli dichiarati nel README; non sono stati aggiunti scanner fittizi.
+
+Bug e limiti corretti:
+
+1. **Incollaggio multilinea:** A leggeva una sola riga e le successive finivano nei menu. Ora la modalità dedicata consuma le righe fino alla riga vuota, normalizza, deduplica e mostra il riepilogo, anche per i deny. Formati supportati: singolo, multilinea, virgole/spazi, prima colonna TAB/pipe, URL con avviso sull'eliminazione di percorso/query/porta. Frasi ambigue e credenziali URL vengono rifiutate.
+2. **Risultati mescolati:** la CLI usa un Engine per root, con output, lock, report, cache e checkpoint indipendenti. Le cartelle nascono dallo scope; cartelle manuali non diventano autorizzazioni.
+3. **Attraversamento fra root:** il client conserva lo scope globale e applica in più il root scelto. Anche link, form action e redirect verso un altro root autorizzato del progetto vengono esclusi da quella scansione. Nei root sovrapposti prevale il root configurato più specifico, evitando doppia attribuzione.
+4. **Viste correnti obsolete:** l'export iniziale non veniva aggiornato. Ogni root ora ha una vista corrente legata alla run con impronte; viene aggiornata solo se i file precedenti non sono stati modificati. Lo snapshot per run rimane distinto. Il file manager rileva indici incompleti o modificati.
+5. **Ripresa e conservazione:** l'identità del dominio viene verificata nei checkpoint versione 2. Cambi di scope filtrano il lavoro attivo dopo aver conservato il checkpoint precedente; configurazioni incompatibili vengono rifiutate. Il vecchio formato versione 1 rimane leggibile.
+6. **Migrazione:** copie filtrate dei vecchi run, originali invariati e import idempotente. Supportati anche export Sub Finding senza checkpoint, marcati import-only. ID completati e contatori HTTP non attribuibili ai singoli domini non vengono ripartiti artificialmente: i valori legacy rimangono nei metadati.
+7. **Errori e interruzioni:** un errore di dominio non blocca gli altri; Ctrl+C salva e ferma il batch lasciando gli altri in attesa. Un fallimento dell'export marca FAILED se il checkpoint resta scrivibile, senza eliminare i finding persistiti. Il riepilogo compare anche quando tutti i domini sono privi di input.
+8. **Crawl duplicato:** una URL fallita non viene rimessa in coda solo perché è riapparsa a un'altra profondità.
+9. **Traffico:** cambiare dominio non azzera più budget/backoff HTTP. Il batch condivide il limite conservativo, mantenendo cache e contatori dei domini separati.
+10. **Memoria e monitor:** le risposte in cache sono rilasciate al termine di un dominio; la media HTTP parte dall'avvio effettivo e rimane riferita alla durata della sessione dopo la conclusione. Eliminato l'attributo temporale non utilizzato del motore.
+11. **Scanner e risposte inattese:** moduli sconosciuti/non implementati bloccati prima delle richieste, parametri invalidi segnalati, risposte compresse contro Accept-Encoding identity rifiutate invece di essere interpretate come testo.
+12. **Installazione:** directory in sola lettura e venv Windows riconosciute; launcher relativo alla propria installazione, collegamento locale soltanto se non esiste un comando esterno, LF fissato per script Python/Bash tramite Git.
+13. **Origine degli input:** quando la stessa query GET compareva anche in un form, la deduplicazione poteva sostituire l'origine osservata con quella del form e far saltare un controllo pertinente. Il merge ora è condiviso e conserva la priorità di query/link già osservati, senza inviare form.
+
+## File modificati
+
+| File | Responsabilità della modifica |
+| --- | --- |
+| `xitool/cli.py` | Inserimento batch, selezioni/intervalli, flusso progetto-domini-modulo, consultazione per dominio, riepilogo e monitor |
+| `xitool/scope.py` | Parsing prudente degli elenchi, root autorizzati, proprietario più specifico e scope vincolato al root |
+| `xitool/storage.py` | Creazione cartelle root, nomi sicuri, collisioni e compatibilità dei progetti |
+| `xitool/execution.py` | Versione 2 dei checkpoint, isolamento, batch, migrazione, export correnti, report per root, backup e gestione errori |
+| `xitool/http.py` | Rifiuto di risposte compresse inattese |
+| `xitool/scanners.py` | Guardie prima dell'HTTP e deduplicazione condivisa che conserva le query osservate |
+| `xitool/__init__.py` | Versione 2.0.0a2 |
+| `install.sh` | Diagnostica, venv e launcher portabile, preservazione del comando esterno |
+| `tests/test_execution_cli.py` | Adeguamento dei flussi di conferma e selezione multiprogetto |
+| `tests/test_http_scanners.py` | Workflow HTTP locale reale per dominio e regressione query GET presente anche nei form |
+| `tests/test_multidomain.py` — nuovo | Regressioni dedicate alla nuova funzionalità, alla migrazione e al launcher; separazione concreta dai test precedenti |
+| `.gitattributes` — nuovo | Terminatori LF per compatibilità Windows/Kali |
+| `README.md` | Uso, layout, migrazione, moduli reali e limitazioni |
+| `DEVELOPMENT.md` | Questo rapporto; lo storico della consegna precedente è conservato sotto |
+
+`main.py`, `requirements.txt`, `config.yaml` e i test di scope/storage precedenti sono stati analizzati e riutilizzati. Nessuna dipendenza aggiunta, nessuna directory segnaposto per scanner futuri, nessun risultato utente eliminato. Configurazione e dati runtime non sono inclusi nel pacchetto come risultati reali.
+
+## Nuovo layout e migrazione
+
+```text
+targets/<progetto>/scope.json
+targets/<progetto>/<dominio>/subfinding/<quattro output e latest.json>
+targets/<progetto>/<dominio>/<modulo>/findings.json
+targets/<progetto>/<dominio>/reports/<run_id>.json e .md
+targets/<progetto>/<dominio>/runs/<run_id>/<checkpoint, eventi, finding, review, report>
+```
+
+I root sono derivati dai domini autorizzati normalizzati, con esclusioni prevalenti. `example.com` non autorizza sottodomini; `*.example.com` non autorizza l'apice. Nessuna wildcard è aggiunta implicitamente. La cartella usa il nome DNS completo; IPv6/nomi riservati sono codificati e le collisioni sono rifiutate.
+
+La preparazione delle cartelle e la copia dello storico avvengono nella creazione/ESECUZIONE, non nella sezione APRI PROGETTI. Lo storico originale per progetto rimane consultabile senza modifiche. Il vecchio Engine senza target resta compatibile per gli usi programmatici legacy; la CLI corrente crea esclusivamente Engine vincolati a un root.
+
+## Test pertinenti effettivamente eseguiti
+
+- Sei domini incollati consecutivamente attraverso la creazione completa, senza ritorni prematuri al menu; stesso meccanismo per i negati, duplicati fra batch, singolo dominio, virgole/spazi, URL, tabelle, errori e Ctrl+C/Ctrl+D durante l'inserimento.
+- Scelte tutti, `1,3,5`, `1-4`, A/D, toggle, selezione vuota e ritorno indietro.
+- Creazione delle sei cartelle complete senza contatti di rete; cartella non autorizzata esclusa; wildcard senza apice, deny e root sovrapposti.
+- Batch di tre domini sequenziali, output/report/cronologie separati; errore di uno seguito dal successo di un altro; Ctrl+C e domini successivi PENDING.
+- Blocchi redirect fra domini, scope su tutte le richieste, DNS/IP/peer e destinazioni speciali, timeout/retry/backoff; budget HTTP conservato fra domini.
+- Tutti i nove moduli realmente operativi/parziali esercitati con input pertinenti, report nel dominio corretto e scanner non implementati bloccati prima dell'HTTP.
+- Discovery e sette scanner in un laboratorio HTTP reale autorizzato su loopback, nella struttura versione 2.
+- Ripresa per dominio, rigetto del checkpoint di un altro dominio, scope/config cambiati, backup pre-filtro, scritture interrotte e crash simulati.
+- Migrazione di run completata e interrotta, ripresa di un solo dominio importato, import di vecchi export senza checkpoint, originali byte-per-byte invariati e seconda migrazione senza duplicati.
+- Consultazione APRI PROGETTI con verifica che nessun file cambi e nessun Engine sia eseguito; aggiornamento della vista corrente senza sovrascrivere run precedenti o file modificati dall'utente.
+- Errori di export, cache rilasciata, revisione manuale e diff; avvio reale da un'altra directory.
+
+Il fallimento di rete o di una singola attività resta un errore documentato, non un finding di vulnerabilità. COMPLETED indica coda processata; il riepilogo segnala separatamente domini con errori.
+
+## Moduli e lavori ancora aperti
+
+Operativi ma **PARZIALI**: Sub Finding (import passivo locale e discovery), XSS (riflessione senza browser), IDOR/SSRF/Path Traversal (classificazione e revisione), Misconfiguration, Sensitive Data Exposure, Authentication e CORS. **NON IMPLEMENTATI**: SQL Injection e Broken Access Control. Smart Execution propone controlli in base agli input ma non esegue una selezione multipla automatica. Nessun esito viene promosso a VERIFIED senza prova.
+
+Restano da verificare nativamente su Kali i due test POSIX dell'installer/launcher e i symlink. Restano limiti già espliciti: provider passivi online assenti, nessun browser di verifica XSS o confronto account/ruoli, TLS non approfondito e monitor aggiornato fra attività. La migrazione supporta i formati XITool noti, non schemi arbitrari. Non sono stati simulati spegnimenti reali o tutti i guasti possibili del filesystem.
+
+## Comandi per la versione aggiornata
+
+Dopo aver trasferito i file aggiornati nella propria copia Kali:
+
+```bash
+cd ~/XITool-git
+bash install.sh
+.venv/bin/python main.py
+```
+
+Da un'altra directory: `~/XITool-git/.venv/bin/XITool`. Verifica manuale della suite: `.venv/bin/python -m unittest discover -s tests -v`. Le modifiche locali sono pronte da revisionare; **nessun push è stato effettuato**.
+
+---
+
+# Storico della consegna precedente
+
+
 # Report di sviluppo — 15 ottobre 2026
 
 ## Stato della consegna

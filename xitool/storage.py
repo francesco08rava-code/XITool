@@ -163,7 +163,19 @@ class Projects:
         path.mkdir()
         save_json(path / "scope.json", {"name": name, "domains": scope.domains,
                   "excluded_hosts": scope.excluded, "created_at": utcnow()})
+        self.prepare(path, scope)
         return path
+
+    def prepare(self, project: Path, scope: Any) -> list[str]:
+        """Crea soltanto le cartelle dei root autorizzati; non sposta lo storico."""
+        project = confined(self.root, project)
+        roots = scope.roots()
+        names = [target_path(project, root).name.casefold() for root in roots]
+        if len(names) != len(set(names)):
+            raise DataError("Collisione fra nomi di cartelle dominio")
+        for root in roots:
+            target_path(project, root).mkdir(exist_ok=True)
+        return roots
 
     def load(self, name: str) -> tuple[Path, Any]:
         from .scope import Scope
@@ -172,3 +184,15 @@ class Projects:
         if not isinstance(value, dict) or value.get("name", name) != name:
             raise DataError("Metadati progetto incoerenti")
         return path, Scope(value.get("domains", []), value.get("excluded_hosts", []), value.get("allowed_ip_ranges", []))
+
+
+def target_path(project: Path, domain: str) -> Path:
+    """Mantiene il nome DNS completo; codifica solo IP v6 e nomi riservati."""
+    from .scope import normalize_host
+    host = normalize_host(domain)
+    folder = host.replace(":", "-") if ":" in host else host
+    if ":" in host:
+        folder = "ip6-" + folder
+    if folder.lower() in {"scope.json", "runs", "reports", "subfinding", "xss", "sqli", "idor", "access", "ssrf", "traversal", "authentication", "sensitive", "cors", "misconfiguration", "con", "prn", "aux", "nul", *(f"com{i}" for i in range(10)), *(f"lpt{i}" for i in range(10))}:
+        folder = "host-" + folder
+    return confined(project, project / folder)

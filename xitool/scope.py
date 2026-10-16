@@ -50,6 +50,48 @@ def matches(host: str, rule: str) -> bool:
     return host.endswith("." + rule[2:]) if rule.startswith("*.") else host == rule
 
 
+def parse_rules(text: str) -> dict:
+    """Importa elenchi espliciti; le righe descrittive ambigue non diventano scope."""
+    rules: list[str] = []
+    invalid: list[str] = []
+    warnings: list[str] = []
+    duplicates = 0
+    for number, line in enumerate(text.splitlines(), 1):
+        line = line.strip()
+        if not line:
+            continue
+        # Nelle tabelle solo la prima colonna identifica il target, non le descrizioni.
+        if "\t" in line or "|" in line:
+            cells = [cell.strip() for cell in re.split(r"[\t|]", line) if cell.strip()]
+            line = cells[0] if cells else ""
+        tokens = [token.strip("`\"'") for token in re.split(r"[,;\s]+", line) if token]
+        if len(tokens) > 1 and not any(separator in line for separator in (",", ";")) and any(not ("." in token or ":" in token or token == "localhost") for token in tokens):
+            invalid.append(f"Riga {number}: testo ambiguo; incollare soltanto domini o colonne separate da TAB")
+            continue
+        for token in tokens:
+            try:
+                if "://" in token:
+                    parsed = urlsplit(token)
+                    if parsed.scheme not in ("http", "https") or parsed.username is not None or parsed.password is not None:
+                        raise DataError("URL non ammesso")
+                    if parsed.port is not None and not 1 <= parsed.port <= 65535:
+                        raise DataError("Porta non valida")
+                    rule = normalize_host(parsed.hostname or "")
+                    if parsed.path not in ("", "/") or parsed.query or parsed.fragment or parsed.port:
+                        warnings.append(f"Riga {number}: URL ridotto a {rule}; percorso, query, frammento e porta non limitano lo scope")
+                else:
+                    rule = normalize_rule(token)
+                if "." not in rule and ":" not in rule and rule != "localhost":
+                    raise DataError("Dominio non riconoscibile")
+                if rule in rules:
+                    duplicates += 1
+                else:
+                    rules.append(rule)
+            except (DataError, ValueError):
+                invalid.append(f"Riga {number}: dominio o URL non valido")
+    return {"rules": rules, "duplicates": duplicates, "invalid": invalid, "warnings": warnings}
+
+
 class Scope:
     def __init__(self, domains: list[str], excluded: list[str], allowed_ip_ranges: list[str] | None = None):
         if not isinstance(domains, list) or not domains or not isinstance(excluded, list):
@@ -65,13 +107,43 @@ class Scope:
         except (ValueError, TypeError) as exc:
             raise DataError("Intervallo IP esplicito non valido") from exc
         self.digest = fingerprint([self.domains, self.excluded, [str(n) for n in self.networks]])
+        self.target: str | None = None
+
+    def roots(self) -> list[str]:
+        """Deriva i root dalle regole, mai dalle cartelle presenti sul disco."""
+        roots = set()
+        for rule in self.domains:
+            root = rule.removeprefix("*.")
+            if rule.startswith("*."):
+                blocked = any(deny.startswith("*.") and (deny[2:] == root or root.endswith("." + deny[2:])) for deny in self.excluded)
+                if not blocked:
+                    roots.add(root)
+            elif not any(matches(root, deny) for deny in self.excluded):
+                roots.add(root)
+        return sorted(roots)
+
+    def owner(self, host: str) -> str | None:
+        """Il root più specifico possiede l'host: niente duplicati fra root sovrapposti."""
+        host = normalize_host(host)
+        candidates = [root for root in self.roots() if host == root or host.endswith("." + root)]
+        return max(candidates, key=len) if candidates else None
+
+    def for_target(self, target: str) -> Scope:
+        target = normalize_host(target)
+        base = Scope(self.domains, self.excluded, [str(network) for network in self.networks])
+        if target not in base.roots():
+            raise ScopeViolation("Dominio iniziale non autorizzato nel progetto")
+        base.target = target
+        base.digest = fingerprint([base.digest, target, base.roots()])
+        return base
 
     def allowed(self, host: str) -> bool:
         try:
             host = normalize_host(host)
         except DataError:
             return False
-        return not any(matches(host, rule) for rule in self.excluded) and any(matches(host, rule) for rule in self.domains)
+        allowed = not any(matches(host, rule) for rule in self.excluded) and any(matches(host, rule) for rule in self.domains)
+        return allowed and (self.target is None or self.owner(host) == self.target)
 
     def url(self, value: str, ports: list[int] | None = None) -> str:
         """Rifiuta credenziali, controlli, porte e protocolli non ammessi."""

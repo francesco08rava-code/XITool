@@ -141,6 +141,8 @@ class HTTPClient:
             for key, value in response.getheaders():
                 key = key.lower()
                 raw_headers[key] = raw_headers.get(key, "") + ("\n" if key in raw_headers else "") + value
+            if raw_headers.get("content-encoding", "identity").lower() != "identity":
+                raise NetworkError("Risposta compressa nonostante Accept-Encoding: identity; contenuto non analizzato")
             limit = settings["max_body_bytes"]
             # Il timeout per socket non limita uno stream lento: applica anche una deadline.
             chunks: list[bytes] = []

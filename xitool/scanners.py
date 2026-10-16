@@ -95,6 +95,18 @@ class Discovery(HTMLParser):
             self.form = None
 
 
+def deduplicate_inputs(entries: list[dict]) -> list[dict]:
+    """Una query GET osservata non deve essere declassata a form durante il merge."""
+    selected: dict[str, dict] = {}
+    priority = {"query": 2, "link": 1, "form": 0}
+    for entry in entries:
+        key = fingerprint([entry["url"], entry["method"], entry["parameter"]])
+        previous = selected.get(key)
+        if previous is None or priority.get(entry.get("source"), 0) >= priority.get(previous.get("source"), 0):
+            selected[key] = entry
+    return list(selected.values())
+
+
 def discover(scope: Scope, response: Response) -> tuple[list[dict], list[str]]:
     parser = Discovery(scope, response.url)
     content_type = response.headers.get("content-type", "").lower()
@@ -113,8 +125,7 @@ def discover(scope: Scope, response: Response) -> tuple[list[dict], list[str]]:
     for target in parser.links:
         for name, _ in parse_qsl(urlsplit(target).query, keep_blank_values=True):
             parser.add_input(target, "GET", name, "text", "link")
-    unique = {fingerprint([v["url"], v["method"], v["parameter"]]): v for v in parser.inputs}
-    return list(unique.values()), sorted(parser.links)
+    return deduplicate_inputs(parser.inputs), sorted(parser.links)
 
 
 def finding(module: str, url: str, check: str, status: str, evidence: dict, limitation: str, parameter: str = "") -> dict:
@@ -141,8 +152,12 @@ def smart(inputs: list[dict], urls: list[str]) -> dict[str, int]:
 
 def scan(module: str, task: dict, client: HTTPClient) -> list[dict]:
     """Mantiene osservazioni, candidati e prove confermate semanticamente distinti."""
+    if module not in MODULES or MODULES[module][1] == "NOT_IMPLEMENTED":
+        raise DataError("Modulo non implementato")
     url = safe_url(client.scope, task["url"])
-    parameter = task.get("parameter", "")
+    parameter = task.get("parameter") or ""
+    if not isinstance(parameter, str):
+        raise DataError("Nome parametro non valido")
     if module in ("idor", "ssrf", "traversal"):
         return [finding(module, url, "input_candidate", "MANUAL_REVIEW", {"input_type": task.get("input_type"), "method": task.get("method")},
                         "Solo classificazione dell'input; preparare account o fixture autorizzate per la verifica.", parameter)]
