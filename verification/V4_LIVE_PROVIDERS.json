@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-10-17T14:45:56.375036Z",
+  "seed": "example.com",
+  "purpose": "Provider CT e risoluzione DNS; nessuna scansione web",
+  "providers": [
+    {
+      "provider": "crtsh",
+      "queried_at": "2026-10-17T14:45:56.381098Z",
+      "root": "example.com",
+      "hosts": [],
+      "wildcard_certificates": [],
+      "errors": [
+        "NetworkError"
+      ],
+      "pages": 0,
+      "raw_results": 0,
+      "complete": false,
+      "unique_results": 0,
+      "seed_excluded": 0,
+      "requests": 1
+    },
+    {
+      "provider": "certspotter",
+      "queried_at": "2026-10-17T14:46:01.446809Z",
+      "root": "example.com",
+      "hosts": [
+        "example.com",
+        "www.example.com"
+      ],
+      "wildcard_certificates": [
+        "*.example.com"
+      ],
+      "errors": [],
+      "pages": 2,
+      "raw_results": 40,
+      "complete": true,
+      "unique_results": 2,
+      "seed_excluded": 1,
+      "requests": 2
+    }
+  ],
+  "dns": {
+    "host": "example.com",
+    "A": [],
+    "AAAA": [],
+    "CNAME": [],
+    "errors": [
+      "A:NoNameservers",
+      "AAAA:NoNameservers",
+      "CNAME:NoNameservers"
+    ],
+    "timestamp": "2026-10-17T14:46:04.050448Z",
+    "resolved": false,
+    "ttl_seconds": null,
+    "resolution_status": "RESOLVER_ERROR"
+  }
+}

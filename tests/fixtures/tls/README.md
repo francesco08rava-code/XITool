@@ -1,0 +1,1 @@
+Certificati e chiave pubblicamente noti, esclusivamente per fixture TLS loopback. Nessun utilizzo in produzione. Il test valido scade nel 2080; quello scaduto nel 2001. Nessuna dipendenza cryptography richiesta per eseguire i test.

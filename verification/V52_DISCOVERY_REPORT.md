@@ -1,0 +1,9 @@
+# Discovery e inventario v2
+
+AST Tree-sitter opzionale: fetch/XHR/axios, const locali, concatenazioni, template staticamente risolvibili e alias semplici. Scope lessicali/parametri/import/funzioni shadow impediscono di attribuire una chiamata locale al fetch globale. Mutable/dinamico, codice malformato o oltre limiti diventano UNRESOLVED, senza eval. Budget 1 MiB, 50000 nodi, profondità 64, 1000 osservazioni; limite riportato nel checkpoint. Parsing unico per risorsa, non ripetuto due volte. Una xhr.open non tipizzata rimane solo euristica di compatibilità.
+
+Qualità: OBSERVED_NETWORK, OBSERVED_HTML, STATIC_JS, DOCUMENTED_API, HISTORICAL, HEURISTIC, UNRESOLVED. Gli URL statici restano nell'inventario/links di compatibilità, ma il coordinatore non li mette automaticamente nella coda HTTP. Gli input statici non sono confermati e non generano controlli attivi. Le richieste realmente osservate dal browser e autorizzate sono distinte. OpenAPI conserva GET/POST sullo stesso URL e source_url documentale; non esegue operazioni dichiarate.
+
+Input v2 conserva progetto/dominio/URL/metodo/posizione/nome/tipo/provenienza/tempi/raggiungibilità. Tipi osservati diversi e provenienze sono aggregati; query/JSON/body/path restano distinti. Diff confronta anche location e ignora first_seen/last_seen transitori. Header/cookie sono metadati senza valori. JSON di risposta non prova un input di richiesta; GraphQL osservato non innesca introspezioni.
+
+Test: const/concat/alias, XHR/axios, commenti/stringhe, shadow/import/funzioni, valori non risolvibili e profondità; suite precedente HTML/JSON/OpenAPI/GraphQL/robots/sitemap/redirect; laboratorio SPA reale con fetch e link DOM e controllo static-not-queued. Restano esclusi flussi JS generali, alias arbitrari, valutazione di funzioni, interazioni applicative e shadow DOM completo. Senza dipendenze opzionali rimane fallback letterale conservativo.

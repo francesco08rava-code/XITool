@@ -1,0 +1,34 @@
+test_direct_proof_has_explained_review_priority_not_cvss (test_v5.AssessmentTests.test_direct_proof_has_explained_review_priority_not_cvss) ... ok
+test_false_positive_is_low_priority_and_zero_score (test_v5.AssessmentTests.test_false_positive_is_low_priority_and_zero_score) ... ok
+test_human_false_positive_preserves_automated_observation (test_v5.AssessmentTests.test_human_false_positive_preserves_automated_observation) ... ok
+test_incomplete_response_is_inconclusive (test_v5.AssessmentTests.test_incomplete_response_is_inconclusive) ... ok
+test_normalized_parameter_order_has_same_issue_fingerprint (test_v5.AssessmentTests.test_normalized_parameter_order_has_same_issue_fingerprint) ... ok
+test_verified_label_without_evidence_is_not_high_priority (test_v5.AssessmentTests.test_verified_label_without_evidence_is_not_high_priority) ... ok
+test_absent_finding_is_unresolved_even_incomplete (test_v5.DiffTests.test_absent_finding_is_unresolved_even_incomplete) ... ok
+test_failed_provider_cannot_prove_removal (test_v5.DiffTests.test_failed_provider_cannot_prove_removal) ... ok
+test_incomplete_baseline_cannot_produce_a_complete_comparison (test_v5.DiffTests.test_incomplete_baseline_cannot_produce_a_complete_comparison) ... ok
+test_method_and_parameter_change (test_v5.DiffTests.test_method_and_parameter_change) ... ok
+test_new_host_and_unchanged_host (test_v5.DiffTests.test_new_host_and_unchanged_host) ... ok
+test_random_nonce_is_not_a_changed_issue (test_v5.DiffTests.test_random_nonce_is_not_a_changed_issue) ... ok
+test_request_ids_and_timestamps_are_not_finding_changes (test_v5.DiffTests.test_request_ids_and_timestamps_are_not_finding_changes) ... ok
+test_cookie_and_header_inventory_never_stores_values (test_v5.DiscoveryTests.test_cookie_and_header_inventory_never_stores_values) ... ok
+test_cookie_attributes_are_shared_by_authentication_and_misconfiguration (test_v5.DiscoveryTests.test_cookie_attributes_are_shared_by_authentication_and_misconfiguration) ... ok
+test_crawler_exports_historical_without_verification_and_network_as_verified (test_v5.DiscoveryTests.test_crawler_exports_historical_without_verification_and_network_as_verified) ... ok
+test_openapi_servers_and_swagger_basepath_are_respected_without_requests (test_v5.DiscoveryTests.test_openapi_servers_and_swagger_basepath_are_respected_without_requests) ... ok
+test_expected_allowed_access_does_not_report_a_vulnerability (test_v5.PermissionMatrixTests.test_expected_allowed_access_does_not_report_a_vulnerability) ... ok
+test_unexpected_denial_is_review_not_a_verified_security_violation (test_v5.PermissionMatrixTests.test_unexpected_denial_is_review_not_a_verified_security_violation) ... ok
+test_discovery_reuse_requires_compatible_config_in_smart_mode (test_v5.SmartCompatibilityTests.test_discovery_reuse_requires_compatible_config_in_smart_mode) ... ok
+test_module_version_change_rejects_plan_resume (test_v5.SmartCompatibilityTests.test_module_version_change_rejects_plan_resume) ... ok
+test_external_cancel_does_not_mark_an_uncommitted_worker_completed (test_v5.WorkerTests.test_external_cancel_does_not_mark_an_uncommitted_worker_completed) ... {"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T234310_869294Z_98550975"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T234310_869294Z_98550975"}
+ok
+test_fixture_and_session_tasks_are_not_dispatched_concurrently (test_v5.WorkerTests.test_fixture_and_session_tasks_are_not_dispatched_concurrently) ... ok
+test_interrupt_preserves_inflight_tasks_and_resume_has_no_lost_results (test_v5.WorkerTests.test_interrupt_preserves_inflight_tasks_and_resume_has_no_lost_results) ... ok
+test_parallel_limiter_does_not_burst (test_v5.WorkerTests.test_parallel_limiter_does_not_burst) ... ok
+test_two_domains_share_global_budget_and_keep_reports_isolated (test_v5.WorkerTests.test_two_domains_share_global_budget_and_keep_reports_isolated) ... ok
+test_workers_really_overlap_and_respect_host_limit (test_v5.WorkerTests.test_workers_really_overlap_and_respect_host_limit) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 9.766s
+
+OK

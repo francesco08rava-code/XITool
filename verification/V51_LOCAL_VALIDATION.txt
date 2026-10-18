@@ -1,0 +1,10 @@
+test_real_sqlite_form_and_json_vulnerable_and_parameterized (test_v51.SQLBodyTests.test_real_sqlite_form_and_json_vulnerable_and_parameterized) ... ok
+test_dom_csp_blocks_script (test_v51_browser.DOMBrowserTests.test_dom_csp_blocks_script) ... ok
+test_dom_innerhtml_demonstrated_twice (test_v51_browser.DOMBrowserTests.test_dom_innerhtml_demonstrated_twice) ... ok
+test_dom_textcontent_does_not_execute (test_v51_browser.DOMBrowserTests.test_dom_textcontent_does_not_execute) ... ok
+test_two_domains_crawl_plan_interrupt_resume_and_diff (test_v51_e2e.PipelineTests.test_two_domains_crawl_plan_interrupt_resume_and_diff) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 86.778s
+
+OK

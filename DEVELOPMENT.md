@@ -1,3 +1,49 @@
+# Sviluppo V5.2
+
+Baseline byte-per-byte verificata con V51_SOURCE_MANIFEST, poi suite iniziale completa. Laboratorio condiviso in tests/lab_app.py, lab_sources.py, lab_runner.py; runner benchmarks/validate_integrated.py. Dataset con condizioni/input/esiti, metriche per contratto e copertura conclusiva, denominatori nulli, errori/timeout/unsupported separati. Nessun aggregato tra differenziali SQL candidati e prove browser.
+
+AST opzionale: mai eval o interpretazione arbitraria; i riferimenti statici non entrano automaticamente nella coda. Budget di analisi espliciti e resolver daemon globalmente limitati. Errori transitori/rate/Retry-After restano vincolanti. Il budget della run è cooperativo, non hard real-time.
+
+Benchmark: stesso script e snapshot sorgenti, più ripetizioni, cache off, carichi invariati. Non avviare suite durante i benchmark. I file INITIAL/PRE_DNS sono evidenze di sviluppo, non le misure finali. Source manifest e log finali in verification/V52_*. Nessuna cancellazione dei dati targets o riscrittura di checkpoint precedenti.
+
+Console script via pyproject/setuptools ed installazione editable nel venv. Bash/Zsh/Kali/SIGINT nativi restano da verificare nella VM: verify_kali.sh produce report distinti. Le sezioni seguenti descrivono versioni precedenti.
+
+---
+
+# Sviluppo V5.1
+
+Versione corrente 5.1.0a1, sperimentale. Audit e rapporto in verification/V51_AUDIT.md e V51_FINAL_REPORT.md. Per suite completa abilitare XITOOL_BROWSER_TESTS=1; parser opzionale requirements-javascript.txt. validate_local.py produce sette casi etichettati e una prova di pipeline; benchmark_local.py supporta 12/100/500 task, lentezza, timeout, 429 ed errori intermittenti; benchmark_domains.py confronta due domini loopback. Non eseguire benchmark contemporaneamente alle suite.
+
+I file V5 sotto descrivono la baseline storica, non il completamento della V5.1. Nessun commit/push automatico.
+
+---
+
+# XITool 5.0.0a1 — verifica corrente
+
+[V5_REPORT.md](V5_REPORT.md), [V5_AUDIT.md](V5_AUDIT.md). Evidenze in verification/. Le sezioni V4/V3 seguenti sono storiche.
+
+---
+
+# XITool 4.0.0a1 — verifica corrente
+
+Report corrente: [V4_REPORT.md](V4_REPORT.md). Log e manifest dei sorgenti: verification/. Le sezioni V3 seguenti sono storiche.
+
+---
+
+# XITool 3.0.0a2 — verifica corrente
+
+Rapporto: [V3_COMPLETION_REPORT.md](V3_COMPLETION_REPORT.md). Configurazione avanzata: [CONTROLLED_CHECKS.md](CONTROLLED_CHECKS.md). Le sezioni seguenti sono storiche e non descrivono lo stato corrente.
+
+---
+
+# XITool V3 — 3.0.0a1
+
+Il rapporto corrente è in [V3_REPORT.md](V3_REPORT.md), con audit, modifiche, test e limiti. La tabella degli scanner è in [README.md](README.md).
+
+Il contenuto seguente documenta la versione precedente 2.0.0a2 e resta come storico.
+
+---
+
 # Refactor multi-dominio — XITool 2.0.0a2 — 16 ottobre 2026
 
 ## Risultato e verifica

@@ -1,0 +1,34 @@
+test_429_bounded_retries (test_http_scanners.HTTPTests.test_429_bounded_retries) ... ok
+test_cache_ttl_and_no_store (test_http_scanners.HTTPTests.test_cache_ttl_and_no_store) ... ok
+test_dns_not_reresolved_during_connect (test_http_scanners.HTTPTests.test_dns_not_reresolved_during_connect) ... ok
+test_dns_private_blocked_before_socket (test_http_scanners.HTTPTests.test_dns_private_blocked_before_socket) ... ok
+test_limiter_spacing_and_retry_after (test_http_scanners.HTTPTests.test_limiter_spacing_and_retry_after) ... ok
+test_origin_separate_cache (test_http_scanners.HTTPTests.test_origin_separate_cache) ... ok
+test_peer_mismatch (test_http_scanners.HTTPTests.test_peer_mismatch) ... ok
+test_redirect_each_hop_and_loop (test_http_scanners.HTTPTests.test_redirect_each_hop_and_loop) ... ok
+test_redirect_out_of_scope (test_http_scanners.HTTPTests.test_redirect_out_of_scope) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_reject_before_transport (test_http_scanners.HTTPTests.test_reject_before_transport) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_stalled_dns_is_bounded_and_does_not_accumulate_threads (test_http_scanners.HTTPTests.test_stalled_dns_is_bounded_and_does_not_accumulate_threads) ... ok
+test_timeout_retry (test_http_scanners.HTTPTests.test_timeout_retry) ... ok
+test_actual_http_loopback_requires_explicit_cidr (test_http_scanners.LocalLabTests.test_actual_http_loopback_requires_explicit_cidr) ... {"event":"scope_blocked","stage":"destination"}
+ok
+test_local_workflow_discovery_checks_and_reports (test_http_scanners.LocalLabTests.test_local_workflow_discovery_checks_and_reports) ... ok
+test_classifier (test_http_scanners.ScannerTests.test_classifier) ... ok
+test_cookie_values_never_stored (test_http_scanners.ScannerTests.test_cookie_values_never_stored) ... ok
+test_cors_wildcard_not_vulnerability (test_http_scanners.ScannerTests.test_cors_wildcard_not_vulnerability) ... ok
+test_encoded_reflection_not_vulnerability (test_http_scanners.ScannerTests.test_encoded_reflection_not_vulnerability) ... ok
+test_html_discovery_and_forms (test_http_scanners.ScannerTests.test_html_discovery_and_forms) ... ok
+test_idor_only_classifies_no_request (test_http_scanners.ScannerTests.test_idor_only_classifies_no_request) ... ok
+test_javascript_static_references (test_http_scanners.ScannerTests.test_javascript_static_references) ... ok
+test_observed_query_is_not_lost_when_same_field_appears_in_form (test_http_scanners.ScannerTests.test_observed_query_is_not_lost_when_same_field_appears_in_form) ... ok
+test_secret_values_masked (test_http_scanners.ScannerTests.test_secret_values_masked) ... ok
+test_sensitive_and_mutative_urls_rejected (test_http_scanners.ScannerTests.test_sensitive_and_mutative_urls_rejected) ... ok
+test_smart_filters_post_xss (test_http_scanners.ScannerTests.test_smart_filters_post_xss) ... ok
+test_xss_reflection_never_verified (test_http_scanners.ScannerTests.test_xss_reflection_never_verified) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 4.042s
+
+OK

@@ -1,0 +1,42 @@
+{
+  "version": "5.1.0a1",
+  "domains": 2,
+  "tasks": 24,
+  "seconds": 1.8832218999998531,
+  "throughput": 12.74411687757129,
+  "python_peak_bytes": 697090,
+  "process_lifetime_peak_rss_bytes": 33226752,
+  "global_cap": 5,
+  "host_cap": 2,
+  "observed_global_peak": 4,
+  "observed_host_peaks": {
+    "127.0.0.1": 2,
+    "127.0.0.2": 2
+  },
+  "requests": 24,
+  "completed": 24,
+  "errors": 0,
+  "duplicates": 0,
+  "summaries": [
+    {
+      "project": "DomainsBenchmark",
+      "domain": "127.0.0.1",
+      "module": "misconfiguration",
+      "run_id": "run_20261017T234538_554834Z_b66f7827",
+      "errors": 0,
+      "status": "COMPLETED",
+      "verification_outcome": "PARTIAL",
+      "processed": true
+    },
+    {
+      "project": "DomainsBenchmark",
+      "domain": "127.0.0.2",
+      "module": "misconfiguration",
+      "run_id": "run_20261017T234538_563956Z_0f9c22b8",
+      "errors": 0,
+      "status": "COMPLETED",
+      "verification_outcome": "PARTIAL",
+      "processed": true
+    }
+  ]
+}

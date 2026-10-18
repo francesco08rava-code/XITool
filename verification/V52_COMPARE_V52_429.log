@@ -1,0 +1,63 @@
+{
+  "version": "5.2.0a1",
+  "workers_configured": 5,
+  "host_slots": 5,
+  "tasks": 12,
+  "rate_limit": 20,
+  "scenario": "429",
+  "server_delay_seconds": 0.25,
+  "memory_metric": "tracemalloc Python allocations per run; separate OS process-lifetime peak RSS",
+  "process_lifetime_peak_rss_bytes": 33521664,
+  "runs": [
+    {
+      "seconds": 2.8182575000000725,
+      "python_peak_bytes": 523849,
+      "requests": 15,
+      "requests_per_second": 5.322437711954857,
+      "peak_active_http": 5,
+      "tasks_per_second": 4.257950169563886,
+      "interrupted_and_resumed": false,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 3,
+      "status": "COMPLETED"
+    },
+    {
+      "seconds": 2.7841244000001097,
+      "python_peak_bytes": 245888,
+      "requests": 15,
+      "requests_per_second": 5.387690291424984,
+      "peak_active_http": 5,
+      "tasks_per_second": 4.310152233139987,
+      "interrupted_and_resumed": false,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 3,
+      "status": "COMPLETED"
+    },
+    {
+      "seconds": 2.793249000000287,
+      "python_peak_bytes": 244166,
+      "requests": 15,
+      "requests_per_second": 5.370090528985585,
+      "peak_active_http": 5,
+      "tasks_per_second": 4.296072423188469,
+      "interrupted_and_resumed": false,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 3,
+      "status": "COMPLETED"
+    }
+  ],
+  "median_seconds": 2.793249000000287,
+  "min_seconds": 2.7841244000001097,
+  "max_seconds": 2.8182575000000725,
+  "stdev_seconds": 0.01767178501175416,
+  "median_python_peak_bytes": 245888
+}

@@ -1,7 +1,10 @@
 http:
   timeout_seconds: 10
+  connect_timeout_seconds: 10
+  read_timeout_seconds: 10
   max_retries: 2
-  max_concurrency: 1
+  max_concurrency: 5
+  max_concurrency_per_host: 2
   requests_per_second: 2
   max_body_bytes: 1048576
   max_redirects: 5
@@ -17,6 +20,8 @@ execution:
   require_confirmation: true
   resume_enabled: true
   max_tasks: 1000
+  max_concurrent_domains: 1
+  max_duration_seconds: 600
 discovery:
   max_depth: 2
   max_pages: 50

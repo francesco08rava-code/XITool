@@ -221,7 +221,7 @@ class ScannerTests(unittest.TestCase):
 
     def test_secret_values_masked(self):
         client = HTTPClient(self.scope, configuration())
-        secret = "AKIA" + "A" * 16
+        secret = "AKIAABCDEFGHIJKLMNOP"
         with patch.object(client, "get", return_value=Response("https://example.com/", 200, {}, secret)):
             result = scan("sensitive", {"url": "https://example.com/"}, client)
         self.assertNotIn(secret, json_text(result))

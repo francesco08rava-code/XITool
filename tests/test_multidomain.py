@@ -50,10 +50,10 @@ class RuleInputTests(unittest.TestCase):
                 self.assertTrue(result["invalid"])
                 self.assertNotIn("secret", str(result))
 
-    def test_url_path_warning_and_table(self):
-        result = parse_rules("https://EXAMPLE.com/path?id=1\napi.example.com\tDomain\tIn scope")
-        self.assertEqual(result["rules"], ["example.com", "api.example.com"])
-        self.assertEqual(len(result["warnings"]), 1)
+    def test_url_path_is_preserved_and_table(self):
+        result = parse_rules("https://EXAMPLE.com/path\napi.example.com\tDomain\tIn scope")
+        self.assertEqual(result["rules"], ["https://example.com/path", "api.example.com"])
+        self.assertEqual(result["warnings"], [])
 
     def test_full_paste_is_consumed_before_returning_to_menu(self):
         with patch("builtins.input", side_effect=["A", *DOMAINS, "", "0"]), patch("sys.stdout", new_callable=io.StringIO) as output:
@@ -266,7 +266,7 @@ class DomainExecutionTests(unittest.TestCase):
         inputs += [{"host": "example.com", "url": "https://example.com/?id=1", "method": "GET", "parameter": "id", "input_type": "identifier", "source": "query"},
                    {"host": "example.com", "url": "https://example.com/?url=x", "method": "GET", "parameter": "url", "input_type": "url", "source": "query"}]
         for module, (_, status) in MODULES.items():
-            if module == "subfinding" or status == "NOT_IMPLEMENTED":
+            if module in ("subfinding", "access") or status == "NOT_IMPLEMENTED":
                 continue
             with self.subTest(module=module):
                 tasks = build_tasks(module, bounded, inputs, urls)
@@ -280,9 +280,12 @@ class DomainExecutionTests(unittest.TestCase):
     def test_non_implemented_scanner_never_sends_request(self):
         client = HTTPClient(self.scope.for_target("example.com"), self.config)
         with patch.object(client, "get") as get:
-            for module in ("sqli", "access", "unknown"):
+            for module in ("unknown",):
                 with self.subTest(module=module), self.assertRaises(DataError):
                     scan(module, {"url": "https://example.com/"}, client)
+            get.assert_not_called()
+        with patch.object(client, "get") as get:
+            self.assertEqual(scan("access", {"url": "https://example.com/"}, client)[0]["status"], "UNSUPPORTED")
             get.assert_not_called()
 
     def test_user_modified_projection_is_not_overwritten(self):

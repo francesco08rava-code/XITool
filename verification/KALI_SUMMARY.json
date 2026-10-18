@@ -1,0 +1,10 @@
+{
+  "version": "5.2.0a1",
+  "native_kali_verified": false,
+  "state": "NOT_EXECUTED",
+  "host": "Windows",
+  "VirtualBox": "E_ACCESSDENIED",
+  "Bash_MSYS": "0xC0000022",
+  "prepared_command": "bash verify_kali.sh --browser --javascript",
+  "windows_entrypoint_verified": true
+}

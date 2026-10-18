@@ -1,0 +1,303 @@
+test_dynamic_dom_links_are_collected_without_out_of_scope_http (test_browser_lab.BrowserLabTests.test_dynamic_dom_links_are_collected_without_out_of_scope_http) ... ok
+test_real_browser_confirms_execution_only_for_unescaped_lab_html (test_browser_lab.BrowserLabTests.test_real_browser_confirms_execution_only_for_unescaped_lab_html) ... ok
+test_real_browser_confirms_explicit_form_fixture (test_browser_lab.BrowserLabTests.test_real_browser_confirms_explicit_form_fixture) ... ok
+test_real_browser_confirms_explicit_json_fixture_twice (test_browser_lab.BrowserLabTests.test_real_browser_confirms_explicit_json_fixture_twice) ... ok
+test_real_browser_does_not_verify_encoded_reflection (test_browser_lab.BrowserLabTests.test_real_browser_does_not_verify_encoded_reflection) ... ok
+test_real_browser_reads_owned_canary_with_cookie_across_origins (test_browser_lab.BrowserLabTests.test_real_browser_reads_owned_canary_with_cookie_across_origins) ... ok
+test_real_browser_rejects_escaped_json_fixture (test_browser_lab.BrowserLabTests.test_real_browser_rejects_escaped_json_fixture) ... ok
+test_real_browser_rejects_wrong_allow_origin (test_browser_lab.BrowserLabTests.test_real_browser_rejects_wrong_allow_origin) ... ok
+test_real_browser_respects_content_security_policy (test_browser_lab.BrowserLabTests.test_real_browser_respects_content_security_policy) ... ok
+test_internal_literal_and_arbitrary_log_paths_are_invalid (test_callbacks.CallbackTests.test_internal_literal_and_arbitrary_log_paths_are_invalid) ... ok
+test_missing_callback_stays_partial_not_clean_or_verified (test_callbacks.CallbackTests.test_missing_callback_stays_partial_not_clean_or_verified) ... ok
+test_missing_sensor_log_is_unsupported_without_target_request (test_callbacks.CallbackTests.test_missing_sensor_log_is_unsupported_without_target_request) ... ok
+test_private_callback_dns_is_rejected_before_target_request (test_callbacks.CallbackTests.test_private_callback_dns_is_rejected_before_target_request) ... ok
+test_real_sensor_correlates_nonce_timestamp_and_expected_source (test_callbacks.CallbackTests.test_real_sensor_correlates_nonce_timestamp_and_expected_source) ... ok
+test_archive_content_type_is_rejected_before_reading_body (test_completion.CompletionTests.test_archive_content_type_is_rejected_before_reading_body) ... ok
+test_archives_and_database_dumps_are_not_downloaded (test_completion.CompletionTests.test_archives_and_database_dumps_are_not_downloaded) ... {"event":"scope_blocked","stage":"url"}
+{"event":"scope_blocked","stage":"url"}
+{"event":"scope_blocked","stage":"url"}
+ok
+test_content_length_with_connection_close_is_not_a_network_error (test_completion.CompletionTests.test_content_length_with_connection_close_is_not_a_network_error) ... ok
+test_failed_sources_are_not_displayed_as_successful_empty_collection (test_completion.CompletionTests.test_failed_sources_are_not_displayed_as_successful_empty_collection) ... ok
+test_http_error_page_is_not_a_clean_negative_result (test_completion.CompletionTests.test_http_error_page_is_not_a_clean_negative_result) ... ok
+test_placeholders_are_counted_but_not_reported_as_credentials (test_completion.CompletionTests.test_placeholders_are_counted_but_not_reported_as_credentials) ... ok
+test_preflight_is_options_and_restores_client_on_failure (test_completion.CompletionTests.test_preflight_is_options_and_restores_client_on_failure) ... ok
+test_static_js_reference_is_not_reached_or_verified (test_completion.CompletionTests.test_static_js_reference_is_not_reached_or_verified) ... ok
+test_unstable_sql_baseline_is_partial (test_completion.CompletionTests.test_unstable_sql_baseline_is_partial) ... ok
+test_url_reference_provenance_and_out_of_scope_without_queueing (test_completion.CompletionTests.test_url_reference_provenance_and_out_of_scope_without_queueing) ... ok
+test_forged_completed_step_cannot_redirect_engine_to_another_project (test_completion.PlanTests.test_forged_completed_step_cannot_redirect_engine_to_another_project) ... ok
+test_no_input_is_saved_as_not_started_without_network (test_completion.PlanTests.test_no_input_is_saved_as_not_started_without_network) ... ok
+test_open_projects_exposes_smart_plans_without_writes_or_execution (test_completion.PlanTests.test_open_projects_exposes_smart_plans_without_writes_or_execution) ... ok
+test_persistent_plan_resume_skips_completed_domain_and_keeps_reports (test_completion.PlanTests.test_persistent_plan_resume_skips_completed_domain_and_keeps_reports) ... ok
+test_plan_continues_after_one_domain_failure (test_completion.PlanTests.test_plan_continues_after_one_domain_failure) ... ok
+test_plan_scope_config_and_integrity_are_validated (test_completion.PlanTests.test_plan_scope_config_and_integrity_are_validated) ... ok
+test_recon_plan_remains_awaiting_operator_selection (test_completion.PlanTests.test_recon_plan_remains_awaiting_operator_selection) ... ok
+test_actual_idor_controlled_resource_read_is_verified (test_controlled.ControlledServerTests.test_actual_idor_controlled_resource_read_is_verified) ... ok
+test_actual_logout_invalidates_the_owned_lab_session (test_controlled.ControlledServerTests.test_actual_logout_invalidates_the_owned_lab_session) ... ok
+test_actual_role_control_is_verified (test_controlled.ControlledServerTests.test_actual_role_control_is_verified) ... ok
+test_actual_sqlite_boolean_differential_is_repeatable_but_not_automatically_verified (test_controlled.ControlledServerTests.test_actual_sqlite_boolean_differential_is_repeatable_but_not_automatically_verified) ... ok
+test_changed_case_or_out_of_scope_resource_never_runs (test_controlled.ControlledServerTests.test_changed_case_or_out_of_scope_resource_never_runs) ... ok
+test_controlled_check_interrupt_and_resume (test_controlled.ControlledServerTests.test_controlled_check_interrupt_and_resume) ... ok
+test_expired_other_session_cannot_produce_a_negative_or_verified_verdict (test_controlled.ControlledServerTests.test_expired_other_session_cannot_produce_a_negative_or_verified_verdict) ... ok
+test_http200_shell_without_canary_is_inconclusive (test_controlled.ControlledServerTests.test_http200_shell_without_canary_is_inconclusive) ... ok
+test_ineffective_logout_is_verified_with_owned_canary (test_controlled.ControlledServerTests.test_ineffective_logout_is_verified_with_owned_canary) ... ok
+test_invalid_initial_session_does_not_trigger_logout (test_controlled.ControlledServerTests.test_invalid_initial_session_does_not_trigger_logout) ... ok
+test_network_error_is_failed_and_saved_without_finding (test_controlled.ControlledServerTests.test_network_error_is_failed_and_saved_without_finding) ... {"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T162800_554130Z_4f8664ab"}
+ok
+test_parameterized_sqlite_fixture_is_not_reported_as_sql_injection (test_controlled.ControlledServerTests.test_parameterized_sqlite_fixture_is_not_reported_as_sql_injection) ... ok
+test_prepared_file_fixture_is_checked_without_generating_system_paths (test_controlled.ControlledServerTests.test_prepared_file_fixture_is_checked_without_generating_system_paths) ... ok
+test_safe_resource_denies_other_valid_account (test_controlled.ControlledServerTests.test_safe_resource_denies_other_valid_account) ... ok
+test_cross_origin_redirect_does_not_receive_credentials (test_controlled.SessionTests.test_cross_origin_redirect_does_not_receive_credentials) ... ok
+test_manifest_forbids_literal_secrets_and_public_cleartext (test_controlled.SessionTests.test_manifest_forbids_literal_secrets_and_public_cleartext) ... ok
+test_missing_expired_and_newline_credentials_fail_before_transport (test_controlled.SessionTests.test_missing_expired_and_newline_credentials_fail_before_transport) ... ok
+test_private_headers_are_sent_but_response_is_not_cached (test_controlled.SessionTests.test_private_headers_are_sent_but_response_is_not_cached) ... ok
+test_choices_validate_empty_and_nonnumeric (test_execution_cli.CLITests.test_choices_validate_empty_and_nonnumeric) ... ok
+test_confirmation_prevents_execution (test_execution_cli.CLITests.test_confirmation_prevents_execution) ... ok
+test_file_view_escapes_terminal_controls (test_execution_cli.CLITests.test_file_view_escapes_terminal_controls) ... ok
+test_file_view_rejects_corrupt_json (test_execution_cli.CLITests.test_file_view_rejects_corrupt_json) ... ok
+test_main_invalid_then_exit (test_execution_cli.CLITests.test_main_invalid_then_exit) ... ok
+test_main_menu_has_only_required_entries (test_execution_cli.CLITests.test_main_menu_has_only_required_entries) ... ok
+test_multi_project_confirmed_separate_engines (test_execution_cli.CLITests.test_multi_project_confirmed_separate_engines) ... ok
+test_checkpoint_report_and_history (test_execution_cli.EngineTests.test_checkpoint_report_and_history) ... ok
+test_config_change_rejected (test_execution_cli.EngineTests.test_config_change_rejected) ... ok
+test_corrupt_checkpoint_rejected (test_execution_cli.EngineTests.test_corrupt_checkpoint_rejected) ... ok
+test_crash_saves_failed_and_can_resume (test_execution_cli.EngineTests.test_crash_saves_failed_and_can_resume) ... ok
+test_deduplicate_tasks (test_execution_cli.EngineTests.test_deduplicate_tasks) ... ok
+test_diff_identity_and_changed_evidence (test_execution_cli.EngineTests.test_diff_identity_and_changed_evidence) ... ok
+test_interrupt_resume_without_losing_committed_results (test_execution_cli.EngineTests.test_interrupt_resume_without_losing_committed_results) ... ok
+test_manual_review_transitions (test_execution_cli.EngineTests.test_manual_review_transitions) ... ok
+test_network_error_recorded_not_finding (test_execution_cli.EngineTests.test_network_error_recorded_not_finding) ... {"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T162803_391611Z_be633824"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T162803_391611Z_be633824"}
+ok
+test_periodic_checkpoint_while_work_is_running (test_execution_cli.EngineTests.test_periodic_checkpoint_while_work_is_running) ... ok
+test_project_isolation_and_lock (test_execution_cli.EngineTests.test_project_isolation_and_lock) ... ok
+test_resume_scope_change_prunes_queue_and_results (test_execution_cli.EngineTests.test_resume_scope_change_prunes_queue_and_results) ... ok
+test_review_queue_grows_on_resume_preserving_decisions (test_execution_cli.EngineTests.test_review_queue_grows_on_resume_preserving_decisions) ... ok
+test_structurally_invalid_checkpoint_rejected (test_execution_cli.EngineTests.test_structurally_invalid_checkpoint_rejected) ... ok
+test_subfinding_filters_before_probing_and_exports (test_execution_cli.EngineTests.test_subfinding_filters_before_probing_and_exports) ... ok
+test_unknown_input_or_module_not_started (test_execution_cli.EngineTests.test_unknown_input_or_module_not_started) ... ok
+test_429_bounded_retries (test_http_scanners.HTTPTests.test_429_bounded_retries) ... ok
+test_cache_ttl_and_no_store (test_http_scanners.HTTPTests.test_cache_ttl_and_no_store) ... ok
+test_dns_not_reresolved_during_connect (test_http_scanners.HTTPTests.test_dns_not_reresolved_during_connect) ... ok
+test_dns_private_blocked_before_socket (test_http_scanners.HTTPTests.test_dns_private_blocked_before_socket) ... ok
+test_limiter_spacing_and_retry_after (test_http_scanners.HTTPTests.test_limiter_spacing_and_retry_after) ... ok
+test_origin_separate_cache (test_http_scanners.HTTPTests.test_origin_separate_cache) ... ok
+test_peer_mismatch (test_http_scanners.HTTPTests.test_peer_mismatch) ... ok
+test_redirect_each_hop_and_loop (test_http_scanners.HTTPTests.test_redirect_each_hop_and_loop) ... ok
+test_redirect_out_of_scope (test_http_scanners.HTTPTests.test_redirect_out_of_scope) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_reject_before_transport (test_http_scanners.HTTPTests.test_reject_before_transport) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_stalled_dns_is_bounded_and_does_not_accumulate_threads (test_http_scanners.HTTPTests.test_stalled_dns_is_bounded_and_does_not_accumulate_threads) ... ok
+test_timeout_retry (test_http_scanners.HTTPTests.test_timeout_retry) ... ok
+test_actual_http_loopback_requires_explicit_cidr (test_http_scanners.LocalLabTests.test_actual_http_loopback_requires_explicit_cidr) ... {"event":"scope_blocked","stage":"destination"}
+ok
+test_local_workflow_discovery_checks_and_reports (test_http_scanners.LocalLabTests.test_local_workflow_discovery_checks_and_reports) ... ok
+test_classifier (test_http_scanners.ScannerTests.test_classifier) ... ok
+test_cookie_values_never_stored (test_http_scanners.ScannerTests.test_cookie_values_never_stored) ... ok
+test_cors_wildcard_not_vulnerability (test_http_scanners.ScannerTests.test_cors_wildcard_not_vulnerability) ... ok
+test_encoded_reflection_not_vulnerability (test_http_scanners.ScannerTests.test_encoded_reflection_not_vulnerability) ... ok
+test_html_discovery_and_forms (test_http_scanners.ScannerTests.test_html_discovery_and_forms) ... ok
+test_idor_only_classifies_no_request (test_http_scanners.ScannerTests.test_idor_only_classifies_no_request) ... ok
+test_javascript_static_references (test_http_scanners.ScannerTests.test_javascript_static_references) ... ok
+test_observed_query_is_not_lost_when_same_field_appears_in_form (test_http_scanners.ScannerTests.test_observed_query_is_not_lost_when_same_field_appears_in_form) ... ok
+test_secret_values_masked (test_http_scanners.ScannerTests.test_secret_values_masked) ... ok
+test_sensitive_and_mutative_urls_rejected (test_http_scanners.ScannerTests.test_sensitive_and_mutative_urls_rejected) ... ok
+test_smart_filters_post_xss (test_http_scanners.ScannerTests.test_smart_filters_post_xss) ... ok
+test_xss_reflection_never_verified (test_http_scanners.ScannerTests.test_xss_reflection_never_verified) ... ok
+test_all_domains_without_inputs_still_have_final_error_summary (test_multidomain.DomainExecutionTests.test_all_domains_without_inputs_still_have_final_error_summary) ... ok
+test_cache_body_is_released_after_domain_finishes (test_multidomain.DomainExecutionTests.test_cache_body_is_released_after_domain_finishes) ... ok
+test_creation_folders_and_unauthorized_manual_folder (test_multidomain.DomainExecutionTests.test_creation_folders_and_unauthorized_manual_folder) ... ok
+test_diff_between_domains_rejected (test_multidomain.DomainExecutionTests.test_diff_between_domains_rejected) ... ok
+test_domain_failure_does_not_block_next_domain (test_multidomain.DomainExecutionTests.test_domain_failure_does_not_block_next_domain) ... {"event": "domain_failed", "project": "Demo", "domain": "example.com", "type": "RuntimeError"}
+ok
+test_every_implemented_module_saves_in_its_domain (test_multidomain.DomainExecutionTests.test_every_implemented_module_saves_in_its_domain) ... ok
+test_exact_root_does_not_imply_wildcard (test_multidomain.DomainExecutionTests.test_exact_root_does_not_imply_wildcard) ... ok
+test_export_failure_is_saved_as_failed_without_losing_findings (test_multidomain.DomainExecutionTests.test_export_failure_is_saved_as_failed_without_losing_findings) ... ok
+test_fully_denied_roots_not_selectable (test_multidomain.DomainExecutionTests.test_fully_denied_roots_not_selectable) ... ok
+test_incomplete_legacy_run_can_resume_for_only_one_domain (test_multidomain.DomainExecutionTests.test_incomplete_legacy_run_can_resume_for_only_one_domain) ... ok
+test_interrupt_keeps_other_domains_pending_and_resume_isolated (test_multidomain.DomainExecutionTests.test_interrupt_keeps_other_domains_pending_and_resume_isolated) ... ok
+test_latest_projection_updates_without_replacing_previous_runs (test_multidomain.DomainExecutionTests.test_latest_projection_updates_without_replacing_previous_runs) ... ok
+test_legacy_export_without_checkpoint_is_imported_without_fabricated_findings (test_multidomain.DomainExecutionTests.test_legacy_export_without_checkpoint_is_imported_without_fabricated_findings) ... ok
+test_legacy_run_migration_preserves_originals_and_is_idempotent (test_multidomain.DomainExecutionTests.test_legacy_run_migration_preserves_originals_and_is_idempotent) ... ok
+test_non_implemented_scanner_never_sends_request (test_multidomain.DomainExecutionTests.test_non_implemented_scanner_never_sends_request) ... ok
+test_open_projects_is_read_only_and_never_scans (test_multidomain.DomainExecutionTests.test_open_projects_is_read_only_and_never_scans) ... ok
+test_overlapping_roots_have_single_owner (test_multidomain.DomainExecutionTests.test_overlapping_roots_have_single_owner) ... ok
+test_project_creation_full_interactive_paste (test_multidomain.DomainExecutionTests.test_project_creation_full_interactive_paste) ... ok
+test_rate_budget_is_preserved_when_switching_domains (test_multidomain.DomainExecutionTests.test_rate_budget_is_preserved_when_switching_domains) ... ok
+test_redirect_cannot_cross_selected_domain_even_if_project_allows_it (test_multidomain.DomainExecutionTests.test_redirect_cannot_cross_selected_domain_even_if_project_allows_it) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_resume_cannot_load_another_domain_checkpoint (test_multidomain.DomainExecutionTests.test_resume_cannot_load_another_domain_checkpoint) ... ok
+test_scope_change_archives_previous_checkpoint_before_filtering_findings (test_multidomain.DomainExecutionTests.test_scope_change_archives_previous_checkpoint_before_filtering_findings) ... ok
+test_sequential_three_domains_separate_outputs (test_multidomain.DomainExecutionTests.test_sequential_three_domains_separate_outputs) ... ok
+test_user_modified_projection_is_not_overwritten (test_multidomain.DomainExecutionTests.test_user_modified_projection_is_not_overwritten) ... {"event": "export_preserved", "project": "Demo", "domain": "example.com", "reason": "File esistente o modificato: consultare la run"}
+ok
+test_wildcard_only_root_never_authorizes_apex (test_multidomain.DomainExecutionTests.test_wildcard_only_root_never_authorizes_apex) ... ok
+test_installer_launcher_and_existing_external_command (test_multidomain.InstallationTests.test_installer_launcher_and_existing_external_command) ... skipped 'Richiede Bash e filesystem POSIX; eseguire anche su Kali'
+test_installer_syntax (test_multidomain.InstallationTests.test_installer_syntax) ... skipped 'Richiede Bash e filesystem POSIX; eseguire anche su Kali'
+test_python_entry_point_from_another_directory (test_multidomain.InstallationTests.test_python_entry_point_from_another_directory) ... ok
+test_deduplication_and_wildcards_remain_explicit (test_multidomain.RuleInputTests.test_deduplication_and_wildcards_remain_explicit) ... ok
+test_denied_paste_and_duplicates_across_batches (test_multidomain.RuleInputTests.test_denied_paste_and_duplicates_across_batches) ... ok
+test_full_paste_is_consumed_before_returning_to_menu (test_multidomain.RuleInputTests.test_full_paste_is_consumed_before_returning_to_menu) ... ok
+test_interrupted_batch_keeps_domains (test_multidomain.RuleInputTests.test_interrupted_batch_keeps_domains) ... ok
+test_invalid_and_ambiguous_text (test_multidomain.RuleInputTests.test_invalid_and_ambiguous_text) ... ok
+test_invalid_csv_item_does_not_discard_other_explicit_domains (test_multidomain.RuleInputTests.test_invalid_csv_item_does_not_discard_other_explicit_domains) ... ok
+test_one_domain (test_multidomain.RuleInputTests.test_one_domain) ... ok
+test_six_lines_and_separators (test_multidomain.RuleInputTests.test_six_lines_and_separators) ... ok
+test_url_path_is_preserved_and_table (test_multidomain.RuleInputTests.test_url_path_is_preserved_and_table) ... ok
+test_invalid_input_then_back (test_multidomain.SelectionTests.test_invalid_input_then_back) ... ok
+test_manual_numbers_and_range (test_multidomain.SelectionTests.test_manual_numbers_and_range) ... ok
+test_numbers_ranges_and_invalid_limits (test_multidomain.SelectionTests.test_numbers_ranges_and_invalid_limits) ... ok
+test_select_all (test_multidomain.SelectionTests.test_select_all) ... ok
+test_zero_selection_rejected_and_toggle_preserves_state (test_multidomain.SelectionTests.test_zero_selection_rejected_and_toggle_preserves_state) ... ok
+test_exact_does_not_allow_children (test_scope_storage.ScopeTests.test_exact_does_not_allow_children) ... ok
+test_excluded_exact_does_not_exclude_children (test_scope_storage.ScopeTests.test_excluded_exact_does_not_exclude_children) ... ok
+test_explicit_lab_network_still_requires_hostname (test_scope_storage.ScopeTests.test_explicit_lab_network_still_requires_hostname) ... ok
+test_fingerprint_changes_with_scope (test_scope_storage.ScopeTests.test_fingerprint_changes_with_scope) ... ok
+test_idna_and_duplicates (test_scope_storage.ScopeTests.test_idna_and_duplicates) ... ok
+test_invalid_rules (test_scope_storage.ScopeTests.test_invalid_rules) ... ok
+test_invalid_urls (test_scope_storage.ScopeTests.test_invalid_urls) ... ok
+test_scope_matrix (test_scope_storage.ScopeTests.test_scope_matrix) ... ok
+test_special_ips (test_scope_storage.ScopeTests.test_special_ips) ... ok
+test_url_normalization (test_scope_storage.ScopeTests.test_url_normalization) ... ok
+test_wildcard_excludes_apex (test_scope_storage.ScopeTests.test_wildcard_excludes_apex) ... ok
+test_bad_names (test_scope_storage.StorageTests.test_bad_names) ... ok
+test_config_defaults_and_validation (test_scope_storage.StorageTests.test_config_defaults_and_validation) ... ok
+test_corrupt_json (test_scope_storage.StorageTests.test_corrupt_json) ... ok
+test_creation_and_utc (test_scope_storage.StorageTests.test_creation_and_utc) ... ok
+test_duplicate_preserves_data (test_scope_storage.StorageTests.test_duplicate_preserves_data) ... ok
+test_interrupted_atomic_write_preserves_previous (test_scope_storage.StorageTests.test_interrupted_atomic_write_preserves_previous) ... ok
+test_symlink (test_scope_storage.StorageTests.test_symlink) ... skipped 'Creazione symlink non consentita dal sistema'
+test_traversal (test_scope_storage.StorageTests.test_traversal) ... ok
+test_a_aaaa_cname_and_cache_ttl (test_v3.DNSTests.test_a_aaaa_cname_and_cache_ttl) ... ok
+test_nxdomain_timeout_and_noanswer (test_v3.DNSTests.test_nxdomain_timeout_and_noanswer) ... ok
+test_out_of_scope_is_not_resolved (test_v3.DNSTests.test_out_of_scope_is_not_resolved) ... ok
+test_wildcard_evidence_is_not_a_verified_finding (test_v3.DNSTests.test_wildcard_evidence_is_not_a_verified_finding) ... ok
+test_wildcard_samples_require_authorization (test_v3.DNSTests.test_wildcard_samples_require_authorization) ... ok
+test_direct_paste_at_domain_menu_is_consumed_as_one_batch (test_v3.DiscoveryV3Tests.test_direct_paste_at_domain_menu_is_consumed_as_one_batch) ... ok
+test_json_response_fields_are_not_automatically_request_inputs (test_v3.DiscoveryV3Tests.test_json_response_fields_are_not_automatically_request_inputs) ... ok
+test_rest_path_identifier_and_smart_reasons (test_v3.DiscoveryV3Tests.test_rest_path_identifier_and_smart_reasons) ... ok
+test_robots_is_informational_and_still_scoped (test_v3.DiscoveryV3Tests.test_robots_is_informational_and_still_scoped) ... ok
+test_sitemap_scope_and_external_entities (test_v3.DiscoveryV3Tests.test_sitemap_scope_and_external_entities) ... ok
+test_real_http_crawler_reads_robots_sitemap_and_json_without_post (test_v3.LocalCrawlerTests.test_real_http_crawler_reads_robots_sitemap_and_json_without_post) ... ok
+test_certificate_wildcard_never_becomes_a_concrete_host (test_v3.PassiveTests.test_certificate_wildcard_never_becomes_a_concrete_host) ... ok
+test_certspotter_pagination_and_provenance (test_v3.PassiveTests.test_certspotter_pagination_and_provenance) ... ok
+test_crtsh_adapter_normalizes_deduplicates_and_excludes_unrelated_sans (test_v3.PassiveTests.test_crtsh_adapter_normalizes_deduplicates_and_excludes_unrelated_sans) ... ok
+test_invalid_provider_and_ip_seeds (test_v3.PassiveTests.test_invalid_provider_and_ip_seeds) ... ok
+test_missing_schema_fields_are_errors_not_successful_empty_results (test_v3.PassiveTests.test_missing_schema_fields_are_errors_not_successful_empty_results) ... ok
+test_provider_failure_retains_previous_page (test_v3.PassiveTests.test_provider_failure_retains_previous_page) ... ok
+test_provider_redirect_cannot_contact_another_host (test_v3.PassiveTests.test_provider_redirect_cannot_contact_another_host) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_unavailable_invalid_and_truncated_providers (test_v3.PassiveTests.test_unavailable_invalid_and_truncated_providers) ... ok
+test_empty_provider_results_report_zero_not_seed (test_v3.ReconEngineTests.test_empty_provider_results_report_zero_not_seed) ... ok
+test_interrupted_source_is_resumed_without_losing_first_source (test_v3.ReconEngineTests.test_interrupted_source_is_resumed_without_losing_first_source) ... ok
+test_optional_file_prompt_produces_dns_tasks_and_accepts_custom_urls (test_v3.ReconEngineTests.test_optional_file_prompt_produces_dns_tasks_and_accepts_custom_urls) ... ok
+test_provider_error_continues_with_second_source (test_v3.ReconEngineTests.test_provider_error_continues_with_second_source) ... ok
+test_provider_errors_survive_resume_with_wildcard_only_scope (test_v3.ReconEngineTests.test_provider_errors_survive_resume_with_wildcard_only_scope) ... ok
+test_seed_is_not_discovered_and_outside_host_never_receives_dns_or_http (test_v3.ReconEngineTests.test_seed_is_not_discovered_and_outside_host_never_receives_dns_or_http) ... ok
+test_smart_refusal_never_starts_network (test_v3.ReconEngineTests.test_smart_refusal_never_starts_network) ... ok
+test_url_scoped_dns_tasks_only_generate_the_authorized_path (test_v3.ReconEngineTests.test_url_scoped_dns_tasks_only_generate_the_authorized_path) ... ok
+test_wildcard_only_scope_can_start_passive_recon_without_apex_probe (test_v3.ReconEngineTests.test_wildcard_only_scope_can_start_passive_recon_without_apex_probe) ... ok
+test_cookie_policy_is_recorded_without_session_values (test_v3.ScannerV3Tests.test_cookie_policy_is_recorded_without_session_values) ... ok
+test_cors_requires_repeat_and_records_vary (test_v3.ScannerV3Tests.test_cors_requires_repeat_and_records_vary) ... ok
+test_high_entropy_candidate_and_configuration_reference_are_minimized (test_v3.ScannerV3Tests.test_high_entropy_candidate_and_configuration_reference_are_minimized) ... ok
+test_schema_contains_verification_confidence_and_unknown_severity (test_v3.ScannerV3Tests.test_schema_contains_verification_confidence_and_unknown_severity) ... ok
+test_sqli_repeats_observed_error_without_modifying_input (test_v3.ScannerV3Tests.test_sqli_repeats_observed_error_without_modifying_input) ... ok
+test_sqli_unstable_error_and_plain_200_are_not_findings (test_v3.ScannerV3Tests.test_sqli_unstable_error_and_plain_200_are_not_findings) ... ok
+test_unstable_xss_is_not_potential (test_v3.ScannerV3Tests.test_unstable_xss_is_not_potential) ... ok
+test_blocked_request_is_logged_before_transport (test_v3.ScopePathTests.test_blocked_request_is_logged_before_transport) ... ok
+test_parser_preserves_paths_and_rejects_ambiguous_query_rule (test_v3.ScopePathTests.test_parser_preserves_paths_and_rejects_ambiguous_query_rule) ... ok
+test_path_and_origin_are_enforced_after_target_binding (test_v3.ScopePathTests.test_path_and_origin_are_enforced_after_target_binding) ... ok
+test_project_roundtrip_preserves_restrictions (test_v3.ScopePathTests.test_project_roundtrip_preserves_restrictions) ... ok
+test_sensitive_or_mutative_redirect_is_blocked_before_second_request (test_v3.ScopePathTests.test_sensitive_or_mutative_redirect_is_blocked_before_second_request) ... {"event":"scope_blocked","stage":"url"}
+{"event":"scope_blocked","stage":"url"}
+ok
+test_duplicate_callback_is_a_single_unique_event (test_v4.CallbackEdgeTests.test_duplicate_callback_is_a_single_unique_event) ... ok
+test_wrong_callback_nonce_cannot_verify (test_v4.CallbackEdgeTests.test_wrong_callback_nonce_cannot_verify) ... ok
+test_access_login_html_200_is_not_a_violation (test_v4.ControlledEdgeTests.test_access_login_html_200_is_not_a_violation) ... ok
+test_idor_denied_with_two_valid_session_references (test_v4.ControlledEdgeTests.test_idor_denied_with_two_valid_session_references) ... ok
+test_idor_missing_resource_is_inconclusive (test_v4.ControlledEdgeTests.test_idor_missing_resource_is_inconclusive) ... ok
+test_session_expiring_during_access_comparison_is_not_clean (test_v4.ControlledEdgeTests.test_session_expiring_during_access_comparison_is_not_clean) ... ok
+test_sql_denied_responses_are_not_negative_or_potential (test_v4.ControlledEdgeTests.test_sql_denied_responses_are_not_negative_or_potential) ... ok
+test_sql_unstable_baseline_is_not_potential (test_v4.ControlledEdgeTests.test_sql_unstable_baseline_is_not_potential) ... ok
+test_traversal_unstable_baseline_cannot_verify_canary_read (test_v4.ControlledEdgeTests.test_traversal_unstable_baseline_cannot_verify_canary_read) ... ok
+test_xss_post_without_explicit_authorization_is_rejected (test_v4.ControlledEdgeTests.test_xss_post_without_explicit_authorization_is_rejected) ... ok
+test_no_nameservers_is_not_domain_absence (test_v4.DNSEdgeTests.test_no_nameservers_is_not_domain_absence) ... ok
+test_nxdomain_is_domain_absence (test_v4.DNSEdgeTests.test_nxdomain_is_domain_absence) ... ok
+test_servfail_requires_a_real_dns_response_code (test_v4.DNSEdgeTests.test_servfail_requires_a_real_dns_response_code) ... ok
+test_socket_error_is_not_domain_absence (test_v4.DNSEdgeTests.test_socket_error_is_not_domain_absence) ... ok
+test_timeout_is_explicit (test_v4.DNSEdgeTests.test_timeout_is_explicit) ... ok
+test_canonical_is_identified (test_v4.InventoryTests.test_canonical_is_identified) ... ok
+test_entropy_alone_is_not_a_secret (test_v4.InventoryTests.test_entropy_alone_is_not_a_secret) ... ok
+test_failed_provider_does_not_mean_the_seed_http_is_unreachable (test_v4.InventoryTests.test_failed_provider_does_not_mean_the_seed_http_is_unreachable) ... ok
+test_historical_export_stays_unreached_and_deduplicated (test_v4.InventoryTests.test_historical_export_stays_unreached_and_deduplicated) ... ok
+test_host_states_do_not_confuse_discovery_with_reachability (test_v4.InventoryTests.test_host_states_do_not_confuse_discovery_with_reachability) ... ok
+test_hsts_disabled_and_downgrade_are_observations (test_v4.InventoryTests.test_hsts_disabled_and_downgrade_are_observations) ... ok
+test_js_comments_and_dynamic_templates_are_not_queued (test_v4.InventoryTests.test_js_comments_and_dynamic_templates_are_not_queued) ... ok
+test_js_fetch_relative_xhr_and_generic_strings (test_v4.InventoryTests.test_js_fetch_relative_xhr_and_generic_strings) ... ok
+test_observed_graphql_does_not_trigger_queries (test_v4.InventoryTests.test_observed_graphql_does_not_trigger_queries) ... ok
+test_openapi_is_inventory_without_sending_operations (test_v4.InventoryTests.test_openapi_is_inventory_without_sending_operations) ... ok
+test_provider_raw_unique_and_seed_counts (test_v4.InventoryTests.test_provider_raw_unique_and_seed_counts) ... ok
+test_sensitive_duplicates_are_not_distinct_exposures (test_v4.InventoryTests.test_sensitive_duplicates_are_not_distinct_exposures) ... ok
+test_smart_aggregate_deduplicates_findings_within_domain (test_v4.InventoryTests.test_smart_aggregate_deduplicates_findings_within_domain) ... ok
+test_smart_rejects_checkpoint_from_a_different_domain (test_v4.InventoryTests.test_smart_rejects_checkpoint_from_a_different_domain) ... ok
+test_smart_unavailable_module_does_not_mutate_or_save (test_v4.InventoryTests.test_smart_unavailable_module_does_not_mutate_or_save) ... ok
+test_truncated_xss_is_not_potential (test_v4.InventoryTests.test_truncated_xss_is_not_potential) ... ok
+test_ambiguous_framing_is_rejected (test_v4.WireTests.test_ambiguous_framing_is_rejected) ... ok
+test_chunked_response_is_decoded (test_v4.WireTests.test_chunked_response_is_decoded) ... ok
+test_compression_bomb_is_bounded_and_truncated (test_v4.WireTests.test_compression_bomb_is_bounded_and_truncated) ... ok
+test_concatenated_compression_is_rejected (test_v4.WireTests.test_concatenated_compression_is_rejected) ... ok
+test_explicit_post_echo_has_no_cache_or_method_leak (test_v4.WireTests.test_explicit_post_echo_has_no_cache_or_method_leak) ... ok
+test_head_does_not_wait_for_or_cache_a_body (test_v4.WireTests.test_head_does_not_wait_for_or_cache_a_body) ... ok
+test_incomplete_compressed_stream_is_rejected (test_v4.WireTests.test_incomplete_compressed_stream_is_rejected) ... ok
+test_post_error_is_never_retried (test_v4.WireTests.test_post_error_is_never_retried) ... ok
+test_post_redirect_is_not_replayed (test_v4.WireTests.test_post_redirect_is_not_replayed) ... ok
+test_post_requires_exact_authorization_before_transport (test_v4.WireTests.test_post_requires_exact_authorization_before_transport) ... ok
+test_real_deflate (test_v4.WireTests.test_real_deflate) ... ok
+test_real_gzip (test_v4.WireTests.test_real_gzip) ... ok
+test_real_preflight_allowed (test_v4.WireTests.test_real_preflight_allowed) ... ok
+test_real_preflight_denied (test_v4.WireTests.test_real_preflight_denied) ... ok
+test_request_ids_are_unique_and_not_body_values (test_v4.WireTests.test_request_ids_are_unique_and_not_body_values) ... ok
+test_short_content_length_is_not_a_successful_partial_body (test_v4.WireTests.test_short_content_length_is_not_a_successful_partial_body) ... ok
+test_tls_verification_failure_is_identifiable_and_not_retried (test_v4.WireTests.test_tls_verification_failure_is_identifiable_and_not_retried) ... ok
+test_actual_expired_certificate_is_rejected (test_v4_tls.TLSTests.test_actual_expired_certificate_is_rejected) ... ok
+test_actual_valid_certificate_is_verified (test_v4_tls.TLSTests.test_actual_valid_certificate_is_verified) ... ok
+test_actual_wrong_hostname_is_rejected (test_v4_tls.TLSTests.test_actual_wrong_hostname_is_rejected) ... ok
+test_direct_proof_has_explained_review_priority_not_cvss (test_v5.AssessmentTests.test_direct_proof_has_explained_review_priority_not_cvss) ... ok
+test_false_positive_is_low_priority_and_zero_score (test_v5.AssessmentTests.test_false_positive_is_low_priority_and_zero_score) ... ok
+test_human_false_positive_preserves_automated_observation (test_v5.AssessmentTests.test_human_false_positive_preserves_automated_observation) ... ok
+test_incomplete_response_is_inconclusive (test_v5.AssessmentTests.test_incomplete_response_is_inconclusive) ... ok
+test_normalized_parameter_order_has_same_issue_fingerprint (test_v5.AssessmentTests.test_normalized_parameter_order_has_same_issue_fingerprint) ... ok
+test_verified_label_without_evidence_is_not_high_priority (test_v5.AssessmentTests.test_verified_label_without_evidence_is_not_high_priority) ... ok
+test_absent_finding_is_unresolved_even_incomplete (test_v5.DiffTests.test_absent_finding_is_unresolved_even_incomplete) ... ok
+test_failed_provider_cannot_prove_removal (test_v5.DiffTests.test_failed_provider_cannot_prove_removal) ... ok
+test_incomplete_baseline_cannot_produce_a_complete_comparison (test_v5.DiffTests.test_incomplete_baseline_cannot_produce_a_complete_comparison) ... ok
+test_method_and_parameter_change (test_v5.DiffTests.test_method_and_parameter_change) ... ok
+test_new_host_and_unchanged_host (test_v5.DiffTests.test_new_host_and_unchanged_host) ... ok
+test_random_nonce_is_not_a_changed_issue (test_v5.DiffTests.test_random_nonce_is_not_a_changed_issue) ... ok
+test_request_ids_and_timestamps_are_not_finding_changes (test_v5.DiffTests.test_request_ids_and_timestamps_are_not_finding_changes) ... ok
+test_cookie_and_header_inventory_never_stores_values (test_v5.DiscoveryTests.test_cookie_and_header_inventory_never_stores_values) ... ok
+test_cookie_attributes_are_shared_by_authentication_and_misconfiguration (test_v5.DiscoveryTests.test_cookie_attributes_are_shared_by_authentication_and_misconfiguration) ... ok
+test_crawler_exports_historical_without_verification_and_network_as_verified (test_v5.DiscoveryTests.test_crawler_exports_historical_without_verification_and_network_as_verified) ... ok
+test_openapi_servers_and_swagger_basepath_are_respected_without_requests (test_v5.DiscoveryTests.test_openapi_servers_and_swagger_basepath_are_respected_without_requests) ... ok
+test_expected_allowed_access_does_not_report_a_vulnerability (test_v5.PermissionMatrixTests.test_expected_allowed_access_does_not_report_a_vulnerability) ... ok
+test_unexpected_denial_is_review_not_a_verified_security_violation (test_v5.PermissionMatrixTests.test_unexpected_denial_is_review_not_a_verified_security_violation) ... ok
+test_discovery_reuse_requires_compatible_config_in_smart_mode (test_v5.SmartCompatibilityTests.test_discovery_reuse_requires_compatible_config_in_smart_mode) ... ok
+test_module_version_change_rejects_plan_resume (test_v5.SmartCompatibilityTests.test_module_version_change_rejects_plan_resume) ... ok
+test_external_cancel_does_not_mark_an_uncommitted_worker_completed (test_v5.WorkerTests.test_external_cancel_does_not_mark_an_uncommitted_worker_completed) ... {"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T162833_249838Z_ac980293"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261017T162833_249838Z_ac980293"}
+ok
+test_fixture_and_session_tasks_are_not_dispatched_concurrently (test_v5.WorkerTests.test_fixture_and_session_tasks_are_not_dispatched_concurrently) ... ok
+test_interrupt_preserves_inflight_tasks_and_resume_has_no_lost_results (test_v5.WorkerTests.test_interrupt_preserves_inflight_tasks_and_resume_has_no_lost_results) ... ok
+test_parallel_limiter_does_not_burst (test_v5.WorkerTests.test_parallel_limiter_does_not_burst) ... ok
+test_two_domains_share_global_budget_and_keep_reports_isolated (test_v5.WorkerTests.test_two_domains_share_global_budget_and_keep_reports_isolated) ... ok
+test_workers_really_overlap_and_respect_host_limit (test_v5.WorkerTests.test_workers_really_overlap_and_respect_host_limit) ... ok
+test_real_a_aaaa_cname_and_ttl_cache (test_v5_dns.LocalDNSTests.test_real_a_aaaa_cname_and_ttl_cache) ... ok
+test_real_dns_wildcard_is_observed (test_v5_dns.LocalDNSTests.test_real_dns_wildcard_is_observed) ... ok
+test_real_nxdomain_is_not_a_transport_failure (test_v5_dns.LocalDNSTests.test_real_nxdomain_is_not_a_transport_failure) ... ok
+test_real_servfail_is_not_nonexistent_domain (test_v5_dns.LocalDNSTests.test_real_servfail_is_not_nonexistent_domain) ... ok
+
+----------------------------------------------------------------------
+Ran 281 tests in 72.011s
+
+OK (skipped=3)

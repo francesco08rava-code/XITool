@@ -1,0 +1,4 @@
+http:
+  allowed_ports: [80, 443, 8080, 8082]
+  requests_per_second: 2
+  max_retries: 0

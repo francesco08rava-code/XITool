@@ -1,178 +1,132 @@
-# XITool 2.0.0a2
+# XITool 5.2.0a1 — consolidamento Alpha
 
-Toolkit CLI Python per ricognizione e verifiche web autorizzate, con risultati e checkpoint separati per dominio. Versione alpha: gli scanner parziali sono indicati esplicitamente e nessun risultato viene dichiarato automaticamente `VERIFIED`. Non usa Subfinder o Dalfox.
+Aggiornamento direttamente sul progetto esistente. Menu e dati precedenti preservati. Laboratorio integrato dei 13 componenti, catalogo etichettato per contratto, regressione CORS senza ACAO corretta, AST const/alias/scope, URL statici non accodati automaticamente, stati CT e tassonomia errori, DNS globalmente bounded e confronto timeout ripetuto.
+
+Avvio dalla cartella: `python main.py`. Installazione su Kali in checkout scrivibile: `bash install.sh`, quindi `XITool --version`, `XITool --help`, `XITool`. La verifica completa si prepara con `bash verify_kali.sh --browser --javascript`. **Kali nativo non è stato verificato da questa sessione Windows.**
+
+Il console script è installato editable nel venv, con collegamento utente ~/.local/bin/XITool. Non si sovrascrivono comandi esterni. Controllare `type -a XITool` nella propria shell per alias/conflitti; nessuna modifica automatica a .zshrc. Dopo spostamento del checkout ricreare/reinstallare il venv. Pip opera nel venv, non nel Python di sistema.
+
+Dipendenze browser/AST facoltative: requirements-browser.txt / requirements-javascript.txt. `python benchmarks/validate_integrated.py` richiede browser disponibile e salva i risultati/dataset V52. Per la suite completa: `XITOOL_BROWSER_TESTS=1 python -m unittest discover -s tests -v`. Su Windows impostare la variabile con la sintassi della propria shell; Chrome disponibile con XITOOL_BROWSER_CHANNEL=chrome.
+
+Fonti CT predefinite crtsh/certspotter, configurabili tramite discovery.ct_providers (anche [] per disabilitarle). I nuovi stati distinguono successo vuoto, errore, rate limit e timeout; nessun provider aggiuntivo viene contattato. http.retry_jitter_seconds opzionale 0–1, default 0. I rate di produzione restano 2 richieste/s e cap host 2.
+
+Dettagli verificabili: verification/V52_FINAL_REPORT.md, V52_E2E_REPORT.md, V52_ACCURACY_REPORT.md e V52_PERFORMANCE_REPORT.md. Rimane Alpha: nessuna accuratezza generale dedotta dalle fixture, nessun completamento universale dei 13 scanner e nessun commit/push automatico. Le sezioni seguenti sono documentazione storica.
+
+---
+
+# XITool 5.1.0a1 — aggiornamento sperimentale
+
+Modifiche V5.1: identità input distinta per posizione, metodi/parametri OpenAPI (dichiarazioni separate da richieste osservate), parser JavaScript AST opzionale, prova DOM XSS da frammento su laboratorio, SQL form/JSON read-only su fixture, matrice permessi, Permissions-Policy, firme versionate, feedback rate non bloccato dalle attese, diff DNS/API e pulizia con anteprima/conferma.
+
+Il menu principale resta invariato. Pulizia sicura è nel sottomenu risultati dopo un'esecuzione; APRI PROGETTI resta in sola lettura. L'anteprima conserva risultati, checkpoint e configurazioni. I cache HTTP correnti sono in memoria; nessuna falsa promessa di spazio recuperabile. File disco sconosciuti sono protetti. I namespace gestiti .xitool-cache/.xitool-tmp/.xitool-logs richiedono un marcatore di proprietà e nomi/retention compatibili; non aggiungere marcatori a cartelle di documenti personali.
+
+Per il parser AST opzionale: `python -m pip install -r requirements-javascript.txt`. Senza dipendenze opzionali rimane la discovery letterale precedente. L'AST non valuta script, non risolve ancora costanti/alias/flussi dinamici e non prova la raggiungibilità.
+
+Su Kali: `bash verify_kali.sh --browser --javascript`. Lo script produce KALI_SUMMARY.json e log separati. La compatibilità nativa va provata nella VM; non è dimostrata dai test Windows.
+
+I checkpoint V5 restano consultabili; la ripresa dopo cambio versione richiede una nuova run. Nessuna migrazione distruttiva. Dettagli e limiti: verification/V51_AUDIT.md e verification/V51_FINAL_REPORT.md. Le informazioni V5 sotto sono storiche.
+
+---
+
+# XITool 5.0.0a1
+
+CLI per ricognizione e verifiche web su asset autorizzati. Report corrente: [V5_REPORT.md](V5_REPORT.md); audit iniziale: [V5_AUDIT.md](V5_AUDIT.md). Questa è una **alpha**: capacità operative e limitazioni sono descritte separatamente, senza promettere copertura universale o compatibilità Kali già verificata.
 
 ## Installazione e avvio
 
-Kali Linux, Python **3.10+**, modulo `venv` e accesso a PyPI durante l'installazione. Unica dipendenza: PyYAML 6.x. Non sono necessari privilegi root per installare il progetto.
+Kali, nella copia aggiornata e scrivibile del progetto:
 
 ```bash
 cd ~/XITool-git
 bash install.sh
-.venv/bin/python main.py
+./.venv/bin/XITool
 ```
 
-L'installer crea l'ambiente, installa le dipendenze ed esegue i test prima di completare l'installazione. Rifiuta cartelle in sola lettura e riconosce una `.venv` Windows incompatibile con Kali. Le impostazioni tecniche restano in `config.yaml`; non esiste un menu Settings.
+Da qualsiasi directory: `~/XITool-git/.venv/bin/XITool`. L'installer crea `~/.local/bin/XITool` se assente e conserva launcher preesistenti. Se il comando globale apre una vecchia copia, usare il percorso esplicito; verificare `XITool --version` e il PATH. Non riutilizzare la .venv Windows su Kali. Python 3.10+, python3-venv; base PyYAML/dnspython.
 
-Genera anche `.venv/bin/XITool`, utilizzabile da qualsiasi directory. Se `~/.local/bin/XITool` non esiste, crea un collegamento a questo launcher. Un comando preesistente, anche configurato esternamente, viene conservato: se punta a un'altra copia continuerà ad avviarla. Per scegliere esplicitamente questa installazione:
+Windows, terminale VS Code:
+
+```powershell
+cd C:\Users\Pc\Desktop\XITool
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe main.py --version
+.\.venv\Scripts\python.exe main.py
+```
+
+Nessun commit o push automatico. `git pull` su Kali riceverà questi cambiamenti soltanto dopo la loro pubblicazione da parte dell'operatore.
+
+## Utilizzo
+
+Il menu principale resta CREA PROGETTO, APRI PROGETTI, ESECUZIONE, ESCI. Domini multipli/incollaggio multilinea, deny, selezione multipla e intervalli. APRI PROGETTI consulta soltanto i risultati; mostra anche CRAWLER / INPUT DISCOVERY quando disponibile. ESECUZIONE richiede conferma del piano.
+
+Struttura: `targets/PROGETTO/scope.json`, poi `DOMINIO/subfinding`, `crawler`, moduli, `runs`, `reports`. Smart salva i piani in `PROGETTO/plans`; i report aggregati dei batch in `PROGETTO/reports/batch_*.json/md/txt`. Le viste correnti non sovrascrivono file personali modificati: la run originale conserva gli output.
+
+## Scope e trasporto
+
+- Host esatto e wildcard sono distinti; `*.example.com` non autorizza l'apex. I deny prevalgono. Una scoperta non autorizza l'host.
+- Scope URL conserva schema/porta/percorso; IP speciali richiedono CIDR espliciti. Porte non standard richiedono configurazione.
+- Ogni richiesta/redirect passa dal validatore comune; IP risolto fissato al socket, peer controllato, TLS e hostname verificati, niente proxy ambientali.
+- URL con credenziali riconoscibili, azioni mutative note, archivi/dump e MIME binari sono esclusi. Le euristiche non riconoscono ogni azione o dato personale: fornire risorse appropriate e non URL privati.
+- GET/HEAD/OPTIONS; POST solo URL esatto autorizzato, corpo limitato e fixture XSS confermata dalla CLI. Niente retry/redirect/cache POST. Nessun invio automatico di form o mutazioni GraphQL.
+- Cache volatile anonima separata per client/scope/metodo/Origin; sessioni, Set-Cookie, private/no-store esclusi. Profili env separati, nessun trasferimento di credenziali ad altre origini.
+- Gzip e deflate zlib limitati su byte ricevuti/espansi. Framing ambiguo e compressione corrotta/incompleta rifiutati. Brotli, deflate raw e codifiche composte non supportati.
+
+## Concorrenza effettiva
+
+`config.yaml` usa 5 worker massimi, 2 richieste simultanee per host, 1 dominio simultaneo e 2 richieste/s globali. La configurazione minima della libreria mantiene 1 worker come fallback. `execution.max_concurrent_domains` è configurabile da 1 a 5; anche fra domini si condividono budget e rate. Task dello stesso dominio restano ordinati.
+
+Worker con client isolati, semafori globali/per host, coda bounded e commit dei risultati da un solo coordinatore. I casi controllati, le sessioni, DNS/provider e browser dinamico restano seriali nel singolo dominio. Il trasporto conserva il pinning IP: è usato un thread pool, non una riscrittura async.
+
+Timeout totale/connessione/lettura, massimo 1 MiB di risposta, profondità 2 e 50 attività discovery per dominio come default. `execution.max_duration_seconds=600` è un limite cooperativo: una richiesta già in volo può terminare entro il proprio timeout. Rate e Retry-After riducono il carico. Nessun aggiramento di WAF/protezioni.
+
+Ctrl+C salva lo stato dopo aver arrestato i worker. I task in volo non committati rimangono pendenti; dopo crash/interruzione possono essere ripetuti. POST/logout di fixture non hanno garanzia exactly-once. Checkpoint e Smart verificano scope, configurazione e versione: V4 incompatibili restano leggibili, ma richiedono una nuova run V5.
+
+## Ricognizione e discovery
+
+Sub Finding consulta crt.sh e CertSpotter dopo la conferma. Provenienza, stato, tempo, pagine, limiti, conteggi grezzi/unici/seed e DNS/probe separati. Fonti fallite non equivalgono a zero host. Seed mai conteggiato come nuova scoperta. Wildcard CT separate; DNS A/AAAA/CNAME, TTL, wildcard e guasti del resolver distinti.
+
+Nuove viste compatibili: seed_domains, discovered_subdomains, resolved_subdomains, live_subdomains, out_of_scope, providers.json, dns_results.json e summary.json. Restano anche i nomi precedenti. Probe con status/redirect/Content-Type/tempo/byte trattenuti/TLS; i titoli sono rilevati ma non esportati integralmente per minimizzare dati personali.
+
+Crawler: HTML, form/input non inviati, script, robots/sitemap, canonical/paginazione tramite link, JS letterale fetch/XHR/axios, JSON osservato e identificatori nei percorsi. OpenAPI considera servers/default delle variabili e Swagger basePath; GraphQL solo osservato. Nessuna operazione API generata. Cookie/header osservati come nomi e metadati, senza valori né trasformazione automatica in input attaccabili.
+
+`crawler/` contiene discovered_urls.txt, verified_urls.txt, historical_urls.txt, forms.json, parameters.json, api_endpoints.json, javascript_endpoints.json e crawl_summary.json. Uno storico può essere importato da `PROGETTO/historical_urls.txt` (1 MiB, prime 1000 righe), senza consultare servizi nuovi o visitare automaticamente gli URL. Storico, ipotesi JS, osservazioni DOM/rete e URL raggiunti sono distinti.
+
+Browser opzionale:
 
 ```bash
-~/XITool-git/.venv/bin/XITool
+./.venv/bin/python -m pip install -r requirements-browser.txt
+./.venv/bin/python -m playwright install chromium
+XITOOL_DYNAMIC_BROWSER=1 ./.venv/bin/XITool
 ```
 
-Se necessario, aggiungere la directory dei comandi al PATH del terminale: `export PATH="$HOME/.local/bin:$PATH"`.
+Contesto effimero, niente profilo personale, uscite dirette bloccate. GET document/script/fetch/xhr attraverso il client validato; massimo 10 risorse per rendering. DOM serializzato limitato dal budget risposta; nessun limite RSS rigido del processo Chromium. Niente clic, POST, WebSocket, service worker o interazioni mutative. JS è euristico, non un interprete completo. Shadow DOM e applicazioni complesse non sono interamente coperti.
 
-Installazione manuale:
+## Scanner, verifiche e priorità
+
+I 13 moduli logici sono Sub Finding, Crawler/Input Discovery, XSS, SQLi, IDOR, Access Control, SSRF, Traversal, Misconfiguration, Sensitive Data, Authentication, CORS e Smart. Dettagli, prove e limiti per ciascuno nel report V5.
+
+Le prove approfondite richiedono risorse dell'operatore, profili e canary: [CONTROLLED_CHECKS.md](CONTROLLED_CHECKS.md). XSS GET/form/JSON e CORS usano un browser isolato sulle fixture; SQL confronta SQLite read-only predisposto e resta POTENTIAL; account/file/logout/callback vengono confermati solo con evidenza circoscritta. Nessuna enumerazione massiva, lettura di file sensibili o uso di credenziali trovate. Senza configurazione: candidati, NO_INPUT o UNSUPPORTED, mai verifiche inventate.
+
+Ogni finding ha evidenza minimizzata, limiti, origine/run, severità separata, confidenza ordinale 0–100 con fattori e priorità motivata. Il punteggio è `max(0,min(100,somma fattori))`, non una probabilità né CVSS. Le priorità sono HIGH/MEDIUM/LOW REVIEW PRIORITY e INCONCLUSIVE. FALSE_POSITIVE umano resta distinto dall'osservazione automatica; CONFIRMED umano non produce automaticamente VERIFIED.
+
+COMPLETED significa coda elaborata, non assenza di vulnerabilità. Errori, raccolta incompleta, risposte troncate e mancanza di prove restano espliciti. Entropia, errore SQL, HTTP 200, wildcard CORS o riflessione non costituiscono da soli una vulnerabilità verificata.
+
+## Smart, Scan Diff e report
+
+Smart usa ricognizione compatibile, suggerimenti motivati, selezione/conferma e un checkpoint dell'intero piano. Una modifica delle versioni/configurazione/scope richiede un nuovo piano. Non inventa input, non invia form e non assume valido un account solo perché risponde HTTP 200.
+
+Dopo l'esecuzione, RISULTATI → Scan Diff confronta run dello stesso progetto/dominio/modulo ed esporta `runs/RUN/diff/RUN_PRECEDENTE/`. Host nuovi/invariati/non osservati, metodi/parametri e finding nuovi/presenti/modificati/non riprodotti. Timestamp, request ID e nonce non generano cambiamenti semantici. Nessun finding assente viene dichiarato risolto, soprattutto con provider falliti o run incompleta.
+
+Report JSON/Markdown/TXT per run e batch; scope, versione, attività eseguite/non eseguite, errori, evidenze, confidenza/priorità, limiti e provenienza. I batch sono snapshot, non dashboard aggiornata automaticamente dopo ogni revisione umana.
+
+## Verifica
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python main.py
+./.venv/bin/python -m unittest discover -s tests -v
+XITOOL_BROWSER_TESTS=1 ./.venv/bin/python -m unittest discover -s tests -v
+./.venv/bin/python benchmarks/benchmark_local.py --workers 5 --output verification/benchmark.json
+bash verify_kali.sh --browser
 ```
 
-Su Windows usare `.venv\Scripts\python.exe` al posto di `.venv/bin/python`. La verifica corrente è su Windows/Python 3.12 con HTTP locale; installer e launcher richiedono ancora una prova nativa su Kali. `.gitattributes` mantiene LF negli script distribuiti tramite Git.
-
-Opzioni: `--config`, `--data-dir`, `--version`. Configurazione e dati predefiniti sono relativi a `main.py`: l'avvio funziona da una directory differente. I percorsi relativi passati esplicitamente nelle opzioni si riferiscono alla directory corrente.
-
-## Menu e inserimento domini
-
-Il menu principale mantiene esclusivamente:
-
-```text
-[1] CREA PROGETTO
-[2] APRI PROGETTI
-[3] ESECUZIONE
-
-[0] ESCI
-```
-
-Nome progetto: 1–64 caratteri ASCII fra lettere, numeri, `_` e `-`, senza traversal o nomi riservati. Per autorizzati e negati usare A per aggiungere, R per rimuovere e 0 per terminare.
-
-Dopo A, incollare uno o più domini e **premere INVIO su una riga vuota**. Tutte le righe sono lette prima di tornare al menu. Supportati: righe, virgole, spazi, wildcard esplicite e prima colonna di tabelle separate da TAB o `|`. Le frasi ambigue sono rifiutate. Il riepilogo mostra validi, duplicati e non validi; errori o interruzioni del batch non cancellano le voci già valide.
-
-URL HTTP/HTTPS sono ridotti all'host. Lo scarto di percorso, query, frammento o porta viene segnalato: la regola riguarda l'intero host. Credenziali URL rifiutate; nessuna wildcard implicita. Confermare con `s` il riepilogo completo per creare il progetto, senza contattare target. Le regole non confermate restano soltanto in memoria.
-
-## Struttura per dominio
-
-```text
-targets/EXNESS/
-  scope.json
-  pwapi.ex2b.com/
-    subfinding/
-      all_subdomains.txt
-      live_subdomains.txt
-      domains_with_inputs.txt
-      discovered_inputs.json
-      latest.json
-    xss/
-      findings.json
-      manual_review.json
-      latest.json
-    reports/<run_id>.json, <run_id>.md
-    runs/<run_id>/
-      metadata.json
-      checkpoint.json
-      events.jsonl
-      findings.json
-      manual_review.json
-      report.json
-      report.md
-      subfinding/       # nelle run Sub Finding
-  my.exness.com/
-    ...
-```
-
-Le cartelle dei root sono automatiche; i moduli vengono creati quando servono. Nomi DNS completi e normalizzati; solo IPv6 e nomi riservati richiedono codifica sicura, con rifiuto delle collisioni. Una cartella aggiunta manualmente non autorizza un target.
-
-`scope.json` mantiene `name`, `domains`, `excluded_hosts`, `created_at` e l'eventuale `allowed_ip_ranges`; `excluded_hosts` mancante equivale a elenco vuoto. I root derivano dallo scope, non dal filesystem. Dominio esatto e relativa wildcard condividono la cartella base senza modificarne le autorizzazioni; root interamente negati non vengono proposti.
-
-La vista `<dominio>/<modulo>/` rappresenta l'ultima run completata. `latest.json` contiene origine e impronte dei file. File preesistenti o modificati dall'utente non vengono sovrascritti: i nuovi dati restano nella run. Un indice non corrispondente è segnalato in lettura; gli snapshot della cronologia restano disponibili anche su export interrotto.
-
-## Esecuzione e scope
-
-Flusso: **progetto → domini → modulo → conferma → esecuzione → risultati**. La selezione multiprogetto è mantenuta con domini indipendenti.
-
-Scegliere TUTTI I DOMINI oppure SELEZIONA DOMINI. La modalità manuale supporta singoli numeri, `1,3,5`, `1-4`, toggle, A per tutti, D per nessuno, C per confermare. `[X]` indica la selezione; conferma vuota rifiutata.
-
-Ogni dominio ha input, run, risultati, lock, cache e checkpoint separati. File passivo e URL aggiuntivi sono richiesti una volta per progetto e filtrati per root. Dopo il riepilogo serve un'unica conferma di avvio. Un dominio alla volta; errori su uno non bloccano i successivi. Ctrl+C salva e lascia gli altri non elaborati. Riepilogo finale con successi, errori e attese.
-
-Il root selezionato limita ulteriormente scope, link, form action e redirect. Nei root sovrapposti l'host appartiene al root configurato più specifico: gli host di `api.example.com` non vengono duplicati sotto `example.com`.
-
-- `example.com`: solo l'host esatto.
-- `*.example.com`: sottodomini, senza l'apice.
-- Un deny prevale sempre; un deny esatto non nega automaticamente i discendenti.
-- Un sottodominio scoperto non diventa automaticamente autorizzato.
-- Case, singolo punto finale e IDNA sono normalizzati.
-
-Il client condiviso ammette HTTP/HTTPS e porte configurate. Ogni redirect è validato. Risolve il nome, verifica tutti gli IP e connette direttamente all'indirizzo validato, senza seconda risoluzione. Peer corrispondente, Host/SNI originali e certificati TLS verificati dal sistema. Nessun proxy ambientale, cookie jar o sessione autenticata.
-
-IP privati, loopback e speciali sono bloccati salvo CIDR esplicito in `allowed_ip_ranges`, oltre all'autorizzazione dell'hostname/IP. Esempio di laboratorio: dominio `127.0.0.1` e CIDR `127.0.0.1/32`; le porte non standard vanno aggiunte a `http.allowed_ports`. Multicast e indirizzi non specificati restano vietati. Lo scope attivo è quello confermato, non ricaricato continuamente durante la scansione.
-
-## Moduli reali
-
-| Modulo | Stato | Implementazione |
-| --- | --- | --- |
-| Sub Finding | PARZIALE | TXT passivo locale, scope, probing HTTP/HTTPS, crawl limitato, query/form/JS statico |
-| XSS | PARZIALE | Baseline e marcatore inerte su query GET; contesto euristico; nessun browser |
-| SQL Injection | NON IMPLEMENTATO | Bloccato prima delle richieste |
-| IDOR | PARZIALE | Classificazione identificatori e coda manuale, senza confronto account |
-| Broken Access Control | NON IMPLEMENTATO | Bloccato prima delle richieste |
-| SSRF | PARZIALE | Classificazione input URL, senza payload SSRF |
-| Path Traversal | PARZIALE | Classificazione file/percorso, senza lettura file remoti |
-| Misconfiguration | PARZIALE | Header, HTTPS e firma directory listing; nessun audit TLS approfondito |
-| Sensitive Data Exposure | PARZIALE | Tre famiglie di firme pubbliche, conteggi mascherati e revisione |
-| Authentication | PARZIALE | Attributi cookie e hint 401/403, senza account |
-| CORS | PARZIALE | Baseline e Origin `https://xitool.invalid`; riflessione/credenziali come candidato |
-
-Il menu distingue anche DISPONIBILE, senza promuovere scanner incompleti. Gli identificatori interni `PARTIAL` e `NOT_IMPLEMENTED` restano compatibili. Tutti i moduli operativi usano client, scope e checkpoint comuni e salvano nel dominio corretto.
-
-Sub Finding non integra provider passivi online: importare un TXT da fonte consentita, un host per riga. Nessun brute force DNS o nome inventato. Con sole wildcard servono host importati o URL iniziali autorizzati. Irraggiungibilità non significa inesistenza. La discovery non invia form né esegue JavaScript, analizza riferimenti letterali pubblici.
-
-Limiti: profondità 2, 50 attività per dominio, 1 MiB/risposta, 1.000 link/campi per pagina, input aggregati limitati da `execution.max_tasks`. Limiti crawl/input segnalati; limite parser non conteggiato separatamente. Gli endpoint registrati sono quelli raggiunti, non tutti i riferimenti non visitati. Gli input non sono vulnerabilità.
-
-Gli scanner successivi caricano solo l'ultima discovery completata dello stesso dominio, filtrandola di nuovo. Smart Execution propone moduli per tipo di input, esegue solo quello scelto/confermato; selezione multipla dei suggerimenti non implementata.
-
-XSS usa solo query GET osservate, senza form. Riflessione non codificata in HTML con baseline/probe HTTP 200: al massimo POTENTIAL; codificata: OBSERVED. Nessun codice eseguito in browser. CORS `*` da solo non è una vulnerabilità. Stati automatici: OBSERVED, POTENTIAL, MANUAL_REVIEW; errori separati e nessuna confidenza percentuale arbitraria.
-
-## Checkpoint e migrazione
-
-ID run univoco UTC; snapshot coerente di coda/risultati con SHA-256 contro corruzione accidentale. Versione 1 per il vecchio formato, versione 2 con identità del dominio verificata. Autosave ogni 30 secondi, 10 attività e su interruzione/errore; file temporaneo adiacente, flush/fsync, sostituzione atomica. Limite snapshot 32 MiB. Dopo kill/spegnimento può mancare il lavoro successivo all'ultimo salvataggio e alcune richieste possono ripetersi. Disco pieno e permessi sono segnalati; il checkpoint valido precedente resta recuperabile.
-
-La ripresa riguarda stesso progetto/dominio/modulo. Configurazione diversa: ripristinare o creare nuova run. Scope diverso: nuovo filtro e backup `checkpoint_before_<impronta>.json` prima di scrivere lo stato filtrato, dopo la conferma; i dati precedenti restano nel backup. Metadati iniziali conservati.
-
-Lock `<dominio>/.execution.lock` contro doppie esecuzioni. Dopo kill verificare il PID prima di rimuovere manualmente quel singolo lock. Un vecchio lock di progetto impedisce la migrazione.
-
-Entrando in ESECUZIONE lo storico `targets/<progetto>/runs/` viene copiato e filtrato, senza modificare gli originali. Provenienza e impronta sono in `metadata.json`; importazioni già presenti non vengono duplicate. Conteggi legacy non attribuibili ai domini restano nei metadati, senza ripartizioni artificiali. Anche i vecchi file `subfinding/` senza checkpoint sono importabili: `import_only` distingue l'import dalla scansione e la data è quella dell'importazione. Non sostituiscono viste correnti già generate. Formati sconosciuti/corrotti sono segnalati e gli originali restano consultabili.
-
-## Consultazione, revisione, diff e report
-
-APRI PROGETTI: progetto → dominio → modulo → file, con disponibilità, report e cronologia. Sub Finding espone i quattro output. Lo storico precedente rimane leggibile. È sola lettura: non migra, crea file o avvia scanner. TXT, JSON, CSV, YAML, LOG, JSONL e Markdown sono paginati ogni 25 righe, limite 16 KiB/riga. Symlink/traversal rifiutati, JSON/YAML corrotti segnalati, escape del terminale neutralizzati.
-
-RISULTATI dopo il batch permette anche Manual Review, Scan Diff e rigenerazione report. Stati umani: PENDING_REVIEW, IN_REVIEW, CONFIRMED, DISMISSED; conservati alla ripresa. CONFIRMED non trasforma l'esito automatico in VERIFIED. Note/prove manuali aggiuntive e modifica delle code dalla sezione APRI PROGETTI non implementate.
-
-Diff soltanto nello stesso progetto/dominio/modulo: nuovi, non più rilevati, modificati e invariati, ignorando timestamp/run ID. Non assegna «risolto» o «non più riproducibile». Ordine diverso della query può ancora produrre identità distinte.
-
-Report Markdown/JSON: scope, dominio, stato, riepilogo, evidenze, errori e limiti. COMPLETED significa coda processata, non assenza di errori. Un export fallito porta a FAILED quando il checkpoint è scrivibile, preservando i finding persistiti. Ogni run mantiene finding, review, eventi e report distinti.
-
-## Rate limit, cache e monitor
-
-Richieste distanziate, tetto configurato, rallentamento 429/503/timeout, recupero graduale, Retry-After numerico/data. Il budget HTTP e il backoff del batch sono conservati anche nel cambio di dominio; cache e contatori restano separati. Attese oltre cinque minuti generano un errore dell'attività; retry/redirect limitati. Worker sequenziale; adattamento di concorrenza oltre uno non implementato. Timeout DNS e watchdog; risposte compresse contro Accept-Encoding identity rifiutate, senza analizzarle come testo.
-
-Cache solo in memoria per dominio/run, separata per scope, URL e Origin: TTL 300 secondi, 64 risposte. Niente Set-Cookie, private/no-store o autenticazione. Probe XSS/CORS bypassano la cache; corpi rilasciati al termine di ogni dominio, nessun ripristino da checkpoint.
-
-Monitor fra attività: indice del dominio, progetto/root/modulo, attività, finding/input, richieste/sec, errori HTTP e attività, timeout, cache hit, checkpoint e rate. Discovery indeterminata mentre aggiunge lavoro. Contatori della sessione corrente, media dall'avvio effettivo; nessun ridisegno continuo o rilevatore dedicato di stalli.
-
-## Test e limiti residui
-
-```bash
-.venv/bin/python -m unittest discover -s tests -v
-```
-
-Mock e server autorizzati su loopback, senza target pubblici. Verifiche di incollaggio, selezione, isolamento, scanner, redirect/DNS/IP, interruzione/ripresa, migrazione, sola lettura, export/diff/cache e avvio da altra directory. Test Bash/launcher POSIX e symlink vengono saltati quando non supportati: non sono dichiarati superati. Risultati esatti in DEVELOPMENT.md.
-
-Restano da provare nativamente su Kali installer/launcher. Restano parziali provider online, XSS in browser, confronti account/ruoli, TLS approfondito, monitor continuo e selezione multipla Smart. SQL Injection e Broken Access Control non implementati.
-
-Cookie e segreti riconosciuti nei corpi non vengono salvati. Parametri di autenticazione e percorsi GET mutativi riconoscibili sono esclusi. La classificazione non riconosce ogni segreto o GET con effetti collaterali: URL e query non riconosciute come sensibili sono persistite per la ripresa. Non importare credenziali o dati riservati. Nessun POST, brute force o payload di esfiltrazione.
-
-Usare esclusivamente per laboratori e verifiche esplicitamente autorizzate; interpretare le osservazioni nel contesto del target.
+Il browser richiede le dipendenze opzionali. Su Windows con Chrome installato impostare `XITOOL_BROWSER_CHANNEL=chrome` e `XITOOL_BROWSER_TESTS=1`. I test usano server HTTP/TLS/DNS locali, SQLite, sensore e browser controllati; niente target bug bounty pubblici. Kali nativo non verificato nell'ambiente di sviluppo: script e motivi degli skip sono documentati nel report. Non dedurre velocità da durate di suite diverse: usare il benchmark dedicato.

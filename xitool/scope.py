@@ -3,13 +3,23 @@ from __future__ import annotations
 
 import ipaddress
 import re
-from urllib.parse import quote, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, quote, unquote, urlsplit, urlunsplit
 
 from .storage import DataError, fingerprint
 
 
 class ScopeViolation(DataError):
     """Destinazione non autorizzata."""
+
+
+def blocked_request(value: str) -> bool:
+    """Policy condivisa per URL sensibili, azioni riconoscibili e archivi/dump."""
+    parsed = urlsplit(value)
+    pairs = parse_qsl(parsed.query)
+    archive = re.compile(r"\.(?:zip|7z|rar|tar|tgz|gz|bz2|xz|sql|db|sqlite3?)(?:$|[?#])", re.I)
+    return bool(re.search(r"(?:^|[/_.-])(?:logout|signout|delete|remove|unsubscribe|destroy|checkout|purchase)(?:$|[/_.?-])", unquote(parsed.path), re.I)
+                or any(re.search(r"pass(?:word)?|secret|token|session|cookie|authorization|api[_-]?key|credential|signature", key, re.I) for key, _ in pairs)
+                or archive.search(unquote(parsed.path)) or any(archive.search(unquote(item)) for _, item in pairs))
 
 
 def normalize_host(value: str) -> str:
@@ -50,6 +60,25 @@ def matches(host: str, rule: str) -> bool:
     return host.endswith("." + rule[2:]) if rule.startswith("*.") else host == rule
 
 
+def normalize_url_rule(value: str) -> str:
+    """Regola esplicita di origine e percorso, senza query o credenziali."""
+    try:
+        parsed = urlsplit(value)
+        host = normalize_host(parsed.hostname or "")
+        port = parsed.port if parsed.port is not None else (443 if parsed.scheme == "https" else 80)
+        if (parsed.scheme not in ("http", "https") or parsed.username is not None or parsed.password is not None
+                or parsed.query or parsed.fragment or not 1 <= port <= 65535
+                or any(ord(char) <= 32 for char in value) or "\\" in value or "%" in parsed.path
+                or any(part in (".", "..") for part in parsed.path.split("/")) or "//" in parsed.path):
+            raise DataError("Regola URL ambigua: usare origine e percorso senza query/frammento")
+        authority = f"[{host}]" if ":" in host else host
+        if port != (443 if parsed.scheme == "https" else 80):
+            authority += f":{port}"
+        return urlunsplit((parsed.scheme, authority, parsed.path or "/", "", ""))
+    except ValueError as exc:
+        raise DataError("Regola URL non valida") from exc
+
+
 def parse_rules(text: str) -> dict:
     """Importa elenchi espliciti; le righe descrittive ambigue non diventano scope."""
     rules: list[str] = []
@@ -71,14 +100,7 @@ def parse_rules(text: str) -> dict:
         for token in tokens:
             try:
                 if "://" in token:
-                    parsed = urlsplit(token)
-                    if parsed.scheme not in ("http", "https") or parsed.username is not None or parsed.password is not None:
-                        raise DataError("URL non ammesso")
-                    if parsed.port is not None and not 1 <= parsed.port <= 65535:
-                        raise DataError("Porta non valida")
-                    rule = normalize_host(parsed.hostname or "")
-                    if parsed.path not in ("", "/") or parsed.query or parsed.fragment or parsed.port:
-                        warnings.append(f"Riga {number}: URL ridotto a {rule}; percorso, query, frammento e porta non limitano lo scope")
+                    rule = normalize_url_rule(token)
                 else:
                     rule = normalize_rule(token)
                 if "." not in rule and ":" not in rule and rule != "localhost":
@@ -96,7 +118,17 @@ class Scope:
     def __init__(self, domains: list[str], excluded: list[str], allowed_ip_ranges: list[str] | None = None):
         if not isinstance(domains, list) or not domains or not isinstance(excluded, list):
             raise DataError("Scope: domains non vuoto ed excluded_hosts devono essere elenchi")
-        self.domains = sorted({normalize_rule(rule) for rule in domains})
+        if any(not isinstance(rule, str) for rule in domains):
+            raise DataError("Regole scope testuali richieste")
+        self.raw_domains = sorted({normalize_url_rule(rule) if "://" in rule else normalize_rule(rule) for rule in domains})
+        self.path_limits: dict[str, list[str]] = {}
+        plain = {rule for rule in self.raw_domains if "://" not in rule}
+        for rule in self.raw_domains:
+            if "://" in rule:
+                host = urlsplit(rule).hostname
+                if host not in plain:
+                    self.path_limits.setdefault(host, []).append(rule)
+        self.domains = sorted(plain | {urlsplit(rule).hostname for rule in self.raw_domains if "://" in rule})
         self.excluded = sorted({normalize_rule(rule) for rule in excluded})
         if allowed_ip_ranges is not None and not isinstance(allowed_ip_ranges, list):
             raise DataError("allowed_ip_ranges deve essere un elenco CIDR")
@@ -106,7 +138,7 @@ class Scope:
             self.networks = [ipaddress.ip_network(value, strict=True) for value in (allowed_ip_ranges or [])]
         except (ValueError, TypeError) as exc:
             raise DataError("Intervallo IP esplicito non valido") from exc
-        self.digest = fingerprint([self.domains, self.excluded, [str(n) for n in self.networks]])
+        self.digest = fingerprint([self.raw_domains, self.excluded, [str(n) for n in self.networks]])
         self.target: str | None = None
 
     def roots(self) -> list[str]:
@@ -130,7 +162,7 @@ class Scope:
 
     def for_target(self, target: str) -> Scope:
         target = normalize_host(target)
-        base = Scope(self.domains, self.excluded, [str(network) for network in self.networks])
+        base = Scope(self.raw_domains, self.excluded, [str(network) for network in self.networks])
         if target not in base.roots():
             raise ScopeViolation("Dominio iniziale non autorizzato nel progetto")
         base.target = target
@@ -161,6 +193,20 @@ class Scope:
             raise ScopeViolation("URL non valido") from exc
         if not self.allowed(host) or (ports is not None and port not in ports):
             raise ScopeViolation("Host o porta fuori scope")
+        if host in self.path_limits:
+            path = parsed.path or "/"
+            if "%" in path or "//" in path or any(part in (".", "..") for part in path.split("/")):
+                raise ScopeViolation("Percorso ambiguo nello scope URL")
+            allowed = False
+            for rule in self.path_limits[host]:
+                bound = urlsplit(rule)
+                bound_port = bound.port or (443 if bound.scheme == "https" else 80)
+                prefix = bound.path.rstrip("/")
+                if parsed.scheme == bound.scheme and port == bound_port and (path == prefix or path.startswith(prefix + "/")):
+                    allowed = True
+                    break
+            if not allowed:
+                raise ScopeViolation("Origine o percorso fuori scope URL")
         authority = f"[{host}]" if ":" in host else host
         if port != (443 if parsed.scheme == "https" else 80):
             authority += f":{port}"

@@ -8,15 +8,32 @@ import os
 from pathlib import Path
 import threading
 import time
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlunsplit
 import uuid
 
 from .http import HTTPClient, NetworkError, RateLimiter
+from .dns import DNSResolver
+from .passive import PROVIDERS, collect
+from .recon_output import observe_host, outputs as recon_outputs, probe_metadata
+from .controlled import execute as controlled_scan
+from .sessions import load_profiles
+from .outcomes import run_outcome, summary as outcome_summary
 from .scanners import MODULES, deduplicate_inputs, discover, safe_url, scan
 from .scope import Scope
 from .storage import DataError, atomic_write, confined, fingerprint, read_json, save_json, target_path, utcnow
 
 LOGGER = logging.getLogger("xitool")
+
+
+def record_no_input(project: Path, scope: Scope, module: str, target: str) -> Path:
+    if module not in MODULES:
+        raise DataError("Modulo non valido")
+    bounded = scope.for_target(target)
+    path = confined(project, target_path(project, target) / "reports" / ("no_input_" + uuid.uuid4().hex + ".json"))
+    save_json(path, {"project": project.name, "domain": target, "module": module, "timestamp": utcnow(),
+                    "execution_status": "NOT_STARTED", "verification_outcome": "NO_INPUT", "findings": [],
+                    "scope_hash": bounded.digest, "reason": "Nessun input o risorsa controllata configurata; nessun controllo eseguito."})
+    return path
 
 
 def task_id(task: dict) -> str:
@@ -77,8 +94,12 @@ def runs(project: Path, module: str | None = None, target: str | None = None) ->
     return result
 
 
-def latest_discovery(project: Path, scope: Scope, target: str | None = None) -> tuple[list[dict], list[str]]:
+def latest_discovery(project: Path, scope: Scope, target: str | None = None, config=None) -> tuple[list[dict], list[str]]:
     for _, state in runs(project, "subfinding", target):
+        if config is not None:
+            from . import __version__
+            if state.get("engine_version") != __version__ or state.get("config_hash") != fingerprint(config) or state.get("scope_hash") != scope.digest:
+                continue
         if state["status"] == "COMPLETED":
             inputs, urls = [], []
             for entry in state["inputs"]:
@@ -98,14 +119,18 @@ def latest_discovery(project: Path, scope: Scope, target: str | None = None) -> 
 def build_tasks(module: str, scope: Scope, inputs: list[dict], urls: list[str]) -> list[dict]:
     if module not in MODULES or MODULES[module][1] == "NOT_IMPLEMENTED":
         raise DataError("Modulo non implementato")
+    if module == "access":
+        return []  # Senza risorse controllate non trasformare URL generici in test di autorizzazione.
     tasks = []
     if module in ("xss", "idor", "ssrf", "traversal"):
         kinds = {"idor": "identifier", "ssrf": "url", "traversal": "file"}
         for entry in inputs:
             if module == "xss":
-                if entry.get("method") != "GET" or entry.get("source") == "form" or entry.get("input_type") == "authentication":
+                if entry.get("method") != "GET" or entry.get("source") not in ("query", "link") or entry.get("input_type") == "authentication":
                     continue
-            elif entry.get("input_type") != kinds[module]:
+            if entry.get("source") == "response_json" or entry.get("request_input_confirmed") is False:
+                continue
+            if module != "xss" and entry.get("input_type") != kinds[module]:
                 continue
             try:
                 tasks.append({**{key: entry.get(key) for key in ("parameter", "method", "input_type", "source")},
@@ -136,6 +161,7 @@ class Engine:
         self.stop = threading.Event()
         self.timer_error: OSError | DataError | None = None
         self.client = HTTPClient(scope, config)
+        self.dns = DNSResolver(scope, config["http"]["timeout_seconds"], self.client.limiter)
         if module not in MODULES or MODULES[module][1] == "NOT_IMPLEMENTED":
             raise DataError("Modulo non disponibile")
         if resume:
@@ -145,6 +171,9 @@ class Engine:
                 raise DataError("Checkpoint di altro progetto o modulo")
             if export_only:
                 return
+            from . import __version__
+            if self.state.get("engine_version") != __version__:
+                raise DataError("Versione del motore cambiata: creare una nuova run")
             if self.state["status"] == "COMPLETED":
                 raise DataError("Esecuzione già completata")
             if self.state["config_hash"] != fingerprint(config):
@@ -161,7 +190,8 @@ class Engine:
             for key in ("hosts", "live_hosts"):
                 state[key] = [host for host in state[key] if scope.allowed(host)]
             state["scope_hash"] = scope.digest
-            state["errors"] = [e for e in state["errors"] if self._allowed_url(e.get("url", ""))]
+            state["errors"] = [e for e in state["errors"] if self._allowed_url(e.get("url", "")) or
+                               self._allowed_task({"url": e.get("url", ""), "kind": "passive", "provider": e.get("provider")})]
         else:
             tasks = self._filter_tasks(tasks or [])
             if not tasks:
@@ -174,11 +204,22 @@ class Engine:
             self.directory = confined(project, self.output_root / "runs" / run_id)
             self.state = {"version": 2 if target else 1, "run_id": run_id, "project": project.name, "module": module,
                           "status": "PENDING", "pending": tasks, "completed": [], "results": [], "errors": [],
-                          "inputs": [], "endpoints": [], "hosts": sorted({urlsplit(t["url"]).hostname for t in tasks}),
+                          "inputs": [], "endpoints": [], "hosts": sorted({urlsplit(t["url"]).hostname for t in tasks if scope.allowed(urlsplit(t["url"]).hostname)}),
                           "live_hosts": [], "scope_hash": scope.digest, "config_hash": fingerprint(config),
                           "updated_at": utcnow(), "created_at": utcnow(), "stats": {}, "limits_reached": []}
             if target:
                 self.state["domain"] = target
+            self.state.update(seed_hosts=[target] if target else list(self.state["hosts"]),
+                              host_limit=config["execution"]["max_tasks"], host_observations={},
+                              dns_records={}, http_probes=[], provider_metadata=[], provider_errors=[])
+            from . import __version__
+            self.state["engine_version"] = __version__
+            self.state["dynamic_browser"] = os.environ.get("XITOOL_DYNAMIC_BROWSER") == "1"
+            if module == "subfinding":
+                from .inventory import historical_references
+                self.state["url_references"] = historical_references(project, self.scope, target)
+                for task in tasks:
+                    observe_host(self.state, self.scope, urlsplit(task["url"]).hostname, "initial_input")
 
     def _allowed_url(self, url: str) -> bool:
         try:
@@ -189,7 +230,37 @@ class Engine:
             return False
 
     def _filter_tasks(self, tasks: list[dict]) -> list[dict]:
-        return list({task_id(t): t for t in tasks if isinstance(t, dict) and self._allowed_url(t.get("url", ""))}.values())
+        return list({task_id(t): t for t in tasks if isinstance(t, dict) and self._allowed_task(t)}.values())
+
+    def _allowed_task(self, task: dict) -> bool:
+        if task.get("kind") == "passive":
+            # È un identificatore di ricerca, non una URL da visitare sul target.
+            root = self.target
+            return (self.module == "subfinding" and root in self.scope.roots() and
+                    task.get("provider") in PROVIDERS and task.get("url") == f"https://{root}/")
+        if task.get("kind") == "dns":
+            try:
+                parsed = urlsplit(task.get("url", ""))
+                return (self.module == "subfinding" and parsed.scheme == "https" and parsed.path == "/" and
+                        not parsed.query and not parsed.fragment and parsed.username is None and parsed.password is None and parsed.port is None and
+                        self.scope.allowed(parsed.hostname or ""))
+            except ValueError:
+                return False
+        return self._allowed_url(task.get("url", ""))
+
+    def enqueue(self, tasks: list[dict]) -> None:
+        """Limita anche il lavoro generato da DNS/provider e rende persistente la deduplica."""
+        known = set(self.state["completed"]) | {task_id(task) for task in self.state["pending"]}
+        for task in self._filter_tasks(tasks):
+            identity = task_id(task)
+            if identity in known:
+                continue
+            limit = min(self.config["execution"]["max_tasks"], self.config["discovery"]["max_pages"])
+            if len(known) >= limit:
+                self.state.setdefault("limits_reached", []).append("task_limit")
+                break
+            self.state["pending"].append(task)
+            known.add(identity)
 
     def save(self) -> None:
         """Snapshot unico: avanzamento e risultati diventano persistenti insieme."""
@@ -225,11 +296,85 @@ class Engine:
                 "requests_per_second": round(self.client.stats["requests"] / max(0.001, duration), 2),
                 **self.client.stats, "results": len(state["results"]), "hosts": len(state["hosts"]),
                 "task_errors": len(state["errors"]),
+                "new_subdomains": len(recon_outputs(state, self.scope)[0]["all_subdomains.txt"]) if self.module == "subfinding" else 0,
                 "live_hosts": len(state["live_hosts"]), "inputs": len(state["inputs"]),
                 "last_checkpoint": state["updated_at"], "rate_limit": round(self.client.limiter.current, 3)}
 
+    def _perform(self, task, client=None):
+        client = client or self.client
+        resolver = self.dns
+        results, inputs, links = [], [], []
+        generated = []
+        dns_record = None
+        client.request_ids.clear()
+        probe = None
+        provider_result = None
+        references = []
+        live_url = None
+        error = None
+        try:
+            if not self._allowed_task(task):
+                raise DataError("Input fuori scope")
+            if self.module == "subfinding":
+                if task.get("kind") == "passive":
+                    client.limiter.request_budget = client.budget
+                    client.limiter.shared_host_limiters = client.host_limiters
+                    provider_result = collect(task["provider"], self.target, self.config, client.limiter)
+                elif task.get("kind") == "dns":
+                    resolver.limiter = client.limiter
+                    host = urlsplit(task["url"]).hostname
+                    if self.target and "wildcard_dns" not in self.state:
+                        self.state["wildcard_dns"] = resolver.wildcard(self.target)
+                    dns_record = resolver.resolve(host)
+                    if dns_record["resolved"]:
+                        authority = f"[{host}]" if ":" in host else host
+                        generated = [{"url": f"{scheme}://{authority}/", "depth": 0, "recon": True}
+                                     for scheme, port in (("https", 443), ("http", 80)) if port in self.config["http"]["allowed_ports"]]
+                        if host in self.scope.path_limits:
+                            generated = [{"url": rule, "depth": 0, "recon": True} for rule in self.scope.path_limits[host]]
+                else:
+                    response = client.get(task["url"])
+                    live_url = safe_url(self.scope, response.url)
+                    probe = probe_metadata(response, self.scope)
+                    inputs, links, references = discover(self.scope, response, include_references=True)
+                    if self.state.get("dynamic_browser") and "html" in response.headers.get("content-type", "").lower():
+                        from .dynamic import render
+                        dynamic = render(client, response.url)
+                        inputs += dynamic["inputs"]
+                        links = sorted(set(links) | set(dynamic["links"]))
+                        references += dynamic["references"]
+                        self.state.setdefault("browser_observations", []).append({"url": response.url,
+                            "status": dynamic["status"], "requests": dynamic.get("requests", 0), "blocked": dynamic["blocked"]})
+                        if dynamic["status"] != "COMPLETED":
+                            self.state.setdefault("limits_reached", []).append("dynamic_browser_partial_or_unsupported")
+                    if task.get("recon") and urlsplit(task["url"]).path == "/":
+                        parsed = urlsplit(response.url)
+                        generated = [{"url": urlunsplit((parsed.scheme, parsed.netloc, path, "", "")), "depth": 0, "recon": True}
+                                     for path in ("/robots.txt", "/sitemap.xml")]
+            else:
+                active_client = client
+                if task.get("session"):
+                    profiles = load_profiles(self.project)
+                    profile = profiles.get(task["session"])
+                    if profile is None:
+                        raise DataError("Profilo di sessione non disponibile")
+                    active_client = client.for_profile(profile)
+                results = (controlled_scan(self.module, task, active_client, self.project) if task.get("controlled_case") else
+                           scan(self.module, task, active_client))
+        except (DataError, NetworkError) as exc:
+            # Nessuna stringa di risposta o URL remoto nel messaggio tecnico.
+            error = {"task_id": task_id(task), "url": task["url"], "type": type(exc).__name__, "timestamp": utcnow()}
+            from .errors import classify, LABELS
+            error["category"] = classify(exc)
+            error["message"] = LABELS[error["category"]]
+            error["stage"] = (task.get("kind") or "http") if self.module == "subfinding" else "scanner"
+            LOGGER.warning(json.dumps({"event": "task_error", "type": type(exc).__name__, "run_id": self.state["run_id"]}))
+        return {name: value for name, value in locals().items() if name in {
+            "results", "inputs", "links", "generated", "dns_record", "probe", "provider_result",
+            "references", "live_url", "error", "client"}}
+
     def execute(self, observer=None) -> dict:
-        """Una sola attività in volo; lock esclusivo e checkpoint anche su interruzione."""
+        """Task bounded; solo il coordinatore modifica code e checkpoint."""
         if self.export_only:
             raise DataError("Una run aperta per consultazione non può eseguire richieste")
         self.output_root.mkdir(parents=True, exist_ok=True)
@@ -238,6 +383,8 @@ class Engine:
             fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
         except FileExistsError as exc:
             raise DataError("Progetto occupato. Se il processo è terminato, controllare e rimuovere .execution.lock manualmente") from exc
+        from .workers import TaskPool
+        pool = TaskPool(self)
         timer = threading.Thread(target=self._timer, daemon=True)
         try:
             with os.fdopen(fd, "w") as stream:
@@ -254,61 +401,97 @@ class Engine:
             self.save()
             if not (self.directory / "metadata.json").exists():
                 save_json(self.directory / "metadata.json", {**{key: self.state[key] for key in ("version", "run_id", "project", "module", "created_at", "scope_hash", "config_hash")},
-                          "scope": {"domains": self.scope.domains, "excluded_hosts": self.scope.excluded,
+                          "scope": {"domains": self.scope.raw_domains, "excluded_hosts": self.scope.excluded,
                                     "allowed_ip_ranges": [str(n) for n in self.scope.networks]}})
             self.event("started")
             timer.start()
             while self.state["pending"]:
+                if self.stop.is_set():
+                    raise KeyboardInterrupt()
+                if time.monotonic() - self.client.started > self.config["execution"].get("max_duration_seconds", 600):
+                    self.state["limits_reached"].append("duration_limit")
+                    self.state["status"] = "PAUSED"
+                    break
                 if self.timer_error:
                     raise self.timer_error
                 if observer:
                     observer(self.monitor())
                 task = self.state["pending"][0]
-                results, inputs, links = [], [], []
-                live_url = None
-                error = None
-                try:
-                    if not self._allowed_url(task["url"]):
-                        raise DataError("Input fuori scope")
-                    if self.module == "subfinding":
-                        response = self.client.get(task["url"])
-                        live_url = response.url
-                        inputs, links = discover(self.scope, response)
-                    else:
-                        results = scan(self.module, task, self.client)
-                except (DataError, NetworkError) as exc:
-                    # Nessuna stringa di risposta o URL remoto nel messaggio tecnico.
-                    error = {"task_id": task_id(task), "url": task["url"], "type": type(exc).__name__, "timestamp": utcnow()}
-                    LOGGER.warning(json.dumps({"event": "task_error", "type": type(exc).__name__, "run_id": self.state["run_id"]}))
+                output = pool.take(task)
+                if self.stop.is_set() and pool.eligible(task):
+                    raise KeyboardInterrupt()  # Task annullato/in volo rimane pendente nel checkpoint.
+                results, inputs, links = output["results"], output["inputs"], output["links"]
+                generated, dns_record, probe = output["generated"], output["dns_record"], output["probe"]
+                provider_result, references = output["provider_result"], output["references"]
+                live_url, error = output["live_url"], output["error"]
+                request_ids = list(output["client"].request_ids)
                 with self.guard:
                     self.state["pending"].pop(0)
                     self.state["completed"].append(task_id(task))
                     if error:
                         self.state["errors"].append(error)
+                    if provider_result is not None:
+                        self.state.setdefault("provider_metadata", []).append(provider_result)
+                        self.client.stats["requests"] += provider_result["requests"]
+                        for host in provider_result["hosts"]:
+                            observe_host(self.state, self.scope, host, provider_result["provider"])
+                            if self.scope.allowed(host):
+                                self.state["hosts"] = sorted(set(self.state["hosts"]) | {host})
+                                generated.append({"url": f"https://{host}/", "kind": "dns"})
+                        for message in provider_result["errors"]:
+                            entry = {"provider": task["provider"], "type": message, "timestamp": utcnow()}
+                            self.state.setdefault("provider_errors", []).append(entry)
+                            self.state["errors"].append({**entry, "url": task["url"], "task_id": task_id(task)})
+                    if dns_record is not None:
+                        self.state.setdefault("dns_records", {})[dns_record["host"]] = dns_record
+                        for problem in dns_record.get("errors", []):
+                            if problem != "NXDOMAIN":
+                                self.state["errors"].append({"url": task["url"], "task_id": task_id(task), "type": "DNS_" + problem, "timestamp": utcnow()})
+                    if probe is not None:
+                        self.state.setdefault("http_probes", []).append(probe)
                     if live_url:
                         self.state["live_hosts"] = sorted(set(self.state["live_hosts"]) | {urlsplit(live_url).hostname, urlsplit(task["url"]).hostname})
                         self.state["endpoints"] = sorted(set(self.state["endpoints"]) | {live_url})
                     for result in results:
-                        result.update(project=self.project.name, run_id=self.state["run_id"])
+                        from .assessment import assess
+                        assess(result)
+                        result.update(project=self.project.name, run_id=self.state["run_id"], request_ids=request_ids)
                         if self.target:
                             result["domain"] = self.target
                         existing = {r["id"] for r in self.state["results"]}
                         if result["id"] not in existing:
                             self.state["results"].append(result)
-                    all_inputs = self.state["inputs"] + inputs
+                    all_inputs = [{**row, "project": self.project.name, "domain": self.target or row.get("host")}
+                                  for row in self.state["inputs"] + inputs]
                     unique_inputs = deduplicate_inputs(all_inputs)
                     self.state["inputs"] = unique_inputs[:self.config["execution"]["max_tasks"]]
                     if len(unique_inputs) > self.config["execution"]["max_tasks"]:
                         self.state.setdefault("limits_reached", []).append("input_limit")
                     if self.module == "subfinding":
+                        combined = self.state.get("url_references", []) + references
+                        if any(row.get("reason") == "ANALYSIS_LIMIT" for row in references):
+                            self.state.setdefault("limits_reached", []).append("javascript_analysis_limit")
+                        self.state["url_references"] = list({fingerprint([entry["url"], entry["source"], entry["kind"], entry.get("method"), entry.get("line"), entry.get("column")]): entry for entry in combined}.values())[:self.config["execution"]["max_tasks"]]
+                        for link in links:
+                            observe_host(self.state, self.scope, urlsplit(link).hostname, "crawl")
+                        self.enqueue(generated)
                         seen = {t["url"] for t in self.state["pending"]} | set(self.state["endpoints"]) | set(self.state.get("attempted_urls", []))
                         # Una URL fallita resta un tentativo già effettuato, senza dipendere dalla profondità.
                         self.state["attempted_urls"] = sorted(set(self.state.get("attempted_urls", [])) | {task["url"]})
-                        seen.add(task["url"])
+                        if task.get("kind") not in ("dns", "passive"):
+                            seen.add(task["url"])
                         completed = set(self.state["completed"])
+                        static_only = {row["url"] for row in references if row.get("kind") == "STATIC_HYPOTHESIS"}
+                        observed = {row["url"] for row in references if row.get("kind") in
+                                    ("OBSERVED_LINK", "OBSERVED_CANONICAL", "OBSERVED_ROBOTS", "OBSERVED_SITEMAP", "OBSERVED_DOM") or
+                                    (row.get("kind") == "OBSERVED_NETWORK" and row.get("reached"))}
                         for link in links:
+                            if link in static_only and link not in observed:
+                                continue  # inventory is not permission or evidence of reachability
                             self.state["hosts"] = sorted(set(self.state["hosts"]) | {urlsplit(link).hostname})
                             next_task = {"url": link, "depth": task.get("depth", 0) + 1}
+                            if task.get("recon"):
+                                next_task["recon"] = True
                             total = len(completed) + len(self.state["pending"])
                             if (next_task["depth"] <= self.config["discovery"]["max_depth"] and link not in seen
                                     and total < min(self.config["execution"]["max_tasks"], self.config["discovery"]["max_pages"])):
@@ -320,23 +503,26 @@ class Engine:
                 if len(self.state["completed"]) % self.config["checkpoint"]["completed_items_interval"] == 0:
                     self.save()
                     self.event("checkpoint")
-            self.state["status"] = "COMPLETED"
+            if not self.state["pending"]:
+                self.state["status"] = "COMPLETED"
         except KeyboardInterrupt:
             self.state["status"] = "INTERRUPTED"
         except BaseException:
             self.state["status"] = "FAILED"
             raise
         finally:
-            self.stop.set()
+            pool.close()
             if timer.is_alive():
                 timer.join(timeout=5)
             try:
                 self.state["duration_seconds"] = max(0.0, time.monotonic() - self.client.started)
+                self.state["verification_outcome"] = run_outcome(self.state)
                 self.save()
                 self.event(self.state["status"].lower())
                 self.export()
             except BaseException as exc:
                 self.state["status"] = "INTERRUPTED" if isinstance(exc, KeyboardInterrupt) else "FAILED"
+                self.state["verification_outcome"] = "PARTIAL" if isinstance(exc, KeyboardInterrupt) else "FAILED"
                 try:
                     self.save()
                 except (OSError, DataError):
@@ -346,7 +532,10 @@ class Engine:
                 self.client.cache.clear()
                 lock_path.unlink(missing_ok=True)
         if observer:
-            observer(self.monitor())
+            try:
+                observer(self.monitor())
+            except KeyboardInterrupt:
+                pass  # Risultati e checkpoint già salvati; nessun altro task da avviare.
         return self.state
 
     def export(self) -> None:
@@ -366,54 +555,72 @@ class Engine:
                              "evidence": result["evidence"], "required_checks": result["limitations"],
                              "status": "PENDING_REVIEW", "timestamp": utcnow()}))
         save_json(queue_path, queue)
+        from .assessment import assess
+        human = {row["finding_id"]: row["status"] for row in queue}
+        report_findings = [assess({**row, "human_verdict": human.get(row["id"])}) for row in state["results"]]
         if self.module == "subfinding":
             output = confined(self.project, self.directory / "subfinding")
             output.mkdir(exist_ok=True)
-            texts = {"all_subdomains.txt": state["hosts"], "live_subdomains.txt": state["live_hosts"],
-                     "domains_with_inputs.txt": sorted({i["host"] for i in state["inputs"]})}
+            from .crawl_output import export as export_crawler
+            export_crawler(self.directory / "crawler", state)
+            texts, details = recon_outputs(state, self.scope)
             for name, values in texts.items():
                 atomic_write(output / name, "".join(value + "\n" for value in values))
-            save_json(output / "discovered_inputs.json", state["inputs"])
+            for name, values in details.items():
+                save_json(output / name, values)
             initial = confined(self.project, self.output_root / "subfinding")
             if not self.target and state["status"] == "COMPLETED" and not initial.exists():
                 initial.mkdir()
                 for path in output.iterdir():
                     atomic_write(initial / path.name, path.read_text(encoding="utf-8"))
         report = {"project": self.project.name, "domain": self.target, "run_id": state["run_id"], "date": utcnow(),
-                  "module": self.module, "status": state["status"],
-                  "scope": {"domains": self.scope.domains, "excluded_hosts": self.scope.excluded,
+                  "module": self.module, "status": state["status"], "version": state.get("engine_version", "legacy"),
+                  "modules_executed": [self.module] + (["crawler"] if self.module == "subfinding" else []),
+                  "modules_not_executed": [key for key in MODULES if key != self.module],
+                  **outcome_summary(state),
+                  "scope": {"domains": self.scope.raw_domains, "excluded_hosts": self.scope.excluded,
                             "allowed_ip_ranges": [str(n) for n in self.scope.networks]},
-                  "summary": self.monitor(), "findings": state["results"], "errors": state["errors"],
+                  "summary": self.monitor(), "findings": report_findings, "errors": state["errors"],
                   "limits_reached": state.get("limits_reached", []),
                   "manual_review": read_json(queue_path),
                   "limitations": ["Versione alpha: moduli parziali, nessuna conferma automatica di vulnerabilità.",
-                                   "Discovery limitata e anonima; risultati mancanti non dimostrano assenza di vulnerabilità.",
+                                   "Discovery limitata; risultati mancanti non dimostrano assenza di vulnerabilità.",
                                    "La run può essere COMPLETED con errori: consultarne il conteggio."]}
         if state.get("import_only"):
             report["limitations"].append("Import di file storici: la data di creazione è quella dell'importazione, non di una nuova scansione.")
+        if self.module == "subfinding":
+            report["reconnaissance"] = recon_outputs(state, self.scope)[1]["summary.json"]
+            report["limitations"].append("Fonti CT limitate: massimo 3 pagine CertSpotter e una risposta crt.sh. Errori, rate limit e troncamenti sono espliciti; nessuna completezza garantita.")
         save_json(self.directory / "report.json", report)
         lines = [f"# XITool — {self.project.name}", f"Dominio: {self.target or 'storico progetto'}", f"Run: {state['run_id']}", f"Modulo: {self.module}",
                  f"Stato: {state['status']} — errori: {len(state['errors'])}", "", "## Scope", json.dumps(report["scope"], ensure_ascii=True), "", "## Risultati"]
-        for result in state["results"]:
+        for result in report_findings:
             lines += [f"- {result['id']} — {result['status']} — {result['check']}",
-                      "  " + json.dumps({"url": result["url"], "evidence": result["evidence"], "limitations": result["limitations"]}, ensure_ascii=True)]
+                      "  " + json.dumps({"url": result["url"], "evidence": result["evidence"], "limitations": result["limitations"],
+                                         "confidence_score": result.get("confidence_score"), "confidence_factors": result.get("confidence_factors"),
+                                         "review_priority": result.get("review_priority"), "severity": result.get("severity", "UNKNOWN")}, ensure_ascii=True)]
         lines += ["", "## Limiti raggiunti", json.dumps(report["limits_reached"]),
                   "", "## Revisione manuale", json.dumps(report["manual_review"], ensure_ascii=True),
                   "", "## Errori", json.dumps(state["errors"], ensure_ascii=True),
                   "", "## Limitazioni", *report["limitations"]]
+        if self.module == "subfinding":
+            lines += ["", "## Ricognizione", json.dumps(report["reconnaissance"], ensure_ascii=True)]
         atomic_write(self.directory / "report.md", "\n\n".join(lines) + "\n")
+        atomic_write(self.directory / "report.txt", "\n".join(lines) + "\n")
         if self.target:
             reports = confined(self.project, self.output_root / "reports")
-            for extension in ("json", "md"):
+            for extension in ("json", "md", "txt"):
                 source = self.directory / f"report.{extension}"
                 atomic_write(confined(self.project, reports / f"{state['run_id']}.{extension}"), source.read_text(encoding="utf-8"))
             if state["status"] == "COMPLETED":
                 sources = list((self.directory / "subfinding").iterdir()) if self.module == "subfinding" else [self.directory / "findings.json", queue_path]
                 self._publish(sources)
+                if self.module == "subfinding":
+                    self._publish(list((self.directory / "crawler").iterdir()), "crawler")
 
-    def _publish(self, sources: list[Path]) -> None:
+    def _publish(self, sources: list[Path], projection=None) -> None:
         """Aggiorna la vista corrente solo se i file precedenti sono ancora quelli generati."""
-        destination = confined(self.project, self.output_root / self.module)
+        destination = confined(self.project, self.output_root / (projection or self.module))
         destination.mkdir(exist_ok=True)
         manifest_path = confined(self.project, destination / "latest.json")
         previous = read_json(manifest_path) if manifest_path.exists() else None
@@ -438,7 +645,7 @@ class Engine:
 
 
 def review(directory: Path, finding_id: str, status: str) -> None:
-    if status not in ("PENDING_REVIEW", "IN_REVIEW", "CONFIRMED", "DISMISSED"):
+    if status not in ("PENDING_REVIEW", "IN_REVIEW", "CONFIRMED", "DISMISSED", "FALSE_POSITIVE"):
         raise DataError("Stato revisione non valido")
     path = confined(directory.parent.parent, directory / "manual_review.json")
     queue = read_json(path)
@@ -530,11 +737,25 @@ def migrate_legacy(project: Path, scope: Scope, config: dict) -> list[str]:
 
 
 def run_batch(engines: list[Engine], observer=None) -> list[dict]:
+    if not engines:
+        return []
+    if min(engine.config["execution"].get("max_concurrent_domains", 1) for engine in engines) > 1:
+        from .domain_workers import execute as execute_domains
+        summary = execute_domains(engines, _run_batch_serial, observer)
+    else:
+        summary = _run_batch_serial(engines, observer)
+    from .reporting import export_project
+    for project in {engine.project for engine in engines}:
+        export_project(project, engines, summary)
+    return summary
+
+
+def _run_batch_serial(engines: list[Engine], observer=None, shared_limiter=None, shared_budget=None) -> list[dict]:
     """Continua sugli altri domini dopo errori; un'interruzione ferma l'intero batch."""
     summary = []
     interrupted = False
     # Il cambio di dominio non deve azzerare il budget HTTP o il backoff del batch.
-    limiter = RateLimiter(min(engine.config["http"]["requests_per_second"] for engine in engines)) if engines else None
+    limiter = shared_limiter or (RateLimiter(min(engine.config["http"]["requests_per_second"] for engine in engines)) if engines else None)
     for index, engine in enumerate(engines, 1):
         row = {"project": engine.project.name, "domain": engine.target,
                "module": engine.module, "run_id": engine.state["run_id"], "errors": 0}
@@ -543,12 +764,14 @@ def run_batch(engines: list[Engine], observer=None) -> list[dict]:
             continue
         try:
             engine.client.limiter = limiter
+            if shared_budget is not None:
+                engine.client.budget = shared_budget
             def monitor(state: dict) -> None:
                 if observer:
                     observer({**state, "batch_index": index, "batch_total": len(engines)})
             engine.execute(monitor)
             status = engine.state["status"]
-            summary.append({**row, "status": status, "processed": True, "errors": len(engine.state["errors"])})
+            summary.append({**row, "status": status, "verification_outcome": run_outcome(engine.state), "processed": True, "errors": len(engine.state["errors"])})
             interrupted = status == "INTERRUPTED"
         except KeyboardInterrupt:
             summary.append({**row, "status": "INTERRUPTED", "processed": True})
@@ -572,12 +795,15 @@ def scan_diff(before: dict, after: dict) -> dict:
     for key in ("hosts", "live_hosts", "endpoints", "inputs", "results"):
         def index(state: dict) -> dict:
             if key == "results":
-                return {r["id"]: {k: v for k, v in r.items() if k not in ("timestamp", "run_id")} for r in state[key]}
+                from .diffing import finding_semantic
+                return {r.get("issue_fingerprint", r["id"]): finding_semantic(r) for r in state[key]}
             if key == "inputs":
-                return {fingerprint([r["url"], r["method"], r["parameter"]]): {k: v for k, v in r.items() if k != "timestamp"} for r in state[key]}
+                from .diffing import semantic
+                return {fingerprint([r["url"], r["method"], r.get("location", "query"), r["parameter"]]): semantic(r) for r in state[key]}
             return {r: r for r in state[key]}
         old, new = index(before), index(after)
         common = old.keys() & new.keys()
         result[key] = {"new": sorted(new.keys() - old.keys()), "not_detected": sorted(old.keys() - new.keys()),
                        "changed": sorted(k for k in common if old[k] != new[k]), "unchanged": sorted(k for k in common if old[k] == new[k])}
-    return result
+    from .diffing import extend_diff
+    return extend_diff(result, before, after)

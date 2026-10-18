@@ -1,0 +1,11 @@
+Collecting PyYAML<7,>=6.0.2 (from -r C:\Users\Pc\Desktop\XITool\requirements.txt (line 1))
+  Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata (2.4 kB)
+Collecting dnspython<3,>=2.6.1 (from -r C:\Users\Pc\Desktop\XITool\requirements.txt (line 2))
+  Downloading dnspython-2.9.0-py3-none-any.whl.metadata (5.7 kB)
+Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+Downloading dnspython-2.9.0-py3-none-any.whl (354 kB)
+Installing collected packages: PyYAML, dnspython
+Successfully installed PyYAML-6.0.3 dnspython-2.9.0
+
+[notice] A new release of pip is available: 25.0.1 -> 26.2.1
+[notice] To update, run: C:\Users\Pc\Documents\Codex\2026-10-15\files-pasted-by-the-user-xitool\work\v52-venv\Scripts\python.exe -m pip install --upgrade pip

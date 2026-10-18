@@ -1,0 +1,20 @@
+Obtaining file:///C:/Users/Pc/Desktop/XITool
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: xitool
+  Building editable for xitool (pyproject.toml): started
+  Building editable for xitool (pyproject.toml): finished with status 'done'
+  Created wheel for xitool: filename=xitool-5.2.0a1-0.editable-py3-none-any.whl size=3019 sha256=a7884ba1376ae886b3994cd1734cc1e962cce6d74d7fac9705ae0dc7e4c1b75a
+  Stored in directory: C:\Users\Pc\Documents\Codex\2026-10-15\files-pasted-by-the-user-xitool\work\pip-temp\pip-ephem-wheel-cache-zqvwbztd\wheels\8b\d3\11\a5c6bfcb1f7f91f031d17da744804697c4ab5e03d2e6420927
+Successfully built xitool
+Installing collected packages: xitool
+Successfully installed xitool-5.2.0a1
+
+[notice] A new release of pip is available: 25.0.1 -> 26.2.1
+[notice] To update, run: C:\Users\Pc\Documents\Codex\2026-10-15\files-pasted-by-the-user-xitool\work\v52-venv\Scripts\python.exe -m pip install --upgrade pip

@@ -1,0 +1,1 @@
+NOT_EXECUTED: Kali nativo non accessibile. VirtualBox E_ACCESSDENIED; Bash/MSYS 0xC0000022. Questo file non è un log di test Kali superati.

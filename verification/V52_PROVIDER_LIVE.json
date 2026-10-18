@@ -1,0 +1,75 @@
+{
+  "root": "example.com",
+  "target_http_probed": false,
+  "providers": [
+    {
+      "provider": "crtsh",
+      "queried_at": "2026-10-18T00:19:13.295154Z",
+      "root": "example.com",
+      "hosts": [],
+      "wildcard_certificates": [],
+      "errors": [
+        "NetworkError"
+      ],
+      "pages_requested": 1,
+      "pages_completed": 0,
+      "available": null,
+      "pages": 0,
+      "raw_results": 0,
+      "complete": false,
+      "unique_results": 0,
+      "seed_excluded": 0,
+      "requests": 1,
+      "provenance": {
+        "provider": "crtsh",
+        "endpoint": "https://crt.sh/",
+        "root": "example.com"
+      },
+      "availability": "UNCONFIRMED",
+      "empty_success": false,
+      "response_time_seconds": 5.203,
+      "status": "TIMEOUT",
+      "limits": [],
+      "legacy_status": "FAILED",
+      "attempts": 1,
+      "duplicates": 0,
+      "error_category": "NETWORK_TIMEOUT"
+    },
+    {
+      "provider": "certspotter",
+      "queried_at": "2026-10-18T00:19:18.471885Z",
+      "root": "example.com",
+      "hosts": [
+        "example.com",
+        "www.example.com"
+      ],
+      "wildcard_certificates": [
+        "*.example.com"
+      ],
+      "errors": [],
+      "pages_requested": 2,
+      "pages_completed": 2,
+      "available": true,
+      "pages": 2,
+      "raw_results": 40,
+      "complete": true,
+      "unique_results": 2,
+      "seed_excluded": 1,
+      "requests": 2,
+      "provenance": {
+        "provider": "certspotter",
+        "endpoint": "https://api.certspotter.com/v1/issuances",
+        "root": "example.com"
+      },
+      "availability": "RESPONDED",
+      "empty_success": false,
+      "response_time_seconds": 4.453,
+      "status": "SUCCESS",
+      "limits": [],
+      "legacy_status": "SUCCEEDED",
+      "attempts": 2,
+      "duplicates": 13,
+      "error_category": null
+    }
+  ]
+}

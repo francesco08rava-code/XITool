@@ -1,0 +1,41 @@
+{
+  "platform": "Windows",
+  "cwd_outside_project": true,
+  "PYTHONPATH_used": false,
+  "dependency_check": "No broken requirements found.\n",
+  "checks": [
+    {
+      "arguments": [
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "XITool 5.2.0a1\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "usage: XITool [-h] [--data-dir DATA_DIR] [--config CONFIG] [--version]\n\nXITool 5.2 alpha \u2014 ricognizione e verifiche web autorizzate\n\noptions:\n  -h, --help           show this help message and exit\n  --data-dir DATA_DIR\n  --config CONFIG\n  --version            show program's version number and exit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "--invalid-option"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "usage: XITool [-h] [--data-dir DATA_DIR] [--config CONFIG] [--version]\nXITool: error: unrecognized arguments: --invalid-option\n"
+    },
+    {
+      "arguments": [
+        "--data-dir",
+        "ISOLATED_TEMP"
+      ],
+      "exit_code": 0,
+      "stdout": "\n\n\u2588\u2588\u2557  \u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2557\n\u255a\u2588\u2588\u2557\u2588\u2588\u2554\u255d\u2588\u2588\u2551\u255a\u2550\u2550\u2588\u2588\u2554\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2551\n \u255a\u2588\u2588\u2588\u2554\u255d \u2588\u2588\u2551   \u2588\u2588\u2551   \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551\n \u2588\u2588\u2554\u2588\u2588\u2557 \u2588\u2588\u2551   \u2588\u2588\u2551   \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551\n\u2588\u2588\u2554\u255d \u2588\u2588\u2557\u2588\u2588\u2551   \u2588\u2588\u2551   \u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\n\u255a\u2550\u255d  \u255a\u2550\u255d\u255a\u2550\u255d   \u255a\u2550\u255d    \u255a\u2550\u2550\u2550\u2550\u2550\u255d  \u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n        XITool | Feel free\n        SECURITY TOOLKIT\n        Versione 5.2.0a1\n\n[1] CREA PROGETTO\n[2] APRI PROGETTI\n[3] ESECUZIONE\n\n[0] ESCI\nScelta: ",
+      "stderr": ""
+    }
+  ]
+}

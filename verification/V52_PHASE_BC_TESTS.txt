@@ -1,0 +1,32 @@
+test_comments_and_malformed_program (test_v52.ASTTests.test_comments_and_malformed_program) ... ok
+test_const_concat_alias_and_static_template (test_v52.ASTTests.test_const_concat_alias_and_static_template) ... ok
+test_future_shadow_not_treated_as_global (test_v52.ASTTests.test_future_shadow_not_treated_as_global) ... ok
+test_mutable_and_unknown_values_unresolved (test_v52.ASTTests.test_mutable_and_unknown_values_unresolved) ... ok
+test_shadowed_parameter_does_not_resolve_builtin (test_v52.ASTTests.test_shadowed_parameter_does_not_resolve_builtin) ... ok
+test_xhr_and_axios_alias (test_v52.ASTTests.test_xhr_and_axios_alias) ... ok
+test_failure_burst_reduces_once_but_keeps_cooldown (test_v52.ErrorAndBackoffTests.test_failure_burst_reduces_once_but_keeps_cooldown) ... ok
+test_jitter_is_bounded_and_injectable (test_v52.ErrorAndBackoffTests.test_jitter_is_bounded_and_injectable) ... ok
+test_retry_after_not_coalesced_or_shortened (test_v52.ErrorAndBackoffTests.test_retry_after_not_coalesced_or_shortened) ... ok
+test_taxonomy_cause_status_and_cancel (test_v52.ErrorAndBackoffTests.test_taxonomy_cause_status_and_cancel) ... ok
+test_rate_limit_and_server_error (test_v52.ProviderStatesTests.test_rate_limit_and_server_error) ... ok
+test_success_duplicates_and_provenance (test_v52.ProviderStatesTests.test_success_duplicates_and_provenance) ... ok
+test_success_empty_distinct_from_failure (test_v52.ProviderStatesTests.test_success_empty_distinct_from_failure) ... ok
+test_timeout_and_parse_error (test_v52.ProviderStatesTests.test_timeout_and_parse_error) ... ok
+test_certificate_wildcard_never_becomes_a_concrete_host (test_v3.PassiveTests.test_certificate_wildcard_never_becomes_a_concrete_host) ... ok
+test_certspotter_pagination_and_provenance (test_v3.PassiveTests.test_certspotter_pagination_and_provenance) ... ok
+test_crtsh_adapter_normalizes_deduplicates_and_excludes_unrelated_sans (test_v3.PassiveTests.test_crtsh_adapter_normalizes_deduplicates_and_excludes_unrelated_sans) ... ok
+test_invalid_provider_and_ip_seeds (test_v3.PassiveTests.test_invalid_provider_and_ip_seeds) ... ok
+test_missing_schema_fields_are_errors_not_successful_empty_results (test_v3.PassiveTests.test_missing_schema_fields_are_errors_not_successful_empty_results) ... ok
+test_provider_failure_retains_previous_page (test_v3.PassiveTests.test_provider_failure_retains_previous_page) ... ok
+test_provider_redirect_cannot_contact_another_host (test_v3.PassiveTests.test_provider_redirect_cannot_contact_another_host) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_unavailable_invalid_and_truncated_providers (test_v3.PassiveTests.test_unavailable_invalid_and_truncated_providers) ... ok
+test_real_a_aaaa_cname_and_ttl_cache (test_v5_dns.LocalDNSTests.test_real_a_aaaa_cname_and_ttl_cache) ... ok
+test_real_dns_wildcard_is_observed (test_v5_dns.LocalDNSTests.test_real_dns_wildcard_is_observed) ... ok
+test_real_nxdomain_is_not_a_transport_failure (test_v5_dns.LocalDNSTests.test_real_nxdomain_is_not_a_transport_failure) ... ok
+test_real_servfail_is_not_nonexistent_domain (test_v5_dns.LocalDNSTests.test_real_servfail_is_not_nonexistent_domain) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.644s
+
+OK

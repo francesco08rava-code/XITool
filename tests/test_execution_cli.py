@@ -215,7 +215,7 @@ class EngineTests(unittest.TestCase):
         with self.assertRaises(DataError):
             Engine(self.project, self.scope, self.config, "xss", tasks=[])
         with self.assertRaises(DataError):
-            build_tasks("sqli", self.scope, [], ["https://example.com/"])
+            build_tasks("unknown", self.scope, [], ["https://example.com/"])
 
     def test_deduplicate_tasks(self):
         task = {"url": "https://example.com/"}

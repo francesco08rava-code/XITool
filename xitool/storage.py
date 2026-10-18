@@ -86,12 +86,13 @@ def confined(root: Path, path: Path) -> Path:
 
 DEFAULTS = {
     "http": {"timeout_seconds": 10, "max_retries": 2, "max_concurrency": 1,
+             "connect_timeout_seconds": 10, "read_timeout_seconds": 10, "retry_jitter_seconds": 0.0,
              "requests_per_second": 2, "max_body_bytes": 1048576,
-             "max_redirects": 5, "allowed_ports": [80, 443]},
+             "max_redirects": 5, "allowed_ports": [80, 443], "max_concurrency_per_host": 2},
     "checkpoint": {"enabled": True, "interval_seconds": 30, "completed_items_interval": 10},
     "cache": {"enabled": True, "ttl_seconds": 300},
-    "execution": {"require_confirmation": True, "resume_enabled": True, "max_tasks": 1000},
-    "discovery": {"max_depth": 2, "max_pages": 50},
+    "execution": {"require_confirmation": True, "resume_enabled": True, "max_tasks": 1000, "max_concurrent_domains": 1, "max_duration_seconds": 600},
+    "discovery": {"max_depth": 2, "max_pages": 50, "ct_providers": ["crtsh", "certspotter"]},
     "logging": {"level": "INFO"},
 }
 
@@ -106,11 +107,11 @@ def load_config(path: Path) -> dict:
         raise DataError("config.yaml deve contenere una mappa")
     result = json.loads(json.dumps(DEFAULTS))
     limits = {
-        "timeout_seconds": (0.1, 60), "max_retries": (0, 5), "max_concurrency": (1, 10),
+        "timeout_seconds": (0.1, 60), "connect_timeout_seconds": (0.1, 60), "read_timeout_seconds": (0.1, 60), "max_retries": (0, 5), "max_concurrency": (1, 10),
         "requests_per_second": (0.01, 20), "max_body_bytes": (1024, 4194304),
-        "max_redirects": (0, 10), "interval_seconds": (1, 300),
+        "retry_jitter_seconds": (0, 1), "max_redirects": (0, 10), "interval_seconds": (1, 300),
         "completed_items_interval": (1, 1000), "ttl_seconds": (1, 3600),
-        "max_tasks": (1, 10000), "max_depth": (0, 5), "max_pages": (1, 500),
+        "max_concurrency_per_host": (1, 10), "max_concurrent_domains": (1, 5), "max_duration_seconds": (1, 86400), "max_tasks": (1, 10000), "max_depth": (0, 5), "max_pages": (1, 500),
     }
     for section, settings in raw.items():
         if section not in result or not isinstance(settings, dict):
@@ -122,6 +123,9 @@ def load_config(path: Path) -> dict:
             if isinstance(default, bool):
                 if type(value) is not bool:
                     raise DataError(f"{key}: booleano richiesto")
+            elif key == "ct_providers":
+                if not isinstance(value, list) or any(not isinstance(name, str) or name not in ("crtsh", "certspotter") for name in value) or len(value) != len(set(value)):
+                    raise DataError("ct_providers: elenco senza duplicati di crtsh/certspotter richiesto")
             elif key == "allowed_ports":
                 if not isinstance(value, list) or not value or any(type(p) is not int or not 1 <= p <= 65535 for p in value):
                     raise DataError("allowed_ports: elenco di porte valido richiesto")
@@ -130,7 +134,7 @@ def load_config(path: Path) -> dict:
                     raise DataError("Livello logging non valido")
             else:
                 low, high = limits[key]
-                numeric_type = (int, float) if key in ("timeout_seconds", "requests_per_second") else (int,)
+                numeric_type = (int, float) if key in ("timeout_seconds", "connect_timeout_seconds", "read_timeout_seconds", "requests_per_second", "retry_jitter_seconds") else (int,)
                 if type(value) not in numeric_type or not low <= value <= high:
                     raise DataError(f"{key}: intervallo {low}..{high} richiesto")
             result[section][key] = value
@@ -161,7 +165,7 @@ class Projects:
         if any(p.name.casefold() == name.casefold() for p in self.root.iterdir()):
             raise DataError("Progetto già esistente")
         path.mkdir()
-        save_json(path / "scope.json", {"name": name, "domains": scope.domains,
+        save_json(path / "scope.json", {"name": name, "domains": scope.raw_domains,
                   "excluded_hosts": scope.excluded, "created_at": utcnow()})
         self.prepare(path, scope)
         return path
@@ -193,6 +197,6 @@ def target_path(project: Path, domain: str) -> Path:
     folder = host.replace(":", "-") if ":" in host else host
     if ":" in host:
         folder = "ip6-" + folder
-    if folder.lower() in {"scope.json", "runs", "reports", "subfinding", "xss", "sqli", "idor", "access", "ssrf", "traversal", "authentication", "sensitive", "cors", "misconfiguration", "con", "prn", "aux", "nul", *(f"com{i}" for i in range(10)), *(f"lpt{i}" for i in range(10))}:
+    if folder.lower() in {"scope.json", "runs", "reports", "plans", "crawler", "diff", "subfinding", "xss", "sqli", "idor", "access", "ssrf", "traversal", "authentication", "sensitive", "cors", "misconfiguration", "con", "prn", "aux", "nul", *(f"com{i}" for i in range(10)), *(f"lpt{i}" for i in range(10))}:
         folder = "host-" + folder
     return confined(project, project / folder)

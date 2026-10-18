@@ -1,0 +1,99 @@
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004307_013144Z_2f43882c"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004316_787561Z_5fdb65a5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004329_724402Z_d7700f95"}
+{
+  "version": "5.2.0a1",
+  "workers_configured": 5,
+  "host_slots": 5,
+  "tasks": 12,
+  "rate_limit": 20,
+  "scenario": "timeout",
+  "server_delay_seconds": 0.25,
+  "memory_metric": "tracemalloc Python allocations per run; separate OS process-lifetime peak RSS",
+  "process_lifetime_peak_rss_bytes": 33054720,
+  "runs": [
+    {
+      "seconds": 9.764686399999846,
+      "python_peak_bytes": 421253,
+      "requests": 12,
+      "requests_per_second": 1.228918114564354,
+      "peak_active_http": 6,
+      "tasks_per_second": 1.228918114564354,
+      "interrupted_and_resumed": false,
+      "errors": 12,
+      "timeouts": 12,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 0,
+      "status": "COMPLETED"
+    },
+    {
+      "seconds": 12.91646110000056,
+      "python_peak_bytes": 152442,
+      "requests": 12,
+      "requests_per_second": 0.9290470436983299,
+      "peak_active_http": 5,
+      "tasks_per_second": 0.9290470436983299,
+      "interrupted_and_resumed": false,
+      "errors": 12,
+      "timeouts": 12,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 0,
+      "status": "COMPLETED"
+    },
+    {
+      "seconds": 12.886655399999654,
+      "python_peak_bytes": 152435,
+      "requests": 12,
+      "requests_per_second": 0.931195847760492,
+      "peak_active_http": 5,
+      "tasks_per_second": 0.931195847760492,
+      "interrupted_and_resumed": false,
+      "errors": 12,
+      "timeouts": 12,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 0,
+      "status": "COMPLETED"
+    }
+  ],
+  "median_seconds": 12.886655399999654,
+  "min_seconds": 9.764686399999846,
+  "max_seconds": 12.91646110000056,
+  "stdev_seconds": 1.8111351217895064,
+  "median_python_peak_bytes": 152442
+}

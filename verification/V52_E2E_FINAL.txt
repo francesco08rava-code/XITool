@@ -1,0 +1,14 @@
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004732_552057Z_8ee86f15"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004733_868465Z_d7c6bc3d"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004735_088281Z_ff09391a"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004735_874723Z_038df68b"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004819_581558Z_9b444c00"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004823_952872Z_d44dd193"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004834_303977Z_bd0cecd9"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004842_845148Z_1c46d06e"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004851_487381Z_ea211b72"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004853_383185Z_e794abf8"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004859_215056Z_07f16ace"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004919_797637Z_bb531ef5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004931_067451Z_fd550510"}
+{'success': True, 'cases': 71, 'modules': ['access', 'authentication', 'cors', 'crawler', 'idor', 'misconfiguration', 'sensitive', 'smart', 'sqli', 'ssrf', 'subfinding', 'traversal', 'xss']}

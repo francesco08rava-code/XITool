@@ -1,0 +1,37 @@
+{
+  "new": [
+    "benchmarks/validate_integrated.py",
+    "benchmarks/verify_interrupt.py",
+    "benchmarks/verify_providers.py",
+    "pyproject.toml",
+    "tests/lab_app.py",
+    "tests/lab_runner.py",
+    "tests/lab_sources.py",
+    "tests/test_v52.py",
+    "tests/test_v52_integration.py",
+    "xitool/errors.py"
+  ],
+  "modified": [
+    "benchmarks/benchmark_local.py",
+    "install.sh",
+    "verify_kali.sh",
+    "xitool/__init__.py",
+    "xitool/browser_lab.py",
+    "xitool/callback_checks.py",
+    "xitool/cli.py",
+    "xitool/controlled.py",
+    "xitool/diffing.py",
+    "xitool/execution.py",
+    "xitool/http.py",
+    "xitool/inputs.py",
+    "xitool/javascript.py",
+    "xitool/passive.py",
+    "xitool/plans.py",
+    "xitool/recon_output.py",
+    "xitool/scanners.py",
+    "xitool/sessions.py",
+    "xitool/storage.py",
+    "xitool/workers.py"
+  ],
+  "removed": []
+}

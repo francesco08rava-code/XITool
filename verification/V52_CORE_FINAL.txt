@@ -1,0 +1,66 @@
+test_comments_and_malformed_program (test_v52.ASTTests.test_comments_and_malformed_program) ... ok
+test_const_concat_alias_and_static_template (test_v52.ASTTests.test_const_concat_alias_and_static_template) ... ok
+test_function_and_import_shadow_builtin_names (test_v52.ASTTests.test_function_and_import_shadow_builtin_names) ... ok
+test_future_shadow_not_treated_as_global (test_v52.ASTTests.test_future_shadow_not_treated_as_global) ... ok
+test_mutable_and_unknown_values_unresolved (test_v52.ASTTests.test_mutable_and_unknown_values_unresolved) ... ok
+test_nested_program_reports_analysis_limit (test_v52.ASTTests.test_nested_program_reports_analysis_limit) ... ok
+test_shadowed_parameter_does_not_resolve_builtin (test_v52.ASTTests.test_shadowed_parameter_does_not_resolve_builtin) ... ok
+test_xhr_and_axios_alias (test_v52.ASTTests.test_xhr_and_axios_alias) ... ok
+test_fixture_callback_also_requires_scope_ip_authorization (test_v52.CallbackScopeTests.test_fixture_callback_also_requires_scope_ip_authorization) ... ok
+test_fixture_flag_cannot_enable_private_callback_for_public_target (test_v52.CallbackScopeTests.test_fixture_flag_cannot_enable_private_callback_for_public_target) ... ok
+test_failure_burst_reduces_once_but_keeps_cooldown (test_v52.ErrorAndBackoffTests.test_failure_burst_reduces_once_but_keeps_cooldown) ... ok
+test_jitter_is_bounded_and_injectable (test_v52.ErrorAndBackoffTests.test_jitter_is_bounded_and_injectable) ... ok
+test_retry_after_not_coalesced_or_shortened (test_v52.ErrorAndBackoffTests.test_retry_after_not_coalesced_or_shortened) ... ok
+test_stalled_dns_threads_bounded_across_distinct_clients (test_v52.ErrorAndBackoffTests.test_stalled_dns_threads_bounded_across_distinct_clients) ... ok
+test_taxonomy_cause_status_and_cancel (test_v52.ErrorAndBackoffTests.test_taxonomy_cause_status_and_cancel) ... ok
+test_disabled_provider_never_sends_request (test_v52.ProviderStatesTests.test_disabled_provider_never_sends_request) ... ok
+test_rate_limit_and_server_error (test_v52.ProviderStatesTests.test_rate_limit_and_server_error) ... ok
+test_success_duplicates_and_provenance (test_v52.ProviderStatesTests.test_success_duplicates_and_provenance) ... ok
+test_success_empty_distinct_from_failure (test_v52.ProviderStatesTests.test_success_empty_distinct_from_failure) ... ok
+test_timeout_and_parse_error (test_v52.ProviderStatesTests.test_timeout_and_parse_error) ... ok
+test_429_bounded_retries (test_http_scanners.HTTPTests.test_429_bounded_retries) ... ok
+test_cache_ttl_and_no_store (test_http_scanners.HTTPTests.test_cache_ttl_and_no_store) ... ok
+test_dns_not_reresolved_during_connect (test_http_scanners.HTTPTests.test_dns_not_reresolved_during_connect) ... ok
+test_dns_private_blocked_before_socket (test_http_scanners.HTTPTests.test_dns_private_blocked_before_socket) ... ok
+test_limiter_spacing_and_retry_after (test_http_scanners.HTTPTests.test_limiter_spacing_and_retry_after) ... ok
+test_origin_separate_cache (test_http_scanners.HTTPTests.test_origin_separate_cache) ... ok
+test_peer_mismatch (test_http_scanners.HTTPTests.test_peer_mismatch) ... ok
+test_redirect_each_hop_and_loop (test_http_scanners.HTTPTests.test_redirect_each_hop_and_loop) ... ok
+test_redirect_out_of_scope (test_http_scanners.HTTPTests.test_redirect_out_of_scope) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_reject_before_transport (test_http_scanners.HTTPTests.test_reject_before_transport) ... {"event":"scope_blocked","stage":"url"}
+ok
+test_stalled_dns_is_bounded_and_does_not_accumulate_threads (test_http_scanners.HTTPTests.test_stalled_dns_is_bounded_and_does_not_accumulate_threads) ... ok
+test_timeout_retry (test_http_scanners.HTTPTests.test_timeout_retry) ... ok
+test_actual_http_loopback_requires_explicit_cidr (test_http_scanners.LocalLabTests.test_actual_http_loopback_requires_explicit_cidr) ... {"event":"scope_blocked","stage":"destination"}
+ok
+test_local_workflow_discovery_checks_and_reports (test_http_scanners.LocalLabTests.test_local_workflow_discovery_checks_and_reports) ... ok
+test_classifier (test_http_scanners.ScannerTests.test_classifier) ... ok
+test_cookie_values_never_stored (test_http_scanners.ScannerTests.test_cookie_values_never_stored) ... ok
+test_cors_wildcard_not_vulnerability (test_http_scanners.ScannerTests.test_cors_wildcard_not_vulnerability) ... ok
+test_encoded_reflection_not_vulnerability (test_http_scanners.ScannerTests.test_encoded_reflection_not_vulnerability) ... ok
+test_html_discovery_and_forms (test_http_scanners.ScannerTests.test_html_discovery_and_forms) ... ok
+test_idor_only_classifies_no_request (test_http_scanners.ScannerTests.test_idor_only_classifies_no_request) ... ok
+test_javascript_static_references (test_http_scanners.ScannerTests.test_javascript_static_references) ... ok
+test_observed_query_is_not_lost_when_same_field_appears_in_form (test_http_scanners.ScannerTests.test_observed_query_is_not_lost_when_same_field_appears_in_form) ... ok
+test_secret_values_masked (test_http_scanners.ScannerTests.test_secret_values_masked) ... ok
+test_sensitive_and_mutative_urls_rejected (test_http_scanners.ScannerTests.test_sensitive_and_mutative_urls_rejected) ... ok
+test_smart_filters_post_xss (test_http_scanners.ScannerTests.test_smart_filters_post_xss) ... ok
+test_xss_reflection_never_verified (test_http_scanners.ScannerTests.test_xss_reflection_never_verified) ... ok
+test_internal_literal_and_arbitrary_log_paths_are_invalid (test_callbacks.CallbackTests.test_internal_literal_and_arbitrary_log_paths_are_invalid) ... ok
+test_missing_callback_stays_partial_not_clean_or_verified (test_callbacks.CallbackTests.test_missing_callback_stays_partial_not_clean_or_verified) ... ok
+test_missing_sensor_log_is_unsupported_without_target_request (test_callbacks.CallbackTests.test_missing_sensor_log_is_unsupported_without_target_request) ... ok
+test_private_callback_dns_is_rejected_before_target_request (test_callbacks.CallbackTests.test_private_callback_dns_is_rejected_before_target_request) ... ok
+test_real_sensor_correlates_nonce_timestamp_and_expected_source (test_callbacks.CallbackTests.test_real_sensor_correlates_nonce_timestamp_and_expected_source) ... ok
+test_forged_completed_step_cannot_redirect_engine_to_another_project (test_completion.PlanTests.test_forged_completed_step_cannot_redirect_engine_to_another_project) ... ok
+test_no_input_is_saved_as_not_started_without_network (test_completion.PlanTests.test_no_input_is_saved_as_not_started_without_network) ... ok
+test_open_projects_exposes_smart_plans_without_writes_or_execution (test_completion.PlanTests.test_open_projects_exposes_smart_plans_without_writes_or_execution) ... ok
+test_persistent_plan_resume_skips_completed_domain_and_keeps_reports (test_completion.PlanTests.test_persistent_plan_resume_skips_completed_domain_and_keeps_reports) ... ok
+test_plan_continues_after_one_domain_failure (test_completion.PlanTests.test_plan_continues_after_one_domain_failure) ... ok
+test_plan_scope_config_and_integrity_are_validated (test_completion.PlanTests.test_plan_scope_config_and_integrity_are_validated) ... ok
+test_recon_plan_remains_awaiting_operator_selection (test_completion.PlanTests.test_recon_plan_remains_awaiting_operator_selection) ... ok
+
+----------------------------------------------------------------------
+Ran 58 tests in 11.107s
+
+OK

@@ -1,0 +1,2191 @@
+{
+  "success": true,
+  "cases": [
+    {
+      "id": "subfinding:provider-failed:0",
+      "module": "subfinding",
+      "category": "provider_availability",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "provider-failed",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "HTTP_SERVER_ERROR"
+    },
+    {
+      "id": "subfinding:CT-DNS-HTTP-new-host:1",
+      "module": "subfinding",
+      "category": "provider_dns_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "CT-DNS-HTTP-new-host",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "subfinding:outside-CNAME-not-queried:2",
+      "module": "subfinding",
+      "category": "scope_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "outside-CNAME-not-queried",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "subfinding:NXDOMAIN:3",
+      "module": "subfinding",
+      "category": "dns_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "NXDOMAIN",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "subfinding:seed-not-new:4",
+      "module": "subfinding",
+      "category": "seed_discovery",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "seed-not-new",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "subfinding:seed-reachable:5",
+      "module": "subfinding",
+      "category": "reachability",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "seed-reachable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "crawler:query-and-form:6",
+      "module": "crawler",
+      "category": "input_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "query-and-form",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "crawler:outside-not-reached:7",
+      "module": "crawler",
+      "category": "scope_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "outside-not-reached",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "crawler:static-JS-not-queued:8",
+      "module": "crawler",
+      "category": "scope_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "static-JS-not-queued",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "crawler:SPA-network:9",
+      "module": "crawler",
+      "category": "dynamic_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "SPA-network",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "COMPLETED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "crawler:SPA-DOM-link:10",
+      "module": "crawler",
+      "category": "dynamic_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "SPA-DOM-link",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "COMPLETED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "crawler:connection-drop:11",
+      "module": "crawler",
+      "category": "technical_error",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "connection-drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR"
+    },
+    {
+      "id": "smart:interrupt-resume:12",
+      "module": "smart",
+      "category": "execution_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "interrupt-resume",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "COMPLETED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "smart:duplicate-findings:13",
+      "module": "smart",
+      "category": "dedup_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "duplicate-findings",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "smart:dependency-error-blocked:14",
+      "module": "smart",
+      "category": "technical_error",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "dependency-error-blocked",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR"
+    },
+    {
+      "id": "idor:/owned-vulnerable:15",
+      "module": "idor",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-vulnerable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "idor:/owned-safe:16",
+      "module": "idor",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "idor:/owned-plain200:17",
+      "module": "idor",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-plain200",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "idor:/xitool-lab/drop:18",
+      "module": "idor",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "idor:/owned-safe:19",
+      "module": "idor",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-safe",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "access:/owned-vulnerable:20",
+      "module": "access",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-vulnerable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "access:/owned-safe:21",
+      "module": "access",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "access:/owned-plain200:22",
+      "module": "access",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-plain200",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "access:/xitool-lab/drop:23",
+      "module": "access",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "access:/owned-safe:24",
+      "module": "access",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/owned-safe",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "owner_profile": "owner",
+          "other_profile": "other",
+          "other_reference_url": "http://127.0.0.1:58749/other-reference",
+          "other_proof_env": "XITOOL_OTHER_PROOF",
+          "expected_other_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "xss:/xitool-lab/xss-vulnerable?q=hello:25",
+      "module": "xss",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/xss-vulnerable?q=hello",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "q",
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "xss:/xitool-lab/xss-safe?q=hello:26",
+      "module": "xss",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/xss-safe?q=hello",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "q",
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "xss:/xitool-lab/xss-csp?q=hello:27",
+      "module": "xss",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/xss-csp?q=hello",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "q",
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "xss:/xitool-lab/dom-vulnerable:28",
+      "module": "xss",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/dom-vulnerable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "fragment",
+          "fixture_only": true,
+          "dom_source": "fragment"
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "xss:/xitool-lab/dom-safe:29",
+      "module": "xss",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/dom-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "fragment",
+          "fixture_only": true,
+          "dom_source": "fragment"
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "xss:/xitool-lab/drop?q=hello:30",
+      "module": "xss",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop?q=hello",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "parameter": "q",
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-vulnerable?id=1:31",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-vulnerable?id=1",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "POTENTIAL",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-safe?id=1:32",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-safe?id=1",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": false,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/drop?id=1:33",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop?id=1",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-vulnerable:34",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-vulnerable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "POTENTIAL",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true,
+          "request": {
+            "method": "POST",
+            "content_type": "application/json",
+            "authorized": true,
+            "fields": {
+              "id": "1"
+            }
+          }
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-safe:35",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": false,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true,
+          "request": {
+            "method": "POST",
+            "content_type": "application/json",
+            "authorized": true,
+            "fields": {
+              "id": "1"
+            }
+          }
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-vulnerable:36",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-vulnerable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "POTENTIAL",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true,
+          "request": {
+            "method": "POST",
+            "content_type": "application/x-www-form-urlencoded",
+            "authorized": true,
+            "fields": {
+              "id": "1"
+            }
+          }
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-safe:37",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": false,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true,
+          "request": {
+            "method": "POST",
+            "content_type": "application/x-www-form-urlencoded",
+            "authorized": true,
+            "fields": {
+              "id": "1"
+            }
+          }
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sqli:/xitool-lab/sql-unstable?id=1:38",
+      "module": "sqli",
+      "category": "sql_candidate_differential",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/sql-unstable?id=1",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "parameter": "id",
+          "fixture_only": true,
+          "read_only_fixture": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "traversal:/xitool-lab/file?file=prepared-canary:39",
+      "module": "traversal",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/file?file=prepared-canary",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "baseline_url": "http://127.0.0.1:58749/xitool-lab/file",
+          "fixture_only": true,
+          "expected_probe_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "traversal:/xitool-lab/denied:40",
+      "module": "traversal",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/denied",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "baseline_url": "http://127.0.0.1:58749/xitool-lab/file",
+          "fixture_only": true,
+          "expected_probe_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "traversal:/xitool-lab/missing:41",
+      "module": "traversal",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/missing",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "baseline_url": "http://127.0.0.1:58749/xitool-lab/file",
+          "fixture_only": true,
+          "expected_probe_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "traversal:/xitool-lab/drop:42",
+      "module": "traversal",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "baseline_url": "http://127.0.0.1:58749/xitool-lab/file",
+          "fixture_only": true,
+          "expected_probe_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "traversal:/xitool-lab/file?file=prepared%2Dcanary:43",
+      "module": "traversal",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/file?file=prepared%2Dcanary",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "baseline_url": "http://127.0.0.1:58749/xitool-lab/file",
+          "fixture_only": true,
+          "expected_probe_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "traversal:/xitool-lab/file?file=prepared-canary:44",
+      "module": "traversal",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/file?file=prepared-canary",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "baseline_url": "http://127.0.0.1:58749/xitool-lab/unstable",
+          "fixture_only": true,
+          "expected_probe_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sensitive:/xitool-lab/secret-positive:45",
+      "module": "sensitive",
+      "category": "redacted_pattern_detector",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/secret-positive",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "MANUAL_REVIEW",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sensitive:/xitool-lab/secret-safe:46",
+      "module": "sensitive",
+      "category": "redacted_pattern_detector",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/secret-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "sensitive:/xitool-lab/drop:47",
+      "module": "sensitive",
+      "category": "redacted_pattern_detector",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "misconfiguration:/item:48",
+      "module": "misconfiguration",
+      "category": "missing_security_headers",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/item",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "misconfiguration:/xitool-lab/headers-safe:49",
+      "module": "misconfiguration",
+      "category": "missing_security_headers",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/headers-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "misconfiguration:/xitool-lab/drop:50",
+      "module": "misconfiguration",
+      "category": "missing_security_headers",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "misconfiguration:TLS-valid:51",
+      "module": "misconfiguration",
+      "category": "tls_acceptance_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "TLS-valid",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "misconfiguration:TLS-expired:52",
+      "module": "misconfiguration",
+      "category": "tls_acceptance_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "TLS-expired",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "misconfiguration:TLS-wrong-host:53",
+      "module": "misconfiguration",
+      "category": "tls_acceptance_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "TLS-wrong-host",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "misconfiguration:/xitool-lab/slow:54",
+      "module": "misconfiguration",
+      "category": "missing_security_headers",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/slow",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "TIMEOUT",
+      "observed_positive": null,
+      "error": "NETWORK_TIMEOUT",
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "authentication:/xitool-lab/protected:55",
+      "module": "authentication",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/protected",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "owner",
+          "logout_url": "http://127.0.0.1:58749/xitool-lab/end-session",
+          "fixture_only": true,
+          "logout_confirmed": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "authentication:/xitool-lab/protected:56",
+      "module": "authentication",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/protected",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "owner",
+          "logout_url": "http://127.0.0.1:58749/xitool-lab/end-session",
+          "fixture_only": true,
+          "logout_confirmed": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "authentication:/xitool-lab/drop:57",
+      "module": "authentication",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "owner",
+          "logout_url": "http://127.0.0.1:58749/xitool-lab/end-session",
+          "fixture_only": true,
+          "logout_confirmed": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "authentication:/xitool-lab/protected:58",
+      "module": "authentication",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/protected",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "owner",
+          "logout_url": "http://127.0.0.1:58749/xitool-lab/end-session",
+          "fixture_only": true,
+          "logout_confirmed": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "cors:/xitool-lab/cors-vulnerable:59",
+      "module": "cors",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/cors-vulnerable",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "cookie",
+          "caller_url": "http://127.0.0.1:58750/xitool-lab/caller",
+          "fixture_only": true,
+          "expected_cross_origin_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "cors:/xitool-lab/cors-vulnerable-preflight:60",
+      "module": "cors",
+      "category": "preflight_contract",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/cors-vulnerable-preflight",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": true,
+      "error": null
+    },
+    {
+      "id": "cors:/xitool-lab/cors-safe:61",
+      "module": "cors",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/cors-safe",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "cookie",
+          "caller_url": "http://127.0.0.1:58750/xitool-lab/caller",
+          "fixture_only": true,
+          "expected_cross_origin_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "cors:/xitool-lab/cors-safe-preflight:62",
+      "module": "cors",
+      "category": "preflight_contract",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/cors-safe-preflight",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null
+    },
+    {
+      "id": "cors:/xitool-lab/cors-public:63",
+      "module": "cors",
+      "category": "public_wildcard_false_positive_guard",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/cors-public",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "OBSERVED",
+      "observed_positive": false,
+      "error": null,
+      "conditions": {
+        "controlled_case": null,
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "cors:/xitool-lab/drop:64",
+      "module": "cors",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "proof_env": "XITOOL_OWNER_PROOF",
+          "profile": "cookie",
+          "caller_url": "http://127.0.0.1:58750/xitool-lab/caller",
+          "fixture_only": true,
+          "expected_cross_origin_access": false
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "ssrf:/xitool-lab/ssrf-vulnerable?url=initial:65",
+      "module": "ssrf",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/ssrf-vulnerable?url=initial",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "url",
+          "callback_base": "http://127.0.0.1:58749/xitool-callback/",
+          "events_file": "callback_events.jsonl",
+          "expected_source_ips": [
+            "127.0.0.1"
+          ],
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "ssrf:/xitool-lab/ssrf-safe?url=initial:66",
+      "module": "ssrf",
+      "category": "canary_or_browser_proof",
+      "ground_truth": false,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/ssrf-safe?url=initial",
+      "expected_behavior": "detector negative",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "parameter": "url",
+          "callback_base": "http://127.0.0.1:58749/xitool-callback/",
+          "events_file": "callback_events.jsonl",
+          "expected_source_ips": [
+            "127.0.0.1"
+          ],
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "ssrf:/xitool-lab/ssrf-vulnerable?url=initial&mode=duplicate:67",
+      "module": "ssrf",
+      "category": "canary_or_browser_proof",
+      "ground_truth": true,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/ssrf-vulnerable?url=initial&mode=duplicate",
+      "expected_behavior": "detector positive",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "VERIFIED",
+      "observed_positive": true,
+      "error": null,
+      "conditions": {
+        "controlled_case": {
+          "parameter": "url",
+          "callback_base": "http://127.0.0.1:58749/xitool-callback/",
+          "events_file": "callback_events.jsonl",
+          "expected_source_ips": [
+            "127.0.0.1"
+          ],
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "ssrf:/xitool-lab/ssrf-vulnerable?url=initial&mode=wrong-nonce:68",
+      "module": "ssrf",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/ssrf-vulnerable?url=initial&mode=wrong-nonce",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "PARTIAL",
+      "observed_positive": null,
+      "error": "INCONCLUSIVE_EVIDENCE",
+      "conditions": {
+        "controlled_case": {
+          "parameter": "url",
+          "callback_base": "http://127.0.0.1:58749/xitool-callback/",
+          "events_file": "callback_events.jsonl",
+          "expected_source_ips": [
+            "127.0.0.1"
+          ],
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "ssrf:/xitool-lab/ssrf-vulnerable?url=initial:69",
+      "module": "ssrf",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/ssrf-vulnerable?url=initial",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "UNSUPPORTED",
+      "observed_positive": null,
+      "error": "CALLBACK_SENSOR_LOG_MISSING",
+      "conditions": {
+        "controlled_case": {
+          "parameter": "url",
+          "callback_base": "http://127.0.0.1:58749/xitool-callback/",
+          "events_file": "callback_events.jsonl",
+          "expected_source_ips": [
+            "127.0.0.1"
+          ],
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    },
+    {
+      "id": "ssrf:/xitool-lab/drop?url=initial:70",
+      "module": "ssrf",
+      "category": "canary_or_browser_proof",
+      "ground_truth": null,
+      "initial_conditions": "Owned loopback app, synthetic accounts/canary, explicit scope and manifest",
+      "input": "/xitool-lab/drop?url=initial",
+      "expected_behavior": "INCONCLUSIVE_OR_TECHNICAL_STATE",
+      "required_evidence": "Browser/canary proof; SQL differential stays POTENTIAL; infrastructure uses contract only",
+      "observed": "ERROR",
+      "observed_positive": null,
+      "error": "CONNECTION_ERROR",
+      "conditions": {
+        "controlled_case": {
+          "parameter": "url",
+          "callback_base": "http://127.0.0.1:58749/xitool-callback/",
+          "events_file": "callback_events.jsonl",
+          "expected_source_ips": [
+            "127.0.0.1"
+          ],
+          "fixture_only": true
+        },
+        "transport": "real loopback HTTP",
+        "independent_project": "Isolated"
+      }
+    }
+  ],
+  "metrics": {
+    "subfinding:provider_availability": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "ERROR": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": null,
+      "FPR": null,
+      "FNR": null,
+      "evaluated": 0,
+      "total": 1,
+      "conclusive_coverage": 0.0
+    },
+    "subfinding:provider_dns_contract": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": null,
+      "FPR": null,
+      "FNR": 0.0,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "subfinding:scope_contract": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": null,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "subfinding:dns_contract": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": null,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "subfinding:seed_discovery": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": null,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "subfinding:reachability": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": null,
+      "FPR": null,
+      "FNR": 0.0,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "crawler:input_contract": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": null,
+      "FPR": null,
+      "FNR": 0.0,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "crawler:scope_contract": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 2,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 2
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": null,
+      "evaluated": 2,
+      "total": 2,
+      "conclusive_coverage": 1.0
+    },
+    "crawler:dynamic_contract": {
+      "TP": 2,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "COMPLETED": 2
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": null,
+      "FPR": null,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 2,
+      "conclusive_coverage": 1.0
+    },
+    "crawler:technical_error": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "ERROR": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": null,
+      "FPR": null,
+      "FNR": null,
+      "evaluated": 0,
+      "total": 1,
+      "conclusive_coverage": 0.0
+    },
+    "smart:execution_contract": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "COMPLETED": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": null,
+      "FPR": null,
+      "FNR": 0.0,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "smart:dedup_contract": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": null,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "smart:technical_error": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "ERROR": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": null,
+      "FPR": null,
+      "FNR": null,
+      "evaluated": 0,
+      "total": 1,
+      "conclusive_coverage": 0.0
+    },
+    "idor:canary_or_browser_proof": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 2,
+      "observed_status_counts": {
+        "VERIFIED": 1,
+        "NO_ISSUES_OBSERVED": 1,
+        "PARTIAL": 2,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 5,
+      "conclusive_coverage": 0.4
+    },
+    "access:canary_or_browser_proof": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 2,
+      "observed_status_counts": {
+        "VERIFIED": 1,
+        "NO_ISSUES_OBSERVED": 1,
+        "PARTIAL": 2,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 5,
+      "conclusive_coverage": 0.4
+    },
+    "xss:canary_or_browser_proof": {
+      "TP": 2,
+      "FP": 0,
+      "TN": 3,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "VERIFIED": 2,
+        "NO_ISSUES_OBSERVED": 3,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 5,
+      "total": 6,
+      "conclusive_coverage": 0.8333333333333334
+    },
+    "sqli:sql_candidate_differential": {
+      "TP": 3,
+      "FP": 0,
+      "TN": 3,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 1,
+      "observed_status_counts": {
+        "POTENTIAL": 3,
+        "PARTIAL": 4,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 6,
+      "total": 8,
+      "conclusive_coverage": 0.75
+    },
+    "traversal:canary_or_browser_proof": {
+      "TP": 2,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 2,
+      "observed_status_counts": {
+        "VERIFIED": 2,
+        "NO_ISSUES_OBSERVED": 1,
+        "PARTIAL": 2,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 3,
+      "total": 6,
+      "conclusive_coverage": 0.5
+    },
+    "sensitive:redacted_pattern_detector": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "MANUAL_REVIEW": 1,
+        "OBSERVED": 1,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 3,
+      "conclusive_coverage": 0.6666666666666666
+    },
+    "misconfiguration:missing_security_headers": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 1,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 2,
+        "ERROR": 1,
+        "TIMEOUT": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 4,
+      "conclusive_coverage": 0.5
+    },
+    "misconfiguration:tls_acceptance_contract": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 2,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 3
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 3,
+      "total": 3,
+      "conclusive_coverage": 1.0
+    },
+    "authentication:canary_or_browser_proof": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 1,
+      "observed_status_counts": {
+        "VERIFIED": 1,
+        "NO_ISSUES_OBSERVED": 1,
+        "ERROR": 1,
+        "PARTIAL": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 4,
+      "conclusive_coverage": 0.5
+    },
+    "cors:canary_or_browser_proof": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "VERIFIED": 1,
+        "NO_ISSUES_OBSERVED": 1,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 3,
+      "conclusive_coverage": 0.6666666666666666
+    },
+    "cors:preflight_contract": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 2
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 2,
+      "conclusive_coverage": 1.0
+    },
+    "cors:public_wildcard_false_positive_guard": {
+      "TP": 0,
+      "FP": 0,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 0,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 0,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 0,
+      "observed_status_counts": {
+        "OBSERVED": 1
+      },
+      "precision": null,
+      "recall": null,
+      "specificity": 1.0,
+      "FPR": 0.0,
+      "FNR": null,
+      "evaluated": 1,
+      "total": 1,
+      "conclusive_coverage": 1.0
+    },
+    "ssrf:canary_or_browser_proof": {
+      "TP": 2,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 1,
+      "TIMEOUT": 0,
+      "UNSUPPORTED": 1,
+      "NOT_EXECUTED": 0,
+      "MANUAL_REVIEW": 0,
+      "INCONCLUSIVE": 2,
+      "observed_status_counts": {
+        "VERIFIED": 2,
+        "PARTIAL": 2,
+        "UNSUPPORTED": 1,
+        "ERROR": 1
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "specificity": null,
+      "FPR": null,
+      "FNR": 0.0,
+      "evaluated": 2,
+      "total": 6,
+      "conclusive_coverage": 0.3333333333333333
+    }
+  },
+  "source_evidence": {
+    "provider_fixture_results": [
+      {
+        "provider": "crtsh",
+        "queried_at": "2026-10-18T00:47:28.293795Z",
+        "root": "lab.test",
+        "hosts": [
+          "lab.test",
+          "missing.lab.test",
+          "new.lab.test"
+        ],
+        "wildcard_certificates": [
+          "*.lab.test"
+        ],
+        "errors": [],
+        "pages_requested": 1,
+        "pages_completed": 1,
+        "available": true,
+        "pages": 1,
+        "raw_results": 6,
+        "complete": true,
+        "unique_results": 3,
+        "seed_excluded": 1,
+        "requests": 1,
+        "provenance": {
+          "provider": "crtsh",
+          "endpoint": "https://crt.sh/",
+          "root": "lab.test"
+        },
+        "availability": "RESPONDED",
+        "empty_success": false,
+        "response_time_seconds": 0.0,
+        "status": "SUCCESS",
+        "limits": [],
+        "legacy_status": "SUCCEEDED",
+        "attempts": 1,
+        "duplicates": 1,
+        "error_category": null
+      },
+      {
+        "provider": "certspotter",
+        "queried_at": "2026-10-18T00:47:28.296342Z",
+        "root": "lab.test",
+        "hosts": [],
+        "wildcard_certificates": [],
+        "errors": [
+          "HTTP_500"
+        ],
+        "pages_requested": 1,
+        "pages_completed": 0,
+        "available": true,
+        "pages": 0,
+        "raw_results": 0,
+        "complete": false,
+        "unique_results": 0,
+        "seed_excluded": 0,
+        "requests": 1,
+        "provenance": {
+          "provider": "certspotter",
+          "endpoint": "https://api.certspotter.com/v1/issuances",
+          "root": "lab.test"
+        },
+        "availability": "RESPONDED",
+        "empty_success": false,
+        "response_time_seconds": 0.0,
+        "status": "FAILED",
+        "limits": [],
+        "legacy_status": "FAILED",
+        "attempts": 1,
+        "duplicates": 0,
+        "error_category": "HTTP_SERVER_ERROR"
+      }
+    ],
+    "dns_udp_queries": 13,
+    "discovered": [
+      "lab.test",
+      "new.lab.test"
+    ],
+    "reached": [
+      "lab.test",
+      "new.lab.test"
+    ],
+    "outside_queried": false,
+    "missing_dns_status": "NOT_FOUND"
+  },
+  "modules": [
+    "access",
+    "authentication",
+    "cors",
+    "crawler",
+    "idor",
+    "misconfiguration",
+    "sensitive",
+    "smart",
+    "sqli",
+    "ssrf",
+    "subfinding",
+    "traversal",
+    "xss"
+  ],
+  "limitations": "Synthetic local contracts only. POTENTIAL SQL is candidate detection, not VERIFIED. No aggregation across detector contracts. CT and DNS fixtures validated separately; no public provider availability inferred."
+}

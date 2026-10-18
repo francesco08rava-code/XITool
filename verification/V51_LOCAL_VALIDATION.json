@@ -1,0 +1,92 @@
+{
+  "success": true,
+  "test_count": 5,
+  "skips": 0,
+  "fixtures": [
+    {
+      "module": "sqli",
+      "fixture": "vulnerable",
+      "content_type": "application/json",
+      "expected_positive": true,
+      "outcome": "POTENTIAL",
+      "observed_positive": true,
+      "inconclusive": false
+    },
+    {
+      "module": "sqli",
+      "fixture": "safe",
+      "content_type": "application/json",
+      "expected_positive": false,
+      "outcome": "PARTIAL",
+      "observed_positive": false,
+      "inconclusive": false
+    },
+    {
+      "module": "sqli",
+      "fixture": "vulnerable",
+      "content_type": "application/x-www-form-urlencoded",
+      "expected_positive": true,
+      "outcome": "POTENTIAL",
+      "observed_positive": true,
+      "inconclusive": false
+    },
+    {
+      "module": "sqli",
+      "fixture": "safe",
+      "content_type": "application/x-www-form-urlencoded",
+      "expected_positive": false,
+      "outcome": "PARTIAL",
+      "observed_positive": false,
+      "inconclusive": false
+    },
+    {
+      "module": "xss",
+      "fixture": "csp",
+      "expected_positive": false,
+      "outcome": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "inconclusive": false
+    },
+    {
+      "module": "xss",
+      "fixture": "vulnerable",
+      "expected_positive": true,
+      "outcome": "VERIFIED",
+      "observed_positive": true,
+      "inconclusive": false
+    },
+    {
+      "module": "xss",
+      "fixture": "safe",
+      "expected_positive": false,
+      "outcome": "NO_ISSUES_OBSERVED",
+      "observed_positive": false,
+      "inconclusive": false
+    }
+  ],
+  "metrics": {
+    "sqli": {
+      "TP": 2,
+      "FP": 0,
+      "TN": 2,
+      "FN": 0,
+      "inconclusive": 0,
+      "unexecuted": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "definition": "Repeated SQL candidate differential; not SQL VERIFIED"
+    },
+    "xss": {
+      "TP": 1,
+      "FP": 0,
+      "TN": 2,
+      "FN": 0,
+      "inconclusive": 0,
+      "unexecuted": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "definition": "Benign DOM browser execution from fragment"
+    }
+  },
+  "limitations": "Seven synthetic local labelled cases only. Metrics are per stated detector, not general scanner accuracy. Pipeline covers crawl/inputs/plan/interrupt/resume/reports/diff, not all 13 controls in one application."
+}

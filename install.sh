@@ -12,8 +12,12 @@ if [[ -d .venv/Scripts && ! -x .venv/bin/python ]]; then
 fi
 python3 -m venv .venv || { echo 'Creazione ambiente fallita; verificare che python3-venv sia installato.' >&2; exit 1; }
 .venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m unittest discover -s tests -v
+if [[ -f pyproject.toml ]]; then
+  .venv/bin/python -m pip install --no-deps --editable .
+fi
+XITOOL_BROWSER_TESTS=0 .venv/bin/python -m unittest discover -s tests -v
 # Il launcher segue la propria posizione, anche quando invocato tramite symlink.
+if [[ ! -f pyproject.toml ]]; then
 cat > .venv/bin/XITool <<'LAUNCHER'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -21,12 +25,17 @@ launcher_dir="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 exec "$launcher_dir/python" "$launcher_dir/../../main.py" "$@"
 LAUNCHER
 chmod 755 .venv/bin/XITool
+fi
 mkdir -p -- "$HOME/.local/bin"
 if [[ ! -e "$HOME/.local/bin/XITool" && ! -L "$HOME/.local/bin/XITool" ]]; then
   ln -s -- "$project_dir/.venv/bin/XITool" "$HOME/.local/bin/XITool"
 else
-  echo 'Il comando XITool esistente viene conservato. Launcher di questa copia: .venv/bin/XITool'
+  echo 'Il comando XITool esistente viene conservato. Verifica conflitti con: type -a XITool'
+  echo 'Launcher esplicito di questa copia: .venv/bin/XITool'
 fi
+type -a XITool || true
+echo 'Gli alias della shell chiamante non sono visibili allo script: eseguire type -a XITool nel proprio Bash/Zsh.'
+echo 'In caso di alias indesiderato: unalias XITool nella sessione corrente; modifiche permanenti alla shell solo manuali.'
 echo 'Installazione completata. Avvio: .venv/bin/python main.py'
 if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
   echo 'Per usare il comando nel terminale corrente: export PATH="$HOME/.local/bin:$PATH"'

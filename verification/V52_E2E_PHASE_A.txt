@@ -1,0 +1,11 @@
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001553_913840Z_40307114"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001554_584111Z_e69352a6"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001559_148941Z_b47c07b5"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001559_664518Z_f6bb1f55"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001600_299941Z_caba045e"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001600_694179Z_12bb9fae"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001601_057741Z_72a965a4"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001601_559552Z_d1bbcc3a"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001603_791374Z_69bbb4ae"}
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T001607_273991Z_9ac926be"}
+{'success': True, 'cases': 39, 'modules': ['access', 'authentication', 'cors', 'crawler', 'idor', 'misconfiguration', 'sensitive', 'smart', 'sqli', 'ssrf', 'subfinding', 'traversal', 'xss']}

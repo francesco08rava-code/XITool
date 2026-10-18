@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "checks": [
+    {
+      "id": "owned-object",
+      "module": "idor",
+      "url": "http://127.0.0.1:8080/owned-resource",
+      "operator_owned": false,
+      "proof_env": "XITOOL_OWNER_CANARY",
+      "owner_profile": "owner",
+      "other_profile": "other",
+      "other_reference_url": "http://127.0.0.1:8080/other-owned-resource",
+      "other_proof_env": "XITOOL_OTHER_CANARY",
+      "expected_other_access": false
+    },
+    {
+      "id": "owned-role-resource",
+      "module": "access",
+      "url": "http://127.0.0.1:8080/role-protected-resource",
+      "operator_owned": false,
+      "proof_env": "XITOOL_OWNER_CANARY",
+      "owner_profile": "owner",
+      "other_profile": "other",
+      "other_reference_url": "http://127.0.0.1:8080/other-owned-resource",
+      "other_proof_env": "XITOOL_OTHER_CANARY",
+      "expected_other_access": false
+    },
+    {
+      "id": "browser-xss-fixture",
+      "module": "xss",
+      "url": "http://127.0.0.1:8080/xitool-lab/reflection?q=baseline",
+      "operator_owned": false,
+      "parameter": "q",
+      "fixture_only": true
+    },
+    {
+      "id": "read-only-sql-fixture",
+      "module": "sqli",
+      "url": "http://127.0.0.1:8080/xitool-lab/sql?id=1",
+      "operator_owned": false,
+      "parameter": "id",
+      "proof_env": "XITOOL_OWNER_CANARY",
+      "fixture_only": true,
+      "read_only_fixture": true
+    },
+    {
+      "id": "prepared-file-fixture",
+      "module": "traversal",
+      "url": "http://127.0.0.1:8080/xitool-lab/file?file=prepared-canary",
+      "baseline_url": "http://127.0.0.1:8080/xitool-lab/file?file=normal",
+      "operator_owned": false,
+      "proof_env": "XITOOL_OWNER_CANARY",
+      "fixture_only": true,
+      "expected_probe_access": false
+    },
+    {
+      "id": "owned-lab-logout",
+      "module": "authentication",
+      "url": "http://127.0.0.1:8080/xitool-lab/protected",
+      "logout_url": "http://127.0.0.1:8080/xitool-lab/end-session",
+      "operator_owned": false,
+      "proof_env": "XITOOL_OWNER_CANARY",
+      "profile": "owner",
+      "fixture_only": true,
+      "logout_confirmed": false
+    },
+    {
+      "id": "browser-cors-fixture",
+      "module": "cors",
+      "url": "http://127.0.0.1:8080/xitool-lab/cors-data",
+      "caller_url": "http://127.0.0.1:8082/xitool-lab/caller",
+      "operator_owned": false,
+      "proof_env": "XITOOL_OWNER_CANARY",
+      "profile": "cors_cookie",
+      "fixture_only": true,
+      "expected_cross_origin_access": false
+    },
+    {
+      "id": "operator-callback",
+      "module": "ssrf",
+      "url": "http://127.0.0.1:8080/remote-import?url=baseline",
+      "operator_owned": false,
+      "parameter": "url",
+      "callback_base": "https://callback.operator.test/xitool-callback/",
+      "events_file": "callback_events.jsonl",
+      "expected_source_ips": ["203.0.113.10"]
+    }
+  ]
+}

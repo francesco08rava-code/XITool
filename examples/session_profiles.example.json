@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "profiles": {
+    "owner": {
+      "origin": "http://127.0.0.1:8080/",
+      "role": "owner",
+      "header_env": {"Authorization": "XITOOL_OWNER_AUTH"}
+    },
+    "other": {
+      "origin": "http://127.0.0.1:8080/",
+      "role": "other",
+      "header_env": {"Authorization": "XITOOL_OTHER_AUTH"}
+    },
+    "cors_cookie": {
+      "origin": "http://127.0.0.1:8080/",
+      "role": "test",
+      "header_env": {"Cookie": "XITOOL_TEST_COOKIE"}
+    }
+  }
+}

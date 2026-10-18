@@ -2,3 +2,8 @@ __pycache__/
 *.py[cod]
 .venv/
 targets/
+.env
+session_profiles.local.json
+*.egg-info/
+build/
+dist/

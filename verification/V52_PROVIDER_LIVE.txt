@@ -1,0 +1,1 @@
+[{'provider': 'crtsh', 'status': 'TIMEOUT', 'pages_completed': 0, 'unique_results': 0, 'error_category': 'NETWORK_TIMEOUT'}, {'provider': 'certspotter', 'status': 'SUCCESS', 'pages_completed': 2, 'unique_results': 2, 'error_category': None}]

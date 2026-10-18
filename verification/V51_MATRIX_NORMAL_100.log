@@ -1,0 +1,28 @@
+{
+  "version": "5.1.0a1",
+  "workers_configured": 5,
+  "host_slots": 5,
+  "tasks": 100,
+  "rate_limit": 20,
+  "scenario": "normal",
+  "server_delay_seconds": 0.25,
+  "memory_metric": "tracemalloc Python allocations per run; separate OS process-lifetime peak RSS",
+  "process_lifetime_peak_rss_bytes": 36544512,
+  "runs": [
+    {
+      "seconds": 6.642362700000149,
+      "python_peak_bytes": 1882889,
+      "requests": 100,
+      "requests_per_second": 15.054884009871632,
+      "peak_active_http": 5,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 100,
+      "duplicates": 0,
+      "repeated_http_requests": 0,
+      "status": "COMPLETED"
+    }
+  ],
+  "median_seconds": 6.642362700000149,
+  "median_python_peak_bytes": 1882889
+}

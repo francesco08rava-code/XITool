@@ -1,0 +1,64 @@
+{"event": "task_error", "type": "NetworkError", "run_id": "run_20261018T004402_730897Z_601563cc"}
+{
+  "version": "5.2.0a1",
+  "workers_configured": 5,
+  "host_slots": 5,
+  "tasks": 12,
+  "rate_limit": 20,
+  "scenario": "normal",
+  "server_delay_seconds": 0.25,
+  "memory_metric": "tracemalloc Python allocations per run; separate OS process-lifetime peak RSS",
+  "process_lifetime_peak_rss_bytes": 33591296,
+  "runs": [
+    {
+      "seconds": 1.6429895999999644,
+      "python_peak_bytes": 557963,
+      "requests": 16,
+      "requests_per_second": 9.738345270110258,
+      "peak_active_http": 5,
+      "tasks_per_second": 7.303758952582695,
+      "interrupted_and_resumed": true,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 4,
+      "status": "COMPLETED"
+    },
+    {
+      "seconds": 1.533240300000216,
+      "python_peak_bytes": 283190,
+      "requests": 15,
+      "requests_per_second": 9.783202280815269,
+      "peak_active_http": 5,
+      "tasks_per_second": 7.826561824652215,
+      "interrupted_and_resumed": true,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 3,
+      "status": "COMPLETED"
+    },
+    {
+      "seconds": 1.5756826000006185,
+      "python_peak_bytes": 278568,
+      "requests": 16,
+      "requests_per_second": 10.154329304641506,
+      "peak_active_http": 5,
+      "tasks_per_second": 7.615746978481129,
+      "interrupted_and_resumed": true,
+      "errors": 0,
+      "timeouts": 0,
+      "completed": 12,
+      "duplicates": 0,
+      "repeated_http_requests": 4,
+      "status": "COMPLETED"
+    }
+  ],
+  "median_seconds": 1.5756826000006185,
+  "min_seconds": 1.533240300000216,
+  "max_seconds": 1.6429895999999644,
+  "stdev_seconds": 0.05534210261134963,
+  "median_python_peak_bytes": 283190
+}
